@@ -16,7 +16,7 @@ class StockLoader:
         return stockloader
     
     def makeName(self, name, beforeStr, endDateStr):
-        return name + '_' + beforeStr + '_' + endDateStr + '.h5'
+        return 'h5data/'+name + '_' + beforeStr + '_' + endDateStr + '.h5'
 
     def topk(self, num):
         crawler = NaverTopMarketCapCrawler.create()
@@ -27,6 +27,62 @@ class StockLoader:
     def load(self, name):
         print(name, 'read...')
         return pd.read_hdf(name, key='df')
+
+    def filterETF(self):
+        # In[23]: ETF 분할
+        self.KODEX = self.loadSearchCodeName('KODEX')
+        self.TIGER = self.loadSearchCodeName('TIGER')
+        self.KOSEF = self.loadSearchCodeName('KOSEF')
+        #KODEX 종목 (삼성자산운용)
+
+        blackWords = ['액티브', '삼성']
+        bondWords = [' 국고채', ' 국채']
+        foreignWords = ['미국', '대만', '중국', '심천', '선진국', '일본', 'China', '글로벌', '차이나', '라틴', '유로', '인도', '하이일드']
+        inverseWords = ['인버스']
+        productWords = ['원유', '골드선물', '금선물', '은선물', '달러선물', '농산물', '금속선물', '금은선물', '엔선물', '구리선물', '구리실물', '콩선물']
+        self.KODEX = self.exceptCodeName(blackWords, self.KODEX)
+        self.KODEX_bond = self.chooseCodeName(bondWords, self.KODEX)
+        self.KODEX_foreign = self.chooseCodeName(foreignWords, self.KODEX)
+        self.KODEX_domestic = self.exceptCodeName(bondWords + foreignWords + inverseWords + productWords, self.KODEX)
+        self.KODEX_exceptProduct = self.exceptCodeName(productWords + foreignWords, self.KODEX)
+        self.KODEX_inverse = self.chooseCodeName(inverseWords, self.KODEX_exceptProduct)
+        self.KODEX_product = self.chooseCodeName(productWords, self.KODEX)
+
+
+        #TIGER 종목 (미래에셋대우)
+        self.TIGER = self.exceptCodeName(blackWords, self.TIGER)
+        self.TIGER_bond = self.chooseCodeName(bondWords, self.TIGER)
+        self.TIGER_foreign = self.chooseCodeName(foreignWords, self.TIGER)
+        self.TIGER_domestic = self.exceptCodeName(bondWords + foreignWords + inverseWords + productWords, self.TIGER)
+        self.TIGER_exceptProduct = self.exceptCodeName(productWords + foreignWords, self.TIGER)
+        self.TIGER_inverse = self.chooseCodeName(inverseWords, self.TIGER)
+        self.TIGER_product = self.chooseCodeName(inverseWords, self.TIGER)
+
+        #KOSEF 종목 (키움)
+        self.KOSEF = self.exceptCodeName(blackWords, self.KOSEF)
+        self.KOSEF_bond = self.chooseCodeName(bondWords, self.KOSEF)
+        self.KOSEF_foreign = self.chooseCodeName(foreignWords, self.KOSEF)
+        self.KOSEF_domestic = self.exceptCodeName(bondWords + foreignWords + inverseWords + productWords, self.KOSEF)
+        self.KOSEF_exceptProduct = self.exceptCodeName(productWords + foreignWords, self.KOSEF)
+        self.KOSEF_inverse = self.chooseCodeName(inverseWords, self.KOSEF_exceptProduct)
+        self.KOSEF_product = self.chooseCodeName(productWords, self.KOSEF)
+
+
+    def loadTopDf(self):
+        topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
+        #시가
+        targetShares = {}
+        for index, row  in topcap.iterrows():
+            targetShares[row['Code']] = row['Name']
+        topcapdf = self.loadStockFromDict(self.makeName('SHARETOPCAP', beforeStr='2006-01-01', endDateStr='2019-12-31'), targetShares, '2005-12-31', '2019-12-31')
+        self.filterETF()
+        etfdf = self.loadStockFromArr(self.makeName('ETF2', beforeStr='2006-12-31', endDateStr='2019-12-31'), self.KODEX + self.TIGER + self.KOSEF, '2006-12-31', '2019-12-31')
+        etfdf.index = etfdf.index.map(lambda dt: pd.to_datetime(dt.date()))
+        topdf = pd.concat([etfdf,topcapdf], sort=False, axis=1)
+
+        return topdf
+
+
     
     def loadStockFromDict(self, name, targets, beforeStr, endStr):
         prices = dict()
@@ -139,7 +195,7 @@ class StockLoader:
         dfs = {}
         for upCode in upCodes:
             for factor in factors:
-                name = 'fin/'+upCode+'_'+factor+'.xlsx'
+                name = 'finData/'+upCode+'_'+factor+'.xlsx'
                 df = pd.read_excel(name,sheet_name='계정별 기업 비교 - 특정계정과목', skiprows=8)
                 df.columns = list(df.iloc[0])
                 df = df.drop([0])
