@@ -14,13 +14,16 @@ topdf = sl.loadTopDf()
 factordf = sl.loadFactor()
 
 
+
 # In[2]:
 ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
-current = pd.to_datetime('2011-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2012-05-01', format='%Y-%m-%d')
-money = 1000000
+current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-05-01', format='%Y-%m-%d')
+money = 10000000
+moneySum = pd.Series()
+hold = []
 while endDate > current:
     stockMoney = money
     restMoney = 0
@@ -31,22 +34,44 @@ while endDate > current:
     moneyRate = 1 / 30
     nextDate = current + pd.Timedelta(1, unit='M')
     results = []
+    currentStr = current.strftime(format='%Y-%m-%d')
+    nextStr = nextDate.strftime(format='%Y-%m-%d')
     for stockName in target:
         investMoney = stockMoney * moneyRate
         q = st.possibleQuantity(current, investMoney, stockName)
         so = StockOrder.create(stockName, q, investMoney)
-        currentStr = current.strftime(format='%Y-%m-%d')
-        nextStr = nextDate.strftime(format='%Y-%m-%d')
-        results.append(st.buy(so,currentStr, nextStr))
+        #일단사기
+        results.append(st.buy(so, currentStr, nextStr))
+        lossCutResult = st.losscut(so, currentStr, nextStr)
+        if lossCutResult['isLosscut']:
+            results.append(st.sell(so, lossCutResult['cutDate']))
     stockMoney = 0
     restMoney = 0
     for result in results:
         stockMoney += result['stock']
         restMoney += result['rest']
-        print(result['stock'])
-        print(result['rest'])
     money = stockMoney + restMoney
     current = nextDate
-    print('################',money)
+    moneySum.loc[current] = money
+    print(current, money)
+
+# In[3]: 통계
+moneySum.index = moneySum.index.map(lambda dt: pd.to_datetime(dt.date()))
+portfolio = moneySum / 10000000
+투자기간 = len(moneySum.index)/12
+print(투자기간)
+# print(portfolio)
+e = pd.date_range(start=portfolio.index[12], periods=투자기간, freq=pd.DateOffset(years=1))
+d = [ portfolio.index.get_loc(date, method='nearest')for date in e]
+print(portfolio[d]/portfolio[d].shift(1))
+# print((portfolio[d]**(1/12))*100-100)
+print((portfolio/portfolio.shift(1)).sum()/len(portfolio.index))
+print(portfolio[-1]/portfolio.std())
+print((portfolio/portfolio.shift(1)))
+
+print('연평균 수익률',((portfolio[-1]**(1/투자기간))*100-100))
+
+print('최대 하락률',((portfolio - portfolio.shift(1))/portfolio.shift(1)*100).min())
+print('최대 상승률',((portfolio - portfolio.shift(1))/portfolio.shift(1)*100).max())
 
 #%%
