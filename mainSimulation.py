@@ -6,6 +6,7 @@ from simulator.StockOrder import StockOrder
 from simulator.StockStrategy import StockStrategy
 from simulator.Wallet import Wallet
 import pandas as pd
+import asyncio
 
 
 # In[1]:
@@ -13,6 +14,10 @@ import pandas as pd
 sl = StockLoader.create()
 topdf = sl.loadTopDf()
 factordf = sl.loadFactor()
+
+# In[3]:
+async def pr(*args):
+    print(args)
 
 # In[2]:
 ss = StockStrategy.create()
@@ -53,13 +58,14 @@ while endDate > current:
             wallet.buy(so.code, so.quantity, buyMoney)
             restMoney -= buyMoney * so.quantity
 
-            #채권
-            bondName = 'KOSEF 국고채10년레버리지'
-            q=st.possibleQuantity(current, restMoney, bondName)
-            if q:
-                buyMoney = st.getValue(current, bondName)
-                wallet.buy(bondName, q, buyMoney)
-                restMoney -= buyMoney * q
+        #채권
+        bondName = 'KOSEF 국고채10년레버리지'
+        q=st.possibleQuantity(current, restMoney, bondName)
+        if q:
+            print('채권:', q, '개 매매')
+            buyMoney = st.getValue(current, bondName)
+            wallet.buy(bondName, q, buyMoney)
+            restMoney -= buyMoney * q
 
         losscutTarget = []
         alreadyCut = []
@@ -80,11 +86,12 @@ while endDate > current:
                             isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
                             if isSold:
                                 restMoney += sellMoney * stockQuantity
-
+                                
                                 #채권 사기
                                 bondName = 'KOSEF 국고채10년레버리지'
                                 q=st.possibleQuantity(current, restMoney, bondName)
                                 if q:
+                                    print('채권:', q, '개 매매')
                                     buyMoney = st.getValue(current, bondName)
                                     wallet.buy(bondName, q, buyMoney)
                                     restMoney -= buyMoney * q
@@ -95,6 +102,7 @@ while endDate > current:
     for stock in wallet.getAllStock():
         latelyPrice = st.getValue(current, stock['code'])
         stock['money'] = latelyPrice
+        
 
     #수익률에따른 계산
     for stock in wallet.getAllStock():

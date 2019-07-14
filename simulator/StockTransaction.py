@@ -85,7 +85,7 @@ class StockTransaction:
 
     def possibleQuantity(self, current, money, code):
         stockValue = self.topdf.iloc[self.topdf.index.get_loc(current, method='ffill')][code]
-        if not np.isnan(stockValue):
+        if not np.isnan(stockValue) and money > 0:
             return int(money / stockValue)
         else:
             return None

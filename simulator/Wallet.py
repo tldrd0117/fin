@@ -9,10 +9,10 @@ class Wallet:
     
     def buy(self, code, quantity, money):
         stock = self.getStock(code)
-        if stock:
-            stock['quantity'] += 1
-        else:
-            self.stock.append({"code":code,"quantity":quantity, 'money': money})
+        # if stock:
+        #     stock['quantity'] += 1
+        # else:
+        self.stock.append({"code":code,"quantity":quantity, 'money': money})
     
     def sell(self, code, quantity, money):
         stock = self.getStock(code)
