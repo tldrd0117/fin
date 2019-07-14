@@ -82,6 +82,53 @@ class StockLoader:
 
         return topdf
 
+    def loadStockDf(self):
+        topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
+        self.filterETF()
+        domesticTargets = [ {'Code':row['Code'], 'Name':row['Name']} for index, row  in topcap.iterrows()]
+        etfTargets = self.KODEX + self.TIGER + self.KOSEF
+        stockdf = pd.DataFrame(columns=['날짜','종목명', '종목코드', '종가', '시가', '고가', '저가', '거래량'])
+        domesticName = self.makeName('KOSPISHARES', beforeStr='2006-01-01', endDateStr='2019-12-31')
+        etfName = self.makeName('KOSPIETF', beforeStr='2006-01-01', endDateStr='2019-12-31')
+        
+        stockdf = self.loadStockDataFrame(domesticName, domesticTargets, stockdf, '2006-01-01', '2019-12-31')
+        stockdf = self.loadStockDataFrame(etfName, etfTargets, stockdf, '2006-01-01', '2019-12-31')
+
+        return stockdf
+
+    
+    def loadStockDataFrame(self, name, targets, stockdf, beforeStr, endStr):
+        tempstockdf = pd.DataFrame(columns=['날짜','종목명', '종목코드', '종가', '시가', '고가', '저가', '거래량'])
+        if not os.path.isfile(name):
+            date = NaverDate.create(startDate=beforeStr, endDate=endStr)
+            progress = 0
+            compliteLen = len(targets)
+            for target in targets:
+                print(target['Name'],'collect...', str(progress),'/',str(compliteLen) ,str(progress/compliteLen)+'%')
+                crawler = NaverStockCrawler.create(target['Code'])
+                data = crawler.crawling(date)
+                for result in data:
+                    priceDate = pd.to_datetime(result.date, format='%Y-%m-%d')
+                    resultDict = { \
+                        '날짜': priceDate, \
+                        '종목명': target['Name'], \
+                        '종목코드': target['Code'], \
+                        '종가': result.close, \
+                        '시가': result.open, \
+                        '고가': result.high, \
+                        '저가': result.low, \
+                        '거래량': result.volume \
+                    }
+                    tempstockdf = tempstockdf.append(resultDict, ignore_index=True)
+                progress+=1
+            tempstockdf.to_hdf(name, key='df', mode='w')
+        else:
+            print(name, 'read...')
+            tempstockdf = pd.read_hdf(name, key='df')
+        stockdf = pd.concat([stockdf, tempstockdf], axis=0)
+        return stockdf
+
+
 
     
     def loadStockFromDict(self, name, targets, beforeStr, endStr):
@@ -94,6 +141,7 @@ class StockLoader:
                 print(targets[key],'collect...', str(progress),'/',str(compliteLen) ,str(progress/compliteLen)+'%')
                 crawler = NaverStockCrawler.create(key)
                 data = crawler.crawling(date)
+
                 prices[targets[key]] = { pd.to_datetime(item.date, format='%Y-%m-%d') : item.close for item in data }
                 progress+=1
 
