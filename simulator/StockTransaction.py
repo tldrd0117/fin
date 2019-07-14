@@ -1,5 +1,5 @@
 import pandas as pd
-
+import numpy as np
 class StockTransaction:
     @staticmethod
     def create(topdf):
@@ -85,5 +85,8 @@ class StockTransaction:
 
     def possibleQuantity(self, current, money, code):
         stockValue = self.topdf.iloc[self.topdf.index.get_loc(current, method='ffill')][code]
-        return int(money / stockValue)
+        if not np.isnan(stockValue):
+            return int(money / stockValue)
+        else:
+            return None
         

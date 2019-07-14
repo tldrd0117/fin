@@ -52,6 +52,15 @@ while endDate > current:
             buyMoney = st.getValue(current, stockName)
             wallet.buy(so.code, so.quantity, buyMoney)
             restMoney -= buyMoney * so.quantity
+
+            #채권
+            bondName = 'KOSEF 국고채10년레버리지'
+            q=st.possibleQuantity(current, restMoney, bondName)
+            if q:
+                buyMoney = st.getValue(current, bondName)
+                wallet.buy(bondName, q, buyMoney)
+                restMoney -= buyMoney * q
+
         losscutTarget = []
         alreadyCut = []
     #손절
@@ -71,6 +80,15 @@ while endDate > current:
                             isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
                             if isSold:
                                 restMoney += sellMoney * stockQuantity
+
+                                #채권 사기
+                                bondName = 'KOSEF 국고채10년레버리지'
+                                q=st.possibleQuantity(current, restMoney, bondName)
+                                if q:
+                                    buyMoney = st.getValue(current, bondName)
+                                    wallet.buy(bondName, q, buyMoney)
+                                    restMoney -= buyMoney * q
+
     
     #수익률 반영
     stockMoney = 0
@@ -90,7 +108,6 @@ while endDate > current:
     print(current, money, stockMoney, restMoney)
 # In[4]: look
 moneySum
-
 # In[3]: 통계
 moneySum.index = moneySum.index.map(lambda dt: pd.to_datetime(dt.date()))
 portfolio = moneySum / 10000000
