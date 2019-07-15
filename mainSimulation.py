@@ -7,6 +7,7 @@ from simulator.StockStrategy import StockStrategy
 from simulator.Wallet import Wallet
 import pandas as pd
 import asyncio
+import time
 
 
 # In[1]:
@@ -15,9 +16,6 @@ sl = StockLoader.create()
 topdf = sl.loadTopDf()
 factordf = sl.loadFactor()
 
-# In[3]:
-async def pr(*args):
-    print(args)
 
 # In[2]:
 ss = StockStrategy.create()
@@ -43,6 +41,7 @@ while endDate > current:
         nextInvestDay = current + pd.Timedelta(1, unit='M')
         target = list(topdf.columns)
         target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=1000, minVal=0)
+        target = ss.getRiseMeanList(current, topdf[target], 1000, 0)
         target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
         target = ss.getFactorList(current, topdf[target], factordf, 'per', True, 30, minVal=0.000001)
         moneyRate = 1 / 30
@@ -95,7 +94,28 @@ while endDate > current:
                                     buyMoney = st.getValue(current, bondName)
                                     wallet.buy(bondName, q, buyMoney)
                                     restMoney -= buyMoney * q
-
+    for stock in wallet.getAllStock():
+        if stock['code'] in alreadyCut:
+            continue
+        isLosscutMean = st.losscutMeanVal(stock['code'], current, topdf[target])
+        if isLosscutMean:
+            print('이동평균손절:', stock['code'], stock['quantity'])
+            alreadyCut.append(stock['code'])
+            stockQuantity = stock['quantity']
+            sellMoney = st.getValue(current, stock['code'])
+            isSold = wallet.sell(stock['code'], stockQuantity, sellMoney)
+            if isSold:
+                restMoney += sellMoney * stockQuantity
+                
+                #채권 사기
+                bondName = 'KOSEF 국고채10년레버리지'
+                q=st.possibleQuantity(current, restMoney, bondName)
+                if q:
+                    print('채권:', q, '개 매매')
+                    buyMoney = st.getValue(current, bondName)
+                    wallet.buy(bondName, q, buyMoney)
+                    restMoney -= buyMoney * q
+                            
     
     #수익률 반영
     stockMoney = 0
@@ -114,6 +134,7 @@ while endDate > current:
     money = stockMoney + restMoney
     moneySum.loc[current] = money
     print(current, money, stockMoney, restMoney)
+    time.sleep(0.05)
 # In[4]: look
 moneySum
 # In[3]: 통계
@@ -139,4 +160,24 @@ print('연평균 수익률',((portfolio[-1]**(1/(2019-2008)))*100-100))
 print('최대 하락률',((portfolio[m] - portfolio[m].shift(1))/portfolio[m].shift(1)*100).min())
 print('최대 상승률',((portfolio[m] - portfolio[m].shift(1))/portfolio[m].shift(1)*100).max())
 
+# In[4]: 그래프
+import matplotlib.font_manager as fm
+import platform
+if platform.system()=='Darwin':
+    path = '/Library/Fonts/NanumBarunGothicLight.otf'
+else:
+    path = 'C:/Windows/Fonts/malgun.ttf'
+choosedDf = moneySum
+# choosedDf['KOSPI'] = kospidf['종가']
+# choosedDf[bonddf.columns[0]] = bonddf[bonddf.columns[0]]
+choosedDf = choosedDf.fillna(method='bfill').fillna(method='ffill')
+# print(choosedDf)
+jisuDf = choosedDf / choosedDf.iloc[0]
+print(jisuDf)
+plt = jisuDf.plot(figsize = (18,12), fontsize=12)
+fontProp = fm.FontProperties(fname=path, size=18)
+plt.legend(prop=fontProp)
+print(plt)
+
 #%%
+

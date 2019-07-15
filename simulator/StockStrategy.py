@@ -25,6 +25,15 @@ class StockStrategy:
         
         return list(momentumScore.mean().sort_values(ascending=False).head(limit).index)
     
+    def getRiseMeanList(self, current, targetdf, limit, minVal=0):
+        raiseDf = targetdf - targetdf.shift(1)
+        beforeOneMonth = current + pd.Timedelta(-1, unit='M')
+        beforeOneDay = current + pd.Timedelta(-1, unit='D')
+        mdf = raiseDf[beforeOneMonth:beforeOneDay].mean(axis=0)/targetdf[beforeOneMonth:beforeOneDay].mean(axis=0)
+        mdf = mdf[mdf > minVal]
+        return list(mdf.sort_values(ascending=False).head(limit).index)
+        
+
     def getFactorList(self, current, targetdf, factordf, factor, ascending, num, minVal=-10000000, maxVal=10000000):
         yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
         if current.month > 4:
