@@ -1,4 +1,5 @@
 import pandas as pd
+import math
 
 class StockStrategy:
     @staticmethod
@@ -25,12 +26,40 @@ class StockStrategy:
         
         return list(momentumScore.mean().sort_values(ascending=False).head(limit).index)
     
+    def getRsi30perList(self, current, targetdf, limit, minVal=0):
+        raiseDf = targetdf - targetdf.shift(1)
+        beforeOneMonth = current + pd.Timedelta(-1, unit='M')
+        beforeOneDay = current + pd.Timedelta(-1, unit='D')
+        raiseDf = raiseDf[beforeOneMonth:beforeOneDay]
+        AU = raiseDf[raiseDf > 0].mean()
+        AD = raiseDf[raiseDf < 0].applymap(lambda val: abs(val)).mean()
+        rsi = AU / (AU + AD) * 100
+        return (rsi[rsi <= 30].sort_values(ascending=True).head(limit).index)
+         
+        
+
     def getRiseMeanList(self, current, targetdf, limit, minVal=0):
         raiseDf = targetdf - targetdf.shift(1)
         beforeOneMonth = current + pd.Timedelta(-1, unit='M')
         beforeOneDay = current + pd.Timedelta(-1, unit='D')
-        mdf = raiseDf[beforeOneMonth:beforeOneDay].mean(axis=0)/targetdf[beforeOneMonth:beforeOneDay].mean(axis=0)
-        mdf = mdf[mdf > minVal]
+        raiseDf = raiseDf[beforeOneMonth:beforeOneDay]
+
+        raiseIndexDict = {}
+        declineIndexDict = {}
+        for col in raiseDf.columns:
+            raiseIndexDict[col] = (raiseDf[col][raiseDf[col]>0].index)
+            declineIndexDict[col] = (raiseDf[col][raiseDf[col]<0].index)
+        unitTargetdf = targetdf[beforeOneMonth:beforeOneDay]
+        resultDict = {}
+        for col in unitTargetdf.columns:
+            resultDict[col] = unitTargetdf[col].loc[raiseIndexDict[col]].mean() - unitTargetdf[col].loc[declineIndexDict[col]].mean()
+        # mdf = unitTargetdf.loc[raiseIndexDict[col]].mean() - unitTargetdf.loc[declineIndexDict[col]].mean()
+        # mdf = mdf[mdf > 0]
+        mdf = pd.Series(resultDict)
+        mdf = mdf[mdf>0]
+        # mdf = raiseDf[beforeOneMonth:beforeOneDay].mean(axis=0)/targetdf[beforeOneMonth:beforeOneDay].mean(axis=0)
+        # mdfRaise = mdf[mdf > minVal]
+        # mdfLow = mdf[]
         return list(mdf.sort_values(ascending=False).head(limit).index)
         
 

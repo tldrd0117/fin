@@ -56,10 +56,32 @@ class StockTransaction:
         raiseDf = targetdf - targetdf.shift(1)
         beforeOneMonth = current + pd.Timedelta(-1, unit='M')
         beforeOneDay = current + pd.Timedelta(-1, unit='D')
-        
-        mdf = raiseDf[beforeOneMonth:beforeOneDay].mean(axis=0)/targetdf[beforeOneMonth:beforeOneDay].mean(axis=0)
-        mdf = mdf[mdf < 0]
+        raiseDf = raiseDf[beforeOneMonth:beforeOneDay]
+
+        raiseIndexDict = {}
+        declineIndexDict = {}
+        for col in raiseDf.columns:
+            raiseIndexDict[col] = (raiseDf[col][raiseDf[col]>0].index)
+            declineIndexDict[col] = (raiseDf[col][raiseDf[col]<0].index)
+        unitTargetdf = targetdf[beforeOneMonth:beforeOneDay]
+        resultDict = {}
+        for col in unitTargetdf.columns:
+            resultDict[col] = unitTargetdf[col].loc[raiseIndexDict[col]].mean() - unitTargetdf[col].loc[declineIndexDict[col]].mean()
+        # mdf = unitTargetdf.loc[raiseIndexDict[col]].mean() - unitTargetdf.loc[declineIndexDict[col]].mean()
+        # mdf = mdf[mdf > 0]
+        mdf = pd.Series(resultDict)
+        mdf = mdf[mdf<0]
         return code in list(mdf.index)
+    
+    def losscutRsi(self, code, current, targetdf):
+        raiseDf = targetdf - targetdf.shift(1)
+        beforeOneMonth = current + pd.Timedelta(-1, unit='M')
+        beforeOneDay = current + pd.Timedelta(-1, unit='D')
+        raiseDf = raiseDf[beforeOneMonth:beforeOneDay]
+        AU = raiseDf[raiseDf > 0].mean()
+        AD = raiseDf[raiseDf < 0].applymap(lambda val: abs(val)).mean()
+        rsi = AU / (AU + AD) * 100
+        return code in list(rsi[rsi >= 70].index)
     
     def getValue(self, current, code):
         return self.topdf.iloc[self.topdf.index.get_loc(current, method='ffill')][code]
