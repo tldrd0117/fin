@@ -28,13 +28,26 @@ class StockStrategy:
     
     def getRsi30perList(self, current, targetdf, limit, minVal=0):
         raiseDf = targetdf - targetdf.shift(1)
+        beforebeforeOneMonth = current + pd.Timedelta(-1, unit='M') + pd.Timedelta(-10, unit='D')
+        beforebeforeOneDay = current + pd.Timedelta(-11, unit='D')
+        
+        raiseDf = raiseDf[beforebeforeOneMonth:beforebeforeOneDay]
+        AU = raiseDf[raiseDf > 0].mean()
+        AD = raiseDf[raiseDf < 0].applymap(lambda val: abs(val)).mean()
+        beforeRsi = AU / (AU + AD) * 100
+
         beforeOneMonth = current + pd.Timedelta(-1, unit='M')
         beforeOneDay = current + pd.Timedelta(-1, unit='D')
+        
         raiseDf = raiseDf[beforeOneMonth:beforeOneDay]
         AU = raiseDf[raiseDf > 0].mean()
         AD = raiseDf[raiseDf < 0].applymap(lambda val: abs(val)).mean()
         rsi = AU / (AU + AD) * 100
-        return (rsi[rsi <= 30].sort_values(ascending=True).head(limit).index)
+
+        beforeIndex = list(beforeRsi[beforeRsi <= 50].sort_values(ascending=True).index)
+        curIndex = list(rsi[rsi >= 50].sort_values(ascending=False).index)
+
+        return  list(set(beforeIndex) & set(curIndex))[0:limit]
          
         
 
