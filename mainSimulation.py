@@ -8,10 +8,13 @@ from simulator.Wallet import Wallet
 import pandas as pd
 import asyncio
 import time
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
+
 
 
 # In[1]:
 #StockLoader 시간에따른 주식 가격을 가져온다
+
 sl = StockLoader.create()
 topdf = sl.loadTopDf()
 factordf = sl.loadFactor()
@@ -31,6 +34,8 @@ moneyOrder = []
 losscutTarget = []
 alreadyCut = []
 buyDate = current
+
+
 while endDate > current:
     if nextInvestDay <= current:
         wallet.clear()
@@ -74,32 +79,31 @@ while endDate > current:
         losscutTarget = []
         alreadyCut = []
     #손절
-    for stock in wallet.getAllStock():
-        isLosscut = st.losscut(stock['code'], current, buyDate)
-        if isLosscut:
-            if stock['code'] not in losscutTarget:
-                losscutTarget.append(stock['code'])
-                if len(losscutTarget) >= 15:
-                    print('손절갯수:', len(losscutTarget))
-                    for lossTarget in losscutTarget:
-                        if lossTarget not in alreadyCut:
-                            alreadyCut.append(lossTarget)
-                            lossStock = wallet.getStock(lossTarget)
-                            stockQuantity = lossStock['quantity']
-                            sellMoney = st.getValue(current, lossTarget)
-                            isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
-                            if isSold:
-                                restMoney += sellMoney * stockQuantity
-                                
-                                #채권 사기
-                                bondName = 'KOSEF 국고채10년레버리지'
-                                q=st.possibleQuantity(current, restMoney, bondName)
-                                if q:
-                                    print('채권:', q, '개 매매')
-                                    buyMoney = st.getValue(current, bondName)
-                                    wallet.buy(bondName, q, buyMoney)
-                                    restMoney -= buyMoney * q
-    
+        for stock in wallet.getAllStock():
+            isLosscut = st.losscut(stock['code'], current, buyDate)
+            if isLosscut:
+                if stock['code'] not in losscutTarget:
+                    losscutTarget.append(stock['code'])
+                    if len(losscutTarget) >= 15:
+                        print('손절갯수:', len(losscutTarget))
+                        for lossTarget in losscutTarget:
+                            if lossTarget not in alreadyCut:
+                                alreadyCut.append(lossTarget)
+                                lossStock = wallet.getStock(lossTarget)
+                                stockQuantity = lossStock['quantity']
+                                sellMoney = st.getValue(current, lossTarget)
+                                isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+                                if isSold:
+                                    restMoney += sellMoney * stockQuantity
+                                    
+                                    #채권 사기
+                                    bondName = 'KOSEF 국고채10년레버리지'
+                                    q=st.possibleQuantity(current, restMoney, bondName)
+                                    if q:
+                                        print('채권:', q, '개 매매')
+                                        buyMoney = st.getValue(current, bondName)
+                                        wallet.buy(bondName, q, buyMoney)
+                                        restMoney -= buyMoney * q
     # for losscutTarget in st.losscutRsi(wallet.getAllStock(), current, topdf[target]):
     #     if losscutTarget['code'] in alreadyCut:
     #         continue

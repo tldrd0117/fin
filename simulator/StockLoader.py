@@ -8,6 +8,8 @@ from crawler.naver.NaverStockCrawler import NaverStockCrawler
 from crawler.naver.DartCrawler import DartCrawler
 from crawler.naver.NavarSearchCodeCrawler import NavarSearchCodeCrawler
 from crawler.naver.NaverCrawler import NaverCrawler
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
+
 
 class StockLoader:
     @staticmethod
@@ -83,16 +85,27 @@ class StockLoader:
         return topdf
 
     def loadStockDf(self):
-        topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
-        self.filterETF()
-        domesticTargets = [ {'Code':row['Code'], 'Name':row['Name']} for index, row  in topcap.iterrows()]
-        etfTargets = self.KODEX + self.TIGER + self.KOSEF
-        stockdf = pd.DataFrame(columns=['날짜','종목명', '종목코드', '종가', '시가', '고가', '저가', '거래량'])
-        domesticName = self.makeName('KOSPISHARES', beforeStr='2006-01-01', endDateStr='2019-12-31')
-        etfName = self.makeName('KOSPIETF', beforeStr='2006-01-01', endDateStr='2019-12-31')
-        
-        stockdf = self.loadStockDataFrame(domesticName, domesticTargets, stockdf, '2006-01-01', '2019-12-31')
-        stockdf = self.loadStockDataFrame(etfName, etfTargets, stockdf, '2006-01-01', '2019-12-31')
+        with ThreadPoolExecutor(5) as executor:
+            future1 = executor.submit(self.load,self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
+            future2 = executor.submit(self.filterETF)
+            # topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
+            # self.filterETF()
+            future2.done()
+            topcap = future1.result()
+
+            domesticTargets = [ {'Code':row['Code'], 'Name':row['Name']} for index, row  in topcap.iterrows()]
+            etfTargets = self.KODEX + self.TIGER + self.KOSEF
+            stockdf = pd.DataFrame(columns=['날짜','종목명', '종목코드', '종가', '시가', '고가', '저가', '거래량'])
+            domesticName = self.makeName('KOSPISHARES', beforeStr='2006-01-01', endDateStr='2019-12-31')
+            etfName = self.makeName('KOSPIETF', beforeStr='2006-01-01', endDateStr='2019-12-31')
+            
+            future3 = executor.submit(self.loadStockDataFrame,domesticName, domesticTargets, stockdf, '2006-01-01', '2019-12-31')
+            future4 = executor.submit(self.loadStockDataFrame,etfName, etfTargets, stockdf, '2006-01-01', '2019-12-31')
+            stockdf1 = future3.result()
+            stockdf2 = future4.result()
+            stockdf = pd.concat([stockdf1, stockdf2], axis=0)
+            # stockdf = self.loadStockDataFrame(domesticName, domesticTargets, stockdf, '2006-01-01', '2019-12-31')
+            # stockdf = self.loadStockDataFrame(etfName, etfTargets, stockdf, '2006-01-01', '2019-12-31')
 
         return stockdf
 
@@ -125,8 +138,8 @@ class StockLoader:
         else:
             print(name, 'read...')
             tempstockdf = pd.read_hdf(name, key='df')
-        stockdf = pd.concat([stockdf, tempstockdf], axis=0)
-        return stockdf
+        # stockdf = pd.concat([stockdf, tempstockdf], axis=0)
+        return tempstockdf
 
 
 
