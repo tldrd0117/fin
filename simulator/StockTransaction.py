@@ -73,10 +73,10 @@ class StockTransaction:
         mdf = mdf[mdf<0]
         return code in list(mdf.index)
     
-    def losscutRsi(self, code, current, targetdf):
+    def losscutRsi(self, stocks, current, targetdf):
         raiseDf = targetdf - targetdf.shift(1)
-        beforebeforeOneMonth = current + pd.Timedelta(-1, unit='M') + pd.Timedelta(-10, unit='D')
-        beforebeforeOneDay = current + pd.Timedelta(-11, unit='D')
+        beforebeforeOneMonth = current + pd.Timedelta(-1, unit='M') + pd.Timedelta(-1, unit='D')
+        beforebeforeOneDay = current + pd.Timedelta(-2, unit='D')
         
         raiseDf = raiseDf[beforebeforeOneMonth:beforebeforeOneDay]
         AU = raiseDf[raiseDf > 0].mean()
@@ -91,10 +91,10 @@ class StockTransaction:
         AD = raiseDf[raiseDf < 0].applymap(lambda val: abs(val)).mean()
         rsi = AU / (AU + AD) * 100
 
-        beforeIndex = list(beforeRsi[beforeRsi >= 50].sort_values(ascending=True).index)
-        curIndex = list(rsi[rsi <= 50].sort_values(ascending=False).index)
-
-        return code in list(set(beforeIndex) & set(curIndex))
+        beforeIndex = list(beforeRsi[beforeRsi >= 70].sort_values(ascending=True).index)
+        curIndex = list(rsi[rsi < 65].sort_values(ascending=False).index)
+        return list(filter(lambda stock : stock['code'] in list(set(beforeIndex) & set(curIndex)), stocks))
+        # return code in list(set(beforeIndex) & set(curIndex))
         # return code in list(rsi[rsi >= 70].index)
     
     def getValue(self, current, code):
