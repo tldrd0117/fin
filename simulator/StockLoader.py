@@ -69,6 +69,8 @@ class StockLoader:
         self.KOSEF_inverse = self.chooseCodeName(inverseWords, self.KOSEF_exceptProduct)
         self.KOSEF_product = self.chooseCodeName(productWords, self.KOSEF)
 
+        return self.TIGER, self.KODEX, self.KODEX
+
 
     def loadTopDf(self):
         topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
@@ -90,14 +92,14 @@ class StockLoader:
             future2 = executor.submit(self.filterETF)
             # topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
             # self.filterETF()
-            future2.done()
+            self.TIGER, self.KODEX, self.KODEX = future2.result()
             topcap = future1.result()
 
             domesticTargets = [ {'Code':row['Code'], 'Name':row['Name']} for index, row  in topcap.iterrows()]
             etfTargets = self.KODEX + self.TIGER + self.KOSEF
             stockdf = pd.DataFrame(columns=['날짜','종목명', '종목코드', '종가', '시가', '고가', '저가', '거래량'])
-            domesticName = self.makeName('KOSPISHARES', beforeStr='2006-01-01', endDateStr='2019-12-31')
-            etfName = self.makeName('KOSPIETF', beforeStr='2006-01-01', endDateStr='2019-12-31')
+            domesticName = self.makeName('SHARETOPCAP', beforeStr='2006-01-01', endDateStr='2019-12-31')
+            etfName = self.makeName('ETF2', beforeStr='2006-12-31', endDateStr='2019-12-31')
             
             future3 = executor.submit(self.loadStockDataFrame,domesticName, domesticTargets, stockdf, '2006-01-01', '2019-12-31')
             future4 = executor.submit(self.loadStockDataFrame,etfName, etfTargets, stockdf, '2006-01-01', '2019-12-31')
