@@ -45,7 +45,7 @@ while endDate > current:
         #한달마다 주식 변경
         nextInvestDay = current + pd.Timedelta(1, unit='M')
         target = list(topdf.columns)
-        target = ss.getMomentumList(current, topdf[target], mNum=3, mUnit='M', limit=1000, minVal=0)
+        # target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=1000, minVal=0)
         # target = ss.getRiseMeanList(current, topdf[target], 500, 0)
         target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
         target = ss.getFactorList(current, topdf[target], factordf, 'per', True, 30, minVal=0.000001)
@@ -79,10 +79,9 @@ while endDate > current:
         losscutTarget = []
         alreadyCut = []
     #손절
-    for stock in wallet.getAllStock():
-        isLosscut = st.losscut(stock['code'], current, buyDate)
-        if isLosscut:
-            if stock['code'] not in losscutTarget:
+        for stock in wallet.getAllStock():
+            isLosscut = st.losscut(stock['code'], current, buyDate)
+            if isLosscut and stock['code'] not in losscutTarget:
                 losscutTarget.append(stock['code'])
                 if len(losscutTarget) >= 15:
                     print('손절갯수:', len(losscutTarget))
