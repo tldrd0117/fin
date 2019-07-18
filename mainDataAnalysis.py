@@ -6,29 +6,32 @@ factordf = sl.loadFactor()
 
 # In[1]:
 import pandas as pd
-mdf = stockdf.resample('M').mean()
-shiftdf = mdf.shift(1)
-muddf = (mdf - shiftdf) / shiftdf
-muddf
+
+
+# mdf = stockdf.resample('M').mean()
+# shiftdf = mdf.shift(1)
+# muddf = (mdf - shiftdf) / shiftdf
+# muddf
 # valuedf = pd.DataFrame(columns=list(range(1,31)))
 # namedf = pd.DataFrame(columns=list(range(1,31)))
 # for idx in muddf.index:
 #     sortdf = muddf.loc[idx].sort_values(ascending=False)
 #     namedf.loc[idx] = sortdf.index
 #     valuedf.loc[idx] = sortdf.values
-
+# sumdf = (stockdf['2015-12-30'] - stockdf['2015-01-02'])/stockdf['2015-01-02']
+sumdf = pd.Series((stockdf['2015-12-30'].values[0] - stockdf['2015-01-02'].values[0])/stockdf['2015-01-02'].values[0], index=stockdf['2015-12-30'].columns.values)
+sumdf
 # In[2]:
 import numpy as np
 import pandas as pd
-sumdf = muddf['2017-01-01':'2017-12-31'].sum().sort_values(ascending=False)
+# sumdf = muddf['2017-01-01':'2017-12-31'].sum().sort_values(ascending=False)
 sumdf = sumdf.dropna()
-print(factordf)
 for key in factordf.keys():
     factordf[key] = factordf[key].set_index(['종목명'])
 # In[4]: 평균
 print(sumdf)
 def getFactor(factor):
-    return factordf[factor][2016].sort_values(ascending=True)
+    return factordf[factor][2014].sort_values(ascending=True)
 def getMean(start, end, sortfactordf):
     # meanLi = []
     # for name in sortfactordf.index:
@@ -51,8 +54,8 @@ plotdf = getFactorMean('per', plotdf)
 plotdf = getFactorMean('pcr', plotdf)
 plotdf = getFactorMean('roe', plotdf)
 plotdf = getFactorMean('pbr', plotdf)
-plotdf['per+pcr'] = (plotdf['per'] + plotdf['pcr'])/2
-plotdf['per+pcr+pbr'] = (plotdf['per'] + plotdf['pcr']+ plotdf['pbr'])/2
+# plotdf['per+pcr'] = (plotdf['per'] + plotdf['pcr'])/2
+# plotdf['per+pcr+pbr'] = (plotdf['per'] + plotdf['pcr']+ plotdf['pbr'])/2
 
 print(plotdf.plot(figsize = (18,12), fontsize=12))
 plotdf
