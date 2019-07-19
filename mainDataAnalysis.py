@@ -28,8 +28,29 @@ import pandas as pd
 sumdf = sumdf.dropna()
 for key in factordf.keys():
     factordf[key] = factordf[key].set_index(['종목명'])
+factordf
+
+# In[3]: 증가율
+print(factordf.keys())
+keys = list(factordf.keys())
+for factorKey in keys:
+    onedf = factordf[factorKey]
+    compdf = onedf.shift(-1, axis=1)
+    compdf['종목명'] = np.nan
+    compdf['결산월'] = np.nan
+    compdf['단위'] = np.nan
+    targetdf = onedf - compdf
+    # print(onedf)
+    # targetdf['종목명'] = onedf['종목명']
+    factordf[factorKey+'증가율'] = targetdf
+print(factordf.keys())
+
+# In[4]: 확인
+print(factordf.keys())
+factordf['영업활동으로인한현금흐름증가율']
+
 # In[4]: 평균
-print(sumdf)
+print(factordf)
 def getFactor(factor):
     return factordf[factor][2014].sort_values(ascending=True)
 def getMean(start, end, sortfactordf):
@@ -50,13 +71,15 @@ def getFactorMean(factor, plotdf):
     # plotdf[factor+'MEAN'] = factorValList
     return plotdf
 plotdf = pd.DataFrame()
-plotdf = getFactorMean('per', plotdf)
-plotdf = getFactorMean('pcr', plotdf)
-plotdf = getFactorMean('roe', plotdf)
-plotdf = getFactorMean('pbr', plotdf)
+plotdf = getFactorMean('투자활동으로인한현금흐름', plotdf)
+# plotdf = getFactorMean('pcr증가율', plotdf)
+# plotdf = getFactorMean('roe증가율', plotdf)
+# plotdf = getFactorMean('pbr증가율', plotdf)
+# plotdf = getFactorMean('영업증가율', plotdf)
+# plotdf = getFactorMean('pbr증가율', plotdf)
 # plotdf['per+pcr'] = (plotdf['per'] + plotdf['pcr'])/2
 # plotdf['per+pcr+pbr'] = (plotdf['per'] + plotdf['pcr']+ plotdf['pbr'])/2
-
+plotdf = plotdf.dropna()
 print(plotdf.plot(figsize = (18,12), fontsize=12))
 plotdf
 # In[3]: 수익률 당 팩터
