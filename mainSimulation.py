@@ -159,8 +159,8 @@ while endDate > current:
     current = nextDay
     money = stockMoney + restMoney
     moneySum.loc[current] = money
+    # time.sleep(0.01)
     print(current, money, stockMoney, restMoney)
-    # time.sleep(0.05)
 # In[4]: look
 moneySum
 # In[3]: 통계
