@@ -45,6 +45,7 @@ st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
 endDate = pd.to_datetime('2019-05-01', format='%Y-%m-%d')
+priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
 wallet = Wallet.create()
@@ -71,10 +72,10 @@ while endDate > current:
         target = list(topdf.columns)
         # target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=1000, minVal=0)
         # target = ss.getRiseMeanList(current, topdf[target], 500, 0)
-        target = ss.getFactorList(current, topdf[target], factordf, 'per', True, 50)
-        target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 30)
-        # target = ss.getFactorList(current, topdf[target], factordf, '당기순이익', True, 200)
-        # target = ss.getFactorList(current, topdf[target], factordf, '투자활동으로인한현금흐름', False, 30)
+        # target = ss.getFactorList(current, topdf[target], factordf, 'per', True, 50)
+        # target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 30)
+        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익', True, 200)
+        target = ss.getFactorList(current, topdf[target], factordf, '투자활동으로인한현금흐름', False, 30)
         # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름', False, 30, minVal=0.000001)
         # target = ss.getRsi30perList(current, topdf[target], 30)
 
@@ -155,11 +156,11 @@ while endDate > current:
     stockMoney = 0
     for stock in wallet.getAllStock():
         latelyPrice = st.getValue(current, stock['code'])
-        if stock['money'] * 1.25 <= latelyPrice or stock['money'] * 0.75 >= latelyPrice:
+        if (current < priceLimitDate and stock['money'] * 1.25 <= latelyPrice or stock['money'] * 0.75 >= latelyPrice)\
+            or (current >= priceLimitDate and stock['money'] * 1.3 < latelyPrice or stock['money'] * 0.7 > latelyPrice):
             ratio = latelyPrice / stock['money']
             idx = np.argmin(np.abs(parValues - ratio))
             stock['quantity'] = int(stock['quantity']/parValues[idx])
-
 
         stock['money'] = latelyPrice
         
