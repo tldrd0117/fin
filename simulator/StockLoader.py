@@ -253,7 +253,7 @@ class StockLoader:
         return targetList
     
     def loadFactor(self):
-        upCodes = ['제조업', '은행업', '증권업', '보험업', '종합금융업', '여신전문금융업', '신용금고']
+        upCodes = ['제조업']
         factors = ['per', 'pcr', 'pbr', 'roe', '당기순이익', '영업활동으로인한현금흐름', '투자활동으로인한현금흐름', '재무활동으로인한현금흐름']
         dfs = {}
         for upCode in upCodes:

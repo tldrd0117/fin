@@ -54,6 +54,11 @@ losscutTarget = []
 alreadyCut = []
 buyDate = current
 
+parValues = []
+for val1 in [1,2,5,10,20,25,50,100]:
+    for val2 in [1,2,5,10,20,25,50,100]:
+        parValues.append(val1/val2)
+parValues = list(set(parValues))
 
 while endDate > current:
     if nextInvestDay <= current:
@@ -66,8 +71,10 @@ while endDate > current:
         target = list(topdf.columns)
         # target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=1000, minVal=0)
         # target = ss.getRiseMeanList(current, topdf[target], 500, 0)
-        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익', True, 200)
-        target = ss.getFactorList(current, topdf[target], factordf, '투자활동으로인한현금흐름', False, 30)
+        target = ss.getFactorList(current, topdf[target], factordf, 'per', True, 50)
+        target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 30)
+        # target = ss.getFactorList(current, topdf[target], factordf, '당기순이익', True, 200)
+        # target = ss.getFactorList(current, topdf[target], factordf, '투자활동으로인한현금흐름', False, 30)
         # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름', False, 30, minVal=0.000001)
         # target = ss.getRsi30perList(current, topdf[target], 30)
 
@@ -99,6 +106,7 @@ while endDate > current:
         losscutTarget = []
         alreadyCut = []
     #손절
+    
     for stock in wallet.getAllStock():
         isLosscut = st.losscut(stock['code'], current, buyDate)
         if isLosscut and stock['code'] not in losscutTarget:
@@ -147,6 +155,12 @@ while endDate > current:
     stockMoney = 0
     for stock in wallet.getAllStock():
         latelyPrice = st.getValue(current, stock['code'])
+        if stock['money'] * 1.25 <= latelyPrice or stock['money'] * 0.75 >= latelyPrice:
+            ratio = latelyPrice / stock['money']
+            idx = np.argmin(np.abs(parValues - ratio))
+            stock['quantity'] = int(stock['quantity']/parValues[idx])
+
+
         stock['money'] = latelyPrice
         
 
@@ -159,10 +173,9 @@ while endDate > current:
     current = nextDay
     money = stockMoney + restMoney
     moneySum.loc[current] = money
-    # time.sleep(0.01)
     print(current, money, stockMoney, restMoney)
 # In[4]: look
-moneySum
+# moneySum
 # In[3]: 통계
 moneySum.index = moneySum.index.map(lambda dt: pd.to_datetime(dt.date()))
 portfolio = moneySum / 10000000
@@ -189,6 +202,7 @@ print('최대 상승률',((portfolio[m] - portfolio[m].shift(1))/portfolio[m].sh
 # In[4]: 그래프
 import matplotlib.font_manager as fm
 import platform
+import matplotlib.pyplot as plt
 if platform.system()=='Darwin':
     path = '/Library/Fonts/NanumBarunGothicLight.otf'
 else:
@@ -200,10 +214,10 @@ choosedDf = choosedDf.fillna(method='bfill').fillna(method='ffill')
 # print(choosedDf)
 jisuDf = choosedDf / choosedDf.iloc[0]
 print(jisuDf)
-plt = jisuDf.plot(figsize = (18,12), fontsize=12)
+plot = jisuDf.plot(figsize = (18,12), fontsize=12)
 fontProp = fm.FontProperties(fname=path, size=18)
-plt.legend(prop=fontProp)
-print(plt)
+plot.legend(prop=fontProp)
+plt.show()
 
 #%%
 

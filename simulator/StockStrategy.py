@@ -22,7 +22,7 @@ class StockStrategy:
         momentumValues[momentumValues<=0] = 0
         momentumScore = pd.DataFrame(momentumValues, momentum.index, momentum.columns)
         # momentumScore = momentumScore.query('')
-        # momentumScore = momentumScore[momentumScore >= minVal]
+        momentumScore = momentumScore[momentumScore >= minVal]
         
         return list(momentumScore.mean().sort_values(ascending=False).head(limit).index)
     
