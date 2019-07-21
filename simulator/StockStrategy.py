@@ -89,6 +89,27 @@ class StockStrategy:
         nameList = list(factordf[factor].loc[shcodes]['종목명'])
         intersect = list(set(targetdf.columns) & set(nameList))
         return intersect
+    
+    def getFactorRank(self, current, targetdf, factordf, factor):
+        yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
+        if current.month > 4:
+            yearDf = yearDf[current.year - 1]
+        else:
+            yearDf = yearDf[current.year - 2]
+        sortedDf = yearDf.sort_values(ascending=True)
+        return pd.Series(range(0,len(sortedDf.index)),index=sortedDf.index)
+    
+    def getFactorLists(self, current, targetdf, factordf, factors, num, weights):
+        rankList = []
+        datadf = pd.DataFrame(index=targetdf.columns)
+        for factor in factors:
+            print(self.getFactorRank(current, targetdf, factordf, factor))
+            datadf[factor] = self.getFactorRank(current, targetdf, factordf, factor)
+        datadf['sum'] = 0
+        for factor in factors:
+            datadf['sum'] += weights[factor] * datadf[factor]
+        # print(datadf)
+        return list(datadf.sort_values(by='sum', ascending=False).head(num).index)
 
     def getMoneyRate(self, nameList):
         rate = pd.Series([1/len(nameList)]*len(nameList), index=nameList)

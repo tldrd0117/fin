@@ -37,8 +37,14 @@ factordf = sl.loadFactor()
 # targetdf = yielddf-compdf
 # targetdf['종목명'] = yielddf['종목명']
 # factordf['당기순이익증가율'] = targetdf
-
-
+# In[232]:
+def isNumber(val):
+    return isinstance(val, (int, float, complex)) 
+for key in factordf.keys():
+    factordf[key].columns = list(map(lambda col : float(col) if isNumber(col) or col.isnumeric() else col, factordf[key].columns))
+for key in factordf.keys():
+    factordf[key] = factordf[key].set_index(['종목명'])
+print(factordf)
 # In[2]:
 ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
@@ -61,6 +67,9 @@ for val1 in [1,2,5,10,20,25,50,100]:
         parValues.append(val1/val2)
 parValues = list(set(parValues))
 
+factors = ['per', 'pcr', 'pbr', 'roe', '당기순이익', '영업활동으로인한현금흐름', '투자활동으로인한현금흐름', '재무활동으로인한현금흐름', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률', '매출액']
+weights = {'per':0.30458087, 'pcr':-0.03745455, 'pbr':0.23468399, 'roe':0.36092985, '당기순이익':0.19461265, '영업활동으로인한현금흐름':0.05416971, '투자활동으로인한현금흐름':0.3000804, '재무활동으로인한현금흐름':0.0256378, 'psr':-1.3246877, 'roic':-0.35830158, 'eps':0.02405762, 'ebit':0.04227263, 'ev_ebit':0.0967356, 'ev_sales':0.01554028, 'ev_ebitda':0.5191966, '당기순이익률':0.13129355, '영업이익률':0.15036112, '매출총이익률':0.44065595, '배당수익률':0.52419686, '매출액':-0.69880736}
+
 while endDate > current:
     if nextInvestDay <= current:
         wallet.clear()
@@ -70,12 +79,13 @@ while endDate > current:
         #한달마다 주식 변경
         nextInvestDay = current + pd.Timedelta(1, unit='M')
         target = list(topdf.columns)
+        target = ss.getFactorLists(current, topdf[target], factordf, factors, 30, weights)
         # target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=1000, minVal=0)
         # target = ss.getRiseMeanList(current, topdf[target], 500, 0)
         # target = ss.getFactorList(current, topdf[target], factordf, 'per', True, 50)
         # target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 30)
-        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익', True, 200)
-        target = ss.getFactorList(current, topdf[target], factordf, '투자활동으로인한현금흐름', False, 30)
+        # target = ss.getFactorList(current, topdf[target], factordf, '당기순이익', True, 200)
+        # target = ss.getFactorList(current, topdf[target], factordf, '투자활동으로인한현금흐름', False, 30)
         # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름', False, 30, minVal=0.000001)
         # target = ss.getRsi30perList(current, topdf[target], 30)
 
