@@ -1,5 +1,5 @@
 from keras.models import Sequential # 케라스의 Sequential()을 임포트
-from keras.layers import Dense # 케라스의 Dense()를 임포트
+from keras.layers import Dense, Dropout # 케라스의 Dense()를 임포트
 from keras import optimizers # 케라스의 옵티마이저를 임포트
 import numpy as np # Numpy를 임포트
 import pandas as pd
@@ -20,14 +20,15 @@ y=np.array([(df['yield']).values]).reshape(-1,1)
 print(X)
 print(y)
 model=Sequential()
-model.add(Dense(1, input_dim=factorLen, activation='linear', use_bias=False))
+model.add(Dropout(0.8, input_shape=(factorLen,)))
+model.add(Dense(1, activation='linear', use_bias=False))
 sgd=optimizers.SGD(lr=0.0001)
 # 학습률(learning rate, lr)은 0.01로 합니다.
 model.compile(optimizer=sgd ,loss='mse',metrics=['mse'])
 # 옵티마이저는 경사하강법의 일종인 확률적 경사 하강법 sgd를 사용합니다.
 # 손실 함수(Loss function)은 평균제곱오차 mse를 사용합니다.
 model.summary()
-model.fit(X,y, batch_size=1, epochs=1000, shuffle=True)
+model.fit(X,y, batch_size=1, epochs=500, shuffle=True)
 
 for layer in model.layers: print(layer.get_weights())
 
