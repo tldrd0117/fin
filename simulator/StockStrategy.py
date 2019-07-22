@@ -109,7 +109,7 @@ class StockStrategy:
         datadf['sum'] = 0
         for factor in factors:
             datadf['sum'] += weights[factor] * datadf[factor]
-        return list(datadf['sum'].dropna().sort_values(ascending=True).head(num).index)
+        return list(datadf['sum'].dropna().sort_values(ascending=False).head(num).index)
 
     def getMoneyRate(self, nameList):
         rate = pd.Series([1/len(nameList)]*len(nameList), index=nameList)

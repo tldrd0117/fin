@@ -50,14 +50,16 @@ import pandas as pd
 #     namedf.loc[idx] = sortdf.index
 #     valuedf.loc[idx] = sortdf.values
 # sumdf = (stockdf['2015-12-30'] - stockdf['2015-01-02'])/stockdf['2015-01-02']
+sumdf = (stockdf.resample('A').last() - stockdf.resample('A').first())/ stockdf.resample('A').first()
 
-sumdf = pd.Series((stockdf['2015-12-30'].values[0] - stockdf['2015-01-02'].values[0])/stockdf['2015-01-02'].values[0], index=stockdf['2015-12-30'].columns.values)
-sumdf
+# sumdf = pd.Series((stockdf['2018-12-30'].values[0] - stockdf['2008-01-02'].values[0])/stockdf['2008-01-02'].values[0], index=stockdf['2018-12-30'].columns.values)
+# sumdf
+# stockdf
 # In[2]:
 import numpy as np
 import pandas as pd
 # sumdf = muddf['2017-01-01':'2017-12-31'].sum().sort_values(ascending=False)
-sumdf = sumdf.dropna()
+# sumdf = sumdf.dropna()
 for key in factordf.keys():
     factordf[key] = factordf[key].set_index(['종목명'])
 factordf
@@ -84,33 +86,38 @@ for key in factordf.keys():
 # factordf['영업활동으로인한현금흐름증가율']
 
 # In[4]: 종목별로 팩터를 구하고 팩터가 없는 종목은 삭제
-def getFactor(factor):
-    return factordf[factor][2014]
+def getFactor(factor, year):
+    return factordf[factor][year]
 def toNumeric(df):
     return df.applymap(lambda v : float(v) if isNumber(v) or v.isnumeric() else np.nan )
 def toNumericSeries(series):
     return series.apply(lambda v : float(v) if isNumber(v) or v.isnumeric() else np.nan )
-def getFactorMean(factor, ascending):
-    factorValdf = toNumericSeries(getFactor(factor))
-    intersect = list(set(factorValdf.index) & set(sumdf.index))
+def getFactorMean(factor, ascending, year):
+    factorValdf = toNumericSeries(getFactor(factor, year))
+    intersect = list(set(factorValdf.index) & set(sumdf[str(year)].columns))
     factorValdf = factorValdf.loc[intersect].sort_values(ascending=ascending)
     meanList = []
     codeList = []
     for idx in range(0, factorValdf.size):
         code = factorValdf.index[idx]
+        # print(code)
+        # print(code, idx, factorValdf.iloc[idx])
         meanList.append([idx, factorValdf.iloc[idx]])
         codeList.append(code)
     plotdf = pd.DataFrame(meanList, columns=[factor+'_rank', factor+'_value'], index=codeList)
     return toNumeric(plotdf)
-def addFactor(name, df):
-    return pd.concat([df, getFactorMean(name, True) ], axis=1)
+def addFactor(name, df, year):
+    return pd.concat([df, getFactorMean(name, True, year) ], axis=1)
     
 
-datadf = pd.DataFrame(sumdf.values, index=sumdf.index, columns=['yield'])
-factors = ['per', 'pcr', 'pbr', 'roe', '당기순이익', '영업활동으로인한현금흐름', '투자활동으로인한현금흐름', '재무활동으로인한현금흐름', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률', '매출액']
-for factor in factors:
-    datadf = addFactor(factor, datadf)
-datadf.to_hdf('h5data/factor_values', key='df', mode='w')
+# factors = ['per', 'pcr', 'pbr', 'roe', '당기순이익', '영업활동으로인한현금흐름', '투자활동으로인한현금흐름', '재무활동으로인한현금흐름', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률', '매출액']
+factors = ['per', 'pcr', 'pbr', 'roe', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률']
+for year in range(2007,2019):   
+    datadf = pd.DataFrame(np.reshape(sumdf[str(year)].values,(len(sumdf[str(year)].columns),1)), index=sumdf[str(year)].columns, columns=['yield'])
+    for factor in factors:
+        datadf = addFactor(factor, datadf, year)
+    print(datadf)
+    datadf.to_hdf('h5data/factor_values'+str(year)+'.h5', key='df', mode='w')
 # df2 = getFactorMean('pcr', False)
 # df3 = getFactorMean('pbr', False)
 # df3 = getFactorMean('psr', False)
