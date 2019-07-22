@@ -77,7 +77,9 @@ class StockStrategy:
         
 
     def getFactorList(self, current, targetdf, factordf, factor, ascending, num, minVal=-10000000, maxVal=10000000):
-        yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
+        # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
+        yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
+        # print(factordf[factor])
         if current.month > 4:
             yearDf = yearDf[current.year - 1]
         else:
@@ -86,8 +88,8 @@ class StockStrategy:
         yearDf = yearDf[yearDf <= maxVal]
         # intersect = list(set(yearDf.columns) & set(nameList))
         shcodes = list(yearDf.sort_values(ascending=ascending).head(num).index)
-        nameList = list(factordf[factor].loc[shcodes]['종목명'])
-        intersect = list(set(targetdf.columns) & set(nameList))
+        # nameList = list(factordf[factor].loc[shcodes].index)
+        intersect = list(set(targetdf.columns) & set(shcodes))
         return intersect
     
     def getFactorRank(self, current, targetdf, factordf, factor):
