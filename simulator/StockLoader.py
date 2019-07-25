@@ -84,7 +84,7 @@ class StockLoader:
         etfdf.index = etfdf.index.map(lambda dt: pd.to_datetime(dt.date()))
         topdf = pd.concat([etfdf,topcapdf], sort=False, axis=1)
 
-        return topdf
+        return topdf, topcap
 
     def loadStockDf(self):
         with ThreadPoolExecutor(5) as executor:
@@ -254,7 +254,7 @@ class StockLoader:
     
     def loadFactor(self):
         upCodes = ['제조업']
-        factors = ['per', 'pcr', 'pbr', 'roe', '당기순이익', '영업활동으로인한현금흐름', '투자활동으로인한현금흐름', '재무활동으로인한현금흐름', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률', '매출액']
+        factors = ['per', 'pcr', 'pbr', 'roe', '당기순이익', '영업활동으로인한현금흐름', '투자활동으로인한현금흐름', '재무활동으로인한현금흐름', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률', '매출액', '자산', '유동자산', '부채', '유동부채', '이익잉여금']
         dfs = {}
         for upCode in upCodes:
             for factor in factors:

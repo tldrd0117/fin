@@ -16,7 +16,7 @@ import numpy as np
 #StockLoader 시간에따른 주식 가격을 가져온다
 
 sl = StockLoader.create()
-topdf = sl.loadTopDf()
+topdf, topcap = sl.loadTopDf()
 factordf = sl.loadFactor()
 
 
@@ -44,7 +44,6 @@ for key in factordf.keys():
     factordf[key].columns = list(map(lambda col : float(col) if isNumber(col) or col.isnumeric() else col, factordf[key].columns))
 for key in factordf.keys():
     factordf[key] = factordf[key].set_index(['종목명'])
-print(factordf)
 # In[2]:
 ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
@@ -84,6 +83,8 @@ while endDate > current:
         #한달마다 주식 변경
         nextInvestDay = current + pd.Timedelta(1, unit='M')
         target = list(topdf.columns)
+        target = ss.filterAltmanZScore(current, topdf[target], factordf, topcap )
+        print('altman', len(target))
         target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=1000, minVal=0)
         # target = ss.getFactorLists(current, topdf[target], factordf, factors, 500, weights)
         # target = ss.getRiseMeanList(current, topdf[target], 500, 0)

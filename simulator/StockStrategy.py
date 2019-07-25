@@ -7,6 +7,35 @@ class StockStrategy:
         stockStrategy = StockStrategy()
         return stockStrategy
     
+    def getCurrentFactor(self, current, factordf, targetdf, factor):
+        yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
+        # print(factordf[factor])
+        if current.month > 4:
+            yearDf = yearDf[current.year - 1]
+        else:
+            yearDf = yearDf[current.year - 2]
+        return yearDf
+
+    def filterAltmanZScore(self, current, targetdf, factordf, topcap ):
+        floatingAsset = self.getCurrentFactor(current, factordf, targetdf, '유동자산')
+        floatingLiablilities = self.getCurrentFactor(current, factordf, targetdf, '유동부채')
+        totalAsset = self.getCurrentFactor(current, factordf, targetdf, '자산')
+        liablilities = self.getCurrentFactor(current, factordf, targetdf, '자산')
+        retainedEarning = self.getCurrentFactor(current, factordf, targetdf, '이익잉여금')
+        sales = self.getCurrentFactor(current, factordf, targetdf, '매출액')
+        ebit = self.getCurrentFactor(current, factordf, targetdf, 'ebit')
+        topcap = topcap.resample('A').first()
+        loc = topcap.index.get_loc(current, method='pad')
+        marketValueOfEquity = topcap.iloc[loc]['Marcap']
+        
+        x1 = (floatingAsset - floatingLiablilities) / totalAsset
+        x2 = retainedEarning / totalAsset
+        x3 = ebit / totalAsset
+        x4 = marketValueOfEquity / liablilities
+        x5 = sales / totalAsset
+        altmanZ = 1.2 * x1 + 1.4 * x2 + 3.3 * x3 + 0.6 * x4 + 0.999 * x5
+        return list(altmanZ[altmanZ >= 1.81].index)
+    
     def getMomentumList(self, current, targetdf, mNum, mUnit, limit, minVal=-1):
         mdf = targetdf.resample('M').mean()
         beforeMomentumDate = current + pd.Timedelta(-mNum, unit=mUnit)
