@@ -16,6 +16,12 @@ class StockStrategy:
             yearDf = yearDf[current.year - 2]
         return yearDf
 
+    def getFactor(self, current, factordf, factor, code):
+        df = factordf[factor][factordf[factor].index.isin([code])]
+        if len(df.index) <= 0:
+            return 'None'
+        return df.loc[code, current.year]
+
     def filterAltmanZScore(self, current, targetdf, factordf, topcap ):
         floatingAsset = self.getCurrentFactor(current, factordf, targetdf, '유동자산')
         floatingLiablilities = self.getCurrentFactor(current, factordf, targetdf, '유동부채')

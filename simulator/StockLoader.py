@@ -109,7 +109,7 @@ class StockLoader:
             # stockdf = self.loadStockDataFrame(domesticName, domesticTargets, stockdf, '2006-01-01', '2019-12-31')
             # stockdf = self.loadStockDataFrame(etfName, etfTargets, stockdf, '2006-01-01', '2019-12-31')
 
-        return stockdf
+        return stockdf, topcap
 
     
     def loadStockDataFrame(self, name, targets, stockdf, beforeStr, endStr):

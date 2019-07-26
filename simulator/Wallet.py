@@ -32,6 +32,14 @@ class Wallet:
             if code == stock['code']:
                 return stock
         return None
+    def getStockLastMoney(self, code):
+        targetStock = None
+        for stock in self.stock:
+            if code == stock['code']:
+                targetStock = stock
+                break
+        return targetStock['money']
+
     def getStockTotalQuantity(self, code):
         results = []
         for stock in self.stock:

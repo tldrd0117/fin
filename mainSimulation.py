@@ -37,13 +37,18 @@ factordf = sl.loadFactor()
 # targetdf = yielddf-compdf
 # targetdf['종목명'] = yielddf['종목명']
 # factordf['당기순이익증가율'] = targetdf
+one = None
 # In[232]:
 def isNumber(val):
     return isinstance(val, (int, float, complex)) 
-for key in factordf.keys():
-    factordf[key].columns = list(map(lambda col : float(col) if isNumber(col) or col.isnumeric() else col, factordf[key].columns))
-for key in factordf.keys():
-    factordf[key] = factordf[key].set_index(['종목명'])
+if not one:
+    for key in factordf.keys():
+        factordf[key].columns = list(map(lambda col : float(col) if isNumber(col) or col.isnumeric() else col, factordf[key].columns))
+    for key in factordf.keys():
+        factordf[key] = factordf[key].set_index(['종목명'])
+one = True
+# In[3]:
+
 # In[2]:
 ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
@@ -66,16 +71,28 @@ for val1 in [1,2,5,10,20,25,50,100]:
         parValues.append(val1/val2)
 parValues = list(set(parValues))
 
-# factors = ['per', 'pcr', 'pbr', 'roe', '당기순이익', '영업활동으로인한현금흐름', '투자활동으로인한현금흐름', '재무활동으로인한현금흐름', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률', '매출액']
+factors = ['per', 'pcr', 'pbr', 'roe', '당기순이익', '영업활동으로인한현금흐름', '투자활동으로인한현금흐름', '재무활동으로인한현금흐름', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률', '매출액']
 # weights = {'per':0.30458087, 'pcr':-0.03745455, 'pbr':0.23468399, 'roe':0.36092985, '당기순이익':0.19461265, '영업활동으로인한현금흐름':0.05416971, '투자활동으로인한현금흐름':0.3000804, '재무활동으로인한현금흐름':0.0256378, 'psr':-1.3246877, 'roic':-0.35830158, 'eps':0.02405762, 'ebit':0.04227263, 'ev_ebit':0.0967356, 'ev_sales':0.01554028, 'ev_ebitda':0.5191966, '당기순이익률':0.13129355, '영업이익률':0.15036112, '매출총이익률':0.44065595, '배당수익률':0.52419686, '매출액':-0.69880736}
 # weights = {'per': 0.05186881, 'pcr':0.03852479, 'pbr':0.0313778, 'roe':0.03718218, '당기순이익':-0.00151721, '영업활동으로인한현금흐름': 0.01412872, '투자활동으로인한현금흐름':0.07871272, '재무활동으로인한현금흐름':0.02713266, 'psr':0.01447739, 'roic':0.03316823, 'eps':0.00521486, 'ebit':0.01497366, 'ev_ebit':0.07060508, 'ev_sales':0.00256039, 'ev_ebitda':0.04957749, '당기순이익률':0.03347141, '영업이익률':0.0247674, '매출총이익률':0.03217566, '배당수익률':0.09379209, '매출액':0.01340407}
 # weights = {'per':0.30458087, 'pcr':-0.03745455, 'pbr':0.23468399, 'roe':0.36092985, '당기순이익':0.19461265, '영업활동으로인한현금흐름':0.05416971, '투자활동으로인한현금흐름':0.3000804, '재무활동으로인한현금흐름':0.0256378, 'psr':-1.3246877, 'roic':-0.35830158, 'eps':0.02405762, 'ebit':0.04227263, 'ev_ebit':0.0967356, 'ev_sales':0.01554028, 'ev_ebitda':0.5191966, '당기순이익률':0.13129355, '영업이익률':0.15036112, '매출총이익률':0.44065595, '배당수익률':0.52419686, '매출액':-0.69880736}
 # weights = {'per': 0.03739188, 'pcr':0.02552654, 'pbr':-0.04820556, 'roe':-0.05617258, 'psr':0.03603807, 'roic':-0.06701323, 'eps':-0.07390497, 'ebit':0.0807128, 'ev_ebit':0.03940655, 'ev_sales':-0.100779, 'ev_ebitda':-0.03655547, '당기순이익률':-0.02207778, '영업이익률':-0.05997825, '매출총이익률':0.08456226, '배당수익률':-0.04298059}
-factors = ['per', 'pcr', 'pbr', 'roe', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률']
+# factors = ['per', 'pcr', 'pbr', 'roe', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률']
 weights = {'per': 0.00821758, 'pcr':-0.01545373, 'pbr':-0.00202028, 'roe':-0.00213162, 'psr':-0.00682432, 'roic':-0.00529879, 'eps':-0.00918043, 'ebit':0.00991608, 'ev_ebit':0.00118502, 'ev_sales':0.00306288, 'ev_ebitda':0.00331478, '당기순이익률':-0.00584683, '영업이익률':0.00557486, '매출총이익률':0.00171305, '배당수익률':0.05427131}
+
+investigation = []
 
 while endDate > current:
     if nextInvestDay <= current:
+        for pair in investigation:
+            if pair['code'] in alreadyCut:
+                continue
+            
+            lastMoney = wallet.getStockLastMoney(pair['code'])
+            print(lastMoney, pair['price'])
+            print(pair['code'], lastMoney/pair['price'])
+            for factor in factors:
+                print(factor,':',ss.getFactor(current, factordf, factor, pair['code']))
+        investigation = []
         wallet.clear()
         buyDate = current
         stockMoney = 0
@@ -91,7 +108,6 @@ while endDate > current:
         # target = ss.getFactorList(current, topdf[target], factordf, '투자활동으로인한현금흐름', False, 50)
         target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
         target = ss.getFactorList(current, topdf[target], factordf, 'per', True, 30)
-
         # target = ss.getFactorList(current, topdf[target], factordf, '당기순이익', True, 200)
         # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름', False, 30, minVal=0.000001)
         # target = ss.getRsi30perList(current, topdf[target], 30)
@@ -102,6 +118,7 @@ while endDate > current:
         currentStr = current.strftime(format='%Y-%m-%d')
         nextStr = nextInvestDay.strftime(format='%Y-%m-%d')
         for stockName in target:
+            investigation.append({'code':stockName, 'price':st.getValue(current, stockName)})
             investMoney = money * moneyRate
             q = st.possibleQuantity(current, investMoney, stockName)
             if not q:
@@ -109,6 +126,7 @@ while endDate > current:
             so = StockOrder.create(stockName, q, investMoney)
             #일단사기
             buyMoney = st.getValue(current, stockName)
+            
             wallet.buy(so.code, so.quantity, buyMoney)
             restMoney -= buyMoney * so.quantity
 
@@ -119,12 +137,12 @@ while endDate > current:
             print('채권:', q, '개 매매')
             buyMoney = st.getValue(current, bondName)
             wallet.buy(bondName, q, buyMoney)
+
             restMoney -= buyMoney * q
 
         losscutTarget = []
         alreadyCut = []
     #손절
-    
     for stock in wallet.getAllStock():
         isLosscut = st.losscut(stock['code'], current, buyDate)
         if isLosscut and stock['code'] not in losscutTarget:
@@ -149,6 +167,8 @@ while endDate > current:
                                 buyMoney = st.getValue(current, bondName)
                                 wallet.buy(bondName, q, buyMoney)
                                 restMoney -= buyMoney * q
+
+
     # for losscutTarget in st.losscutRsi(wallet.getAllStock(), current, topdf[target]):
     #     if losscutTarget['code'] in alreadyCut:
     #         continue
