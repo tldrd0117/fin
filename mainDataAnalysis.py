@@ -21,12 +21,16 @@ for index in stockdf.index:
         targets = stockdf.iloc[idx][stockdf.iloc[idx] * 1.25 <= stockdf.iloc[idx+1]].index
         if len(targets) >= 0:
             ratio = (stockdf.iloc[idx+1] / stockdf.iloc[idx])[targets]
-            stockdf.iloc[:idx][targets] = stockdf.iloc[:idx][targets] * ratio
+            for i in range(0,idx+1):
+                for target in targets:
+                    stockdf.at[stockdf.index[i],target] = stockdf.at[stockdf.index[i],target] * ratio[target]
     elif priceLimitDate <= index:
         targets = stockdf.iloc[idx][stockdf.iloc[idx] * 1.3 <= stockdf.iloc[idx+1]].index
         if len(targets) >= 0:
             ratio = (stockdf.iloc[idx+1] / stockdf.iloc[idx])[targets]
-            stockdf.iloc[:idx][targets] = stockdf.iloc[:idx][targets] * ratio
+            for i in range(0,idx+1):
+                for target in targets:
+                    stockdf.at[stockdf.index[i],target] = stockdf.at[stockdf.index[i],target] * ratio[target]
    
 
 # if (current < priceLimitDate and stock['money'] * 1.25 <= latelyPrice or stock['money'] * 0.75 >= latelyPrice)\

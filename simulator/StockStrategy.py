@@ -20,7 +20,10 @@ class StockStrategy:
         df = factordf[factor][factordf[factor].index.isin([code])]
         if len(df.index) <= 0:
             return 'None'
-        return df.loc[code, current.year]
+        if current.month > 4:
+            return df.loc[code, current.year - 1]
+        else:
+            return df.loc[code, current.year - 2]
 
     def filterAltmanZScore(self, current, targetdf, factordf, topcap ):
         floatingAsset = self.getCurrentFactor(current, factordf, targetdf, '유동자산')
@@ -119,6 +122,7 @@ class StockStrategy:
             yearDf = yearDf[current.year - 1]
         else:
             yearDf = yearDf[current.year - 2]
+        yearDf = yearDf.dropna()
         yearDf = yearDf[yearDf >= minVal]
         yearDf = yearDf[yearDf <= maxVal]
         # intersect = list(set(yearDf.columns) & set(nameList))

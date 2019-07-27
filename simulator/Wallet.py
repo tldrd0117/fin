@@ -38,7 +38,22 @@ class Wallet:
             if code == stock['code']:
                 targetStock = stock
                 break
-        return targetStock['money']
+        if targetStock:
+            return targetStock['money']
+        else:
+            return None
+        
+
+    def getStockRatio(self, code):
+        targetStock = None
+        for stock in self.stock:
+            if code == stock['code']:
+                targetStock = stock
+                break
+        if 'ratio' in targetStock:
+            return targetStock['ratio']
+        else:
+            return 1
 
     def getStockTotalQuantity(self, code):
         results = []

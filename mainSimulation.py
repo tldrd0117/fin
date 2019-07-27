@@ -10,6 +10,13 @@ import asyncio
 import time
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
+import logging
+logging.basicConfig(filename='myapp.log', level=logging.INFO, format='%(message)s')
+    
+def printG(*msg):
+    joint = ' '.join(list(map(lambda x : str(x), msg)))
+    print(joint)
+    # logging.info(joint)
 
 
 # In[1]:
@@ -40,12 +47,23 @@ factordf = sl.loadFactor()
 one = None
 # In[232]:
 def isNumber(val):
-    return isinstance(val, (int, float, complex)) 
+    return isinstance(val, (int, float, complex))
+def isnum(s):
+    try:
+        float(s)
+    except:
+        return(False)
+    else:
+        return(True)
+def toNumeric(df):
+    return df.applymap(lambda v : float(v) if isNumber(v) or isnum(v) else np.nan )
 if not one:
     for key in factordf.keys():
         factordf[key].columns = list(map(lambda col : float(col) if isNumber(col) or col.isnumeric() else col, factordf[key].columns))
     for key in factordf.keys():
         factordf[key] = factordf[key].set_index(['종목명'])
+    for key in factordf.keys():
+        factordf[key] = toNumeric(factordf[key])
 one = True
 # In[3]:
 
@@ -71,13 +89,13 @@ for val1 in [1,2,5,10,20,25,50,100]:
         parValues.append(val1/val2)
 parValues = list(set(parValues))
 
-factors = ['per', 'pcr', 'pbr', 'roe', '당기순이익', '영업활동으로인한현금흐름', '투자활동으로인한현금흐름', '재무활동으로인한현금흐름', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률', '매출액']
+allfactors = ['per', 'pcr', 'pbr', 'roe', '당기순이익', '영업활동으로인한현금흐름', '투자활동으로인한현금흐름', '재무활동으로인한현금흐름', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률', '매출액', '자산', '유동자산', '부채','유동부채']
 # weights = {'per':0.30458087, 'pcr':-0.03745455, 'pbr':0.23468399, 'roe':0.36092985, '당기순이익':0.19461265, '영업활동으로인한현금흐름':0.05416971, '투자활동으로인한현금흐름':0.3000804, '재무활동으로인한현금흐름':0.0256378, 'psr':-1.3246877, 'roic':-0.35830158, 'eps':0.02405762, 'ebit':0.04227263, 'ev_ebit':0.0967356, 'ev_sales':0.01554028, 'ev_ebitda':0.5191966, '당기순이익률':0.13129355, '영업이익률':0.15036112, '매출총이익률':0.44065595, '배당수익률':0.52419686, '매출액':-0.69880736}
 # weights = {'per': 0.05186881, 'pcr':0.03852479, 'pbr':0.0313778, 'roe':0.03718218, '당기순이익':-0.00151721, '영업활동으로인한현금흐름': 0.01412872, '투자활동으로인한현금흐름':0.07871272, '재무활동으로인한현금흐름':0.02713266, 'psr':0.01447739, 'roic':0.03316823, 'eps':0.00521486, 'ebit':0.01497366, 'ev_ebit':0.07060508, 'ev_sales':0.00256039, 'ev_ebitda':0.04957749, '당기순이익률':0.03347141, '영업이익률':0.0247674, '매출총이익률':0.03217566, '배당수익률':0.09379209, '매출액':0.01340407}
 # weights = {'per':0.30458087, 'pcr':-0.03745455, 'pbr':0.23468399, 'roe':0.36092985, '당기순이익':0.19461265, '영업활동으로인한현금흐름':0.05416971, '투자활동으로인한현금흐름':0.3000804, '재무활동으로인한현금흐름':0.0256378, 'psr':-1.3246877, 'roic':-0.35830158, 'eps':0.02405762, 'ebit':0.04227263, 'ev_ebit':0.0967356, 'ev_sales':0.01554028, 'ev_ebitda':0.5191966, '당기순이익률':0.13129355, '영업이익률':0.15036112, '매출총이익률':0.44065595, '배당수익률':0.52419686, '매출액':-0.69880736}
 # weights = {'per': 0.03739188, 'pcr':0.02552654, 'pbr':-0.04820556, 'roe':-0.05617258, 'psr':0.03603807, 'roic':-0.06701323, 'eps':-0.07390497, 'ebit':0.0807128, 'ev_ebit':0.03940655, 'ev_sales':-0.100779, 'ev_ebitda':-0.03655547, '당기순이익률':-0.02207778, '영업이익률':-0.05997825, '매출총이익률':0.08456226, '배당수익률':-0.04298059}
-# factors = ['per', 'pcr', 'pbr', 'roe', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률']
-weights = {'per': 0.00821758, 'pcr':-0.01545373, 'pbr':-0.00202028, 'roe':-0.00213162, 'psr':-0.00682432, 'roic':-0.00529879, 'eps':-0.00918043, 'ebit':0.00991608, 'ev_ebit':0.00118502, 'ev_sales':0.00306288, 'ev_ebitda':0.00331478, '당기순이익률':-0.00584683, '영업이익률':0.00557486, '매출총이익률':0.00171305, '배당수익률':0.05427131}
+factors = ['per', 'pcr', 'pbr', 'roe', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률']
+weights = {'per': 1.63437670e+05, 'pcr':-1.51993291e+05, 'pbr':3.01448559e+05, 'roe':3.33162663e+03, 'psr':0, 'roic':0, 'eps':0, 'ebit':-4.57452298e+04, 'ev_ebit':0, 'ev_sales':-2.20027105e+01, 'ev_ebitda':1.24530671e+04, '당기순이익률':0, '영업이익률':0, '매출총이익률':-9.64486095e+04, '배당수익률':-4.84420386e+04}
 
 investigation = []
 
@@ -86,12 +104,17 @@ while endDate > current:
         for pair in investigation:
             if pair['code'] in alreadyCut:
                 continue
-            
             lastMoney = wallet.getStockLastMoney(pair['code'])
-            print(lastMoney, pair['price'])
-            print(pair['code'], lastMoney/pair['price'])
-            for factor in factors:
-                print(factor,':',ss.getFactor(current, factordf, factor, pair['code']))
+            if not lastMoney:
+                printG(pair['code'], 'notExist')
+                continue
+            ratio = wallet.getStockRatio(pair['code'])
+            printG(lastMoney, pair['price'], ratio, pair['price']*ratio)
+            printG('####################################')
+            printG(pair['code'], lastMoney/(pair['price']*ratio))
+            printG('####################################')
+            for factor in allfactors:
+                printG(factor,':',ss.getFactor(current, factordf, factor, pair['code']))
         investigation = []
         wallet.clear()
         buyDate = current
@@ -101,18 +124,22 @@ while endDate > current:
         nextInvestDay = current + pd.Timedelta(1, unit='M')
         target = list(topdf.columns)
         target = ss.filterAltmanZScore(current, topdf[target], factordf, topcap )
-        print('altman', len(target))
-        target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=1000, minVal=0)
-        # target = ss.getFactorLists(current, topdf[target], factordf, factors, 500, weights)
+        printG('altman', len(target))
+        # target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=1000, minVal=0)
+        # target = ss.getFactorLists(current, topdf[target], factordf, factors, 20, weights)
         # target = ss.getRiseMeanList(current, topdf[target], 500, 0)
-        # target = ss.getFactorList(current, topdf[target], factordf, '투자활동으로인한현금흐름', False, 50)
+        target = ss.getFactorList(current, topdf[target], factordf, 'roe', False, 1000, minVal=10, maxVal=50)
+        target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', False, 1000, minVal=0)
+        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', False, 1000, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
+        # target = ss.getFactorList(current, topdf[target], factordf, 'psr', True, 10)
+        # target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
         target = ss.getFactorList(current, topdf[target], factordf, 'per', True, 30)
         # target = ss.getFactorList(current, topdf[target], factordf, '당기순이익', True, 200)
         # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름', False, 30, minVal=0.000001)
         # target = ss.getRsi30perList(current, topdf[target], 30)
 
-        print(target)
+        printG(target)
         moneyRate = 1 / 30
         results = []
         currentStr = current.strftime(format='%Y-%m-%d')
@@ -134,7 +161,7 @@ while endDate > current:
         bondName = 'KOSEF 국고채10년레버리지'
         q=st.possibleQuantity(current, restMoney, bondName)
         if q:
-            print('채권:', q, '개 매매')
+            printG('채권:', q, '개 매매')
             buyMoney = st.getValue(current, bondName)
             wallet.buy(bondName, q, buyMoney)
 
@@ -148,7 +175,7 @@ while endDate > current:
         if isLosscut and stock['code'] not in losscutTarget:
             losscutTarget.append(stock['code'])
             if len(losscutTarget) >= 15:
-                print('손절갯수:', len(losscutTarget))
+                printG('손절갯수:', len(losscutTarget))
                 for lossTarget in losscutTarget:
                     if lossTarget not in alreadyCut:
                         alreadyCut.append(lossTarget)
@@ -163,7 +190,7 @@ while endDate > current:
                             bondName = 'KOSEF 국고채10년레버리지'
                             q=st.possibleQuantity(current, restMoney, bondName)
                             if q:
-                                print('채권:', q, '개 매매')
+                                printG('채권:', q, '개 매매')
                                 buyMoney = st.getValue(current, bondName)
                                 wallet.buy(bondName, q, buyMoney)
                                 restMoney -= buyMoney * q
@@ -198,6 +225,7 @@ while endDate > current:
             ratio = latelyPrice / stock['money']
             idx = np.argmin(np.abs(parValues - ratio))
             stock['quantity'] = int(stock['quantity']/parValues[idx])
+            stock['ratio'] = ratio
 
         stock['money'] = latelyPrice
         
@@ -211,7 +239,7 @@ while endDate > current:
     current = nextDay
     money = stockMoney + restMoney
     moneySum.loc[current] = money
-    print(current, money, stockMoney, restMoney)
+    printG(current, money, stockMoney, restMoney)
 # In[4]: look
 # moneySum
 # In[3]: 통계
@@ -224,7 +252,7 @@ portfolio = moneySum / 10000000
 투자기간 = portfolio.index[-1].year - portfolio.index[0].year
 e = pd.date_range(start=portfolio.index[0],end=portfolio.index[-1] + pd.Timedelta(1, unit='D'), freq=pd.DateOffset(years=1))
 d = [ portfolio.index.get_loc(date, method='nearest')for date in e]
-print(portfolio[d]/portfolio[d].shift(1))
+printG(portfolio[d]/portfolio[d].shift(1))
 # print((portfolio[d]**(1/12))*100-100)
 # print((portfolio/portfolio.shift(1)).sum()/len(portfolio.index))
 # print(portfolio[-1]/portfolio.std())
@@ -232,10 +260,10 @@ print(portfolio[d]/portfolio[d].shift(1))
 
 m = pd.date_range(start=portfolio.index[0],end=portfolio.index[-1] + pd.Timedelta(1, unit='D'), freq='M')
 
-print('연평균 수익률',((portfolio[-1]**(1/(2019-2008)))*100-100))
+printG('연평균 수익률',((portfolio[-1]**(1/(2019-2008)))*100-100))
 
-print('최대 하락률',((portfolio[m] - portfolio[m].shift(1))/portfolio[m].shift(1)*100).min())
-print('최대 상승률',((portfolio[m] - portfolio[m].shift(1))/portfolio[m].shift(1)*100).max())
+printG('최대 하락률',((portfolio[m] - portfolio[m].shift(1))/portfolio[m].shift(1)*100).min())
+printG('최대 상승률',((portfolio[m] - portfolio[m].shift(1))/portfolio[m].shift(1)*100).max())
 
 # In[4]: 그래프
 import matplotlib.font_manager as fm
@@ -251,7 +279,7 @@ choosedDf = moneySum
 choosedDf = choosedDf.fillna(method='bfill').fillna(method='ffill')
 # print(choosedDf)
 jisuDf = choosedDf / choosedDf.iloc[0]
-print(jisuDf)
+printG(jisuDf)
 plot = jisuDf.plot(figsize = (18,12), fontsize=12)
 fontProp = fm.FontProperties(fname=path, size=18)
 plot.legend(prop=fontProp)

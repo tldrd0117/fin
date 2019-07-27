@@ -1,3 +1,4 @@
+# In[0]
 from keras.models import Sequential # 케라스의 Sequential()을 임포트
 from keras.layers import Dense, Dropout # 케라스의 Dense()를 임포트
 from keras import optimizers # 케라스의 옵티마이저를 임포트
@@ -19,9 +20,9 @@ for year in range(2007,2019):
     allList = ['yield'] + targetList
     df = df[allList]
     for target in targetList:
-        mean = df[target].mean()
-        std = df[target].std()
-        df[target] = (df[target] - mean)/std
+        # mean = df[target].mean()
+        # std = df[target].std()
+        # df[target] = (df[target] - mean)/std
         X = np.hstack([X.reshape(-1), df[target].values.reshape(-1)])
     y = np.hstack([y.reshape(-1),df['yield'].values.reshape(-1)])
     # X=np.array([df[targetList].values/length]).reshape(-1,factorLen)
@@ -35,20 +36,17 @@ y[np.isnan(y)] = 0
 # y=targetdf.values.flatten() # 각 공부하는 시간에 맵핑되는 성적
 print(X)
 print(y)
+# In[1]:
+# X[0][1]
+# print(X)
+# print(X - X.mean(axis=0))
+np.set_printoptions(suppress=True)
+factors = ['per', 'pcr', 'pbr', 'roe', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률']
+arr = (((X - X.mean(axis=0))*(y-y.mean(axis=0))).sum(axis=0)/len(X))
+print(arr)
+for i in arr.argsort():
+    print(factors[i])
+# 8
 
-model=Sequential()
-# model.add(Dropout(0.8, input_shape=(factorLen,)))
-model.add(Dense(1, input_shape=(factorLen,), activation='linear', use_bias=False))
-sgd=optimizers.SGD(lr=0.00001)
-# 학습률(learning rate, lr)은 0.01로 합니다.
-model.compile(optimizer=sgd ,loss='mse',metrics=['mse'])
-# 옵티마이저는 경사하강법의 일종인 확률적 경사 하강법 sgd를 사용합니다.
-# 손실 함수(Loss function)은 평균제곱오차 mse를 사용합니다.
-model.summary()
-model.fit(X,y, batch_size=1, epochs=50, shuffle=True)
 
-for layer in model.layers: print(layer.get_weights())
-
-import matplotlib.pyplot as plt
-plt.plot(X, model.predict(X), 'b', X,y, 'k.')
-plt.show()
+#%%
