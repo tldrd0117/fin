@@ -1,3 +1,4 @@
+# coding=UTF-8
 # In[0]:
 from simulator.Shares import Shares
 from simulator.StockLoader import StockLoader
@@ -130,9 +131,10 @@ while endDate > current:
         # target = ss.getFactorLists(current, topdf[target], factordf, factors, 20, weights)
         # target = ss.getRiseMeanList(current, topdf[target], 500, 0)
         target = ss.getFactorList(current, topdf[target], factordf, 'roe', False, 3000, minVal=0)
-        # target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=int(len(target)/2), maxVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', True, 1000, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', True, 1000, minVal=0)
+        target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=int(len(target)/2), minVal=0)
+        
         target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
         # target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
         target = ss.getFactorList(current, topdf[target], factordf, 'per', True, 30)
@@ -143,7 +145,7 @@ while endDate > current:
         # target = ss.getRsi30perList(current, topdf[target], 30)
 
         printG(target)
-        moneyRate = 1 / 10
+        moneyRate = 1 / 30
         results = []
         currentStr = current.strftime(format='%Y-%m-%d')
         nextStr = nextInvestDay.strftime(format='%Y-%m-%d')
@@ -177,7 +179,7 @@ while endDate > current:
         isLosscut = st.losscut(stock['code'], current, buyDate)
         if isLosscut and stock['code'] not in losscutTarget:
             losscutTarget.append(stock['code'])
-            if len(losscutTarget) >= 8:
+            if len(losscutTarget) >= 15:
                 printG('손절갯수:', len(losscutTarget))
                 for lossTarget in losscutTarget:
                     if lossTarget not in alreadyCut:
