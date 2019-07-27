@@ -79179,3 +79179,7 @@ dtype: float64
 2019-04-30    13.910628
 2019-05-01    13.945654
 Length: 4017, dtype: float64
+ERROR:root:Invalid alias: The name clear can't be aliased because it is another magic command.
+ERROR:root:Invalid alias: The name more can't be aliased because it is another magic command.
+ERROR:root:Invalid alias: The name less can't be aliased because it is another magic command.
+ERROR:root:Invalid alias: The name man can't be aliased because it is another magic command.

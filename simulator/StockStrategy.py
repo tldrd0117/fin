@@ -45,7 +45,7 @@ class StockStrategy:
         altmanZ = 1.2 * x1 + 1.4 * x2 + 3.3 * x3 + 0.6 * x4 + 0.999 * x5
         return list(altmanZ[altmanZ >= 1.81].index)
     
-    def getMomentumList(self, current, targetdf, mNum, mUnit, limit, minVal=-1):
+    def getMomentumList(self, current, targetdf, mNum, mUnit, limit, minVal=-100, maxVal=100):
         mdf = targetdf.resample('M').mean()
         beforeMomentumDate = current + pd.Timedelta(-mNum, unit=mUnit)
         start = mdf.index.get_loc(beforeMomentumDate, method='nearest')
@@ -61,6 +61,7 @@ class StockStrategy:
         momentumScore = pd.DataFrame(momentumValues, momentum.index, momentum.columns)
         # momentumScore = momentumScore.query('')
         momentumScore = momentumScore[momentumScore >= minVal]
+        momentumScore = momentumScore[momentumScore <= maxVal]
         
         return list(momentumScore.mean().sort_values(ascending=False).head(limit).index)
     

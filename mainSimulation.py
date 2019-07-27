@@ -11,7 +11,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
-logging.basicConfig(filename='myapp.log', level=logging.INFO, format='%(message)s')
+logging.basicConfig(filename='myapp2.log', level=logging.INFO, format='%(message)s')
     
 def printG(*msg):
     joint = ' '.join(list(map(lambda x : str(x), msg)))
@@ -122,25 +122,28 @@ while endDate > current:
         restMoney = money
         #한달마다 주식 변경
         nextInvestDay = current + pd.Timedelta(1, unit='M')
+        #15일마다 주식 변경
+        # nextInvestDay = current + pd.Timedelta(15, unit='d')
         target = list(topdf.columns)
         target = ss.filterAltmanZScore(current, topdf[target], factordf, topcap )
         printG('altman', len(target))
-        # target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=1000, minVal=0)
         # target = ss.getFactorLists(current, topdf[target], factordf, factors, 20, weights)
         # target = ss.getRiseMeanList(current, topdf[target], 500, 0)
-        target = ss.getFactorList(current, topdf[target], factordf, 'roe', False, 1000, minVal=10, maxVal=50)
-        target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', False, 1000, minVal=0)
-        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', False, 1000, minVal=0)
+        target = ss.getFactorList(current, topdf[target], factordf, 'roe', False, 3000, minVal=0)
+        # target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=int(len(target)/2), maxVal=0)
+        target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', True, 1000, minVal=0)
+        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', True, 1000, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
-        # target = ss.getFactorList(current, topdf[target], factordf, 'psr', True, 10)
         # target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
         target = ss.getFactorList(current, topdf[target], factordf, 'per', True, 30)
+        # target = ss.getFactorList(current, topdf[target], factordf, 'psr', True, 1)
+
         # target = ss.getFactorList(current, topdf[target], factordf, '당기순이익', True, 200)
         # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름', False, 30, minVal=0.000001)
         # target = ss.getRsi30perList(current, topdf[target], 30)
 
         printG(target)
-        moneyRate = 1 / 30
+        moneyRate = 1 / 10
         results = []
         currentStr = current.strftime(format='%Y-%m-%d')
         nextStr = nextInvestDay.strftime(format='%Y-%m-%d')
@@ -174,7 +177,7 @@ while endDate > current:
         isLosscut = st.losscut(stock['code'], current, buyDate)
         if isLosscut and stock['code'] not in losscutTarget:
             losscutTarget.append(stock['code'])
-            if len(losscutTarget) >= 15:
+            if len(losscutTarget) >= 8:
                 printG('손절갯수:', len(losscutTarget))
                 for lossTarget in losscutTarget:
                     if lossTarget not in alreadyCut:
