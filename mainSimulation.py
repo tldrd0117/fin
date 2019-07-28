@@ -79,6 +79,7 @@ money = 10000000
 moneySum = pd.Series()
 wallet = Wallet.create()
 nextInvestDay = current
+nextYearDay = current
 moneyOrder = []
 losscutTarget = []
 alreadyCut = []
@@ -99,8 +100,12 @@ factors = ['per', 'pcr', 'pbr', 'roe', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 
 weights = {'per': 1.63437670e+05, 'pcr':-1.51993291e+05, 'pbr':3.01448559e+05, 'roe':3.33162663e+03, 'psr':0, 'roic':0, 'eps':0, 'ebit':-4.57452298e+04, 'ev_ebit':0, 'ev_sales':-2.20027105e+01, 'ev_ebitda':1.24530671e+04, '당기순이익률':0, '영업이익률':0, '매출총이익률':-9.64486095e+04, '배당수익률':-4.84420386e+04}
 
 investigation = []
+blackList = []
 
 while endDate > current:
+    if nextYearDay <= current:
+        nextYearDay = current + pd.Timedelta(1, unit='Y')
+
     if nextInvestDay <= current:
         for pair in investigation:
             if pair['code'] in alreadyCut:
@@ -116,6 +121,10 @@ while endDate > current:
             printG('####################################')
             for factor in allfactors:
                 printG(factor,':',ss.getFactor(current, factordf, factor, pair['code']))
+            # if lastMoney/(pair['price']*ratio) <= 0.8:
+                # blackList.append(pair['code'])
+        printG('blackList', blackList)
+        
         investigation = []
         wallet.clear()
         buyDate = current
@@ -126,14 +135,17 @@ while endDate > current:
         #15일마다 주식 변경
         # nextInvestDay = current + pd.Timedelta(15, unit='d')
         target = list(topdf.columns)
+        if len(blackList) > 0:
+            target = list(filter(lambda x : x not in blackList, target ))
         target = ss.filterAltmanZScore(current, topdf[target], factordf, topcap )
         printG('altman', len(target))
         # target = ss.getFactorLists(current, topdf[target], factordf, factors, 20, weights)
         # target = ss.getRiseMeanList(current, topdf[target], 500, 0)
-        target = ss.getFactorList(current, topdf[target], factordf, 'roe', False, 3000, minVal=0)
+        # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 3000, minVal=100)
+        target = ss.getFactorList(current, topdf[target], factordf, 'roe', False, 3000, minVal=20)
         target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', True, 1000, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', True, 1000, minVal=0)
-        target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=int(len(target)/2), minVal=0)
+        # target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=int(len(target)/2), minVal=0)
         
         target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
         # target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
@@ -174,6 +186,14 @@ while endDate > current:
 
         losscutTarget = []
         alreadyCut = []
+        blackList = []
+
+    # #blacklist
+    # for stock in wallet.getAllStock():
+    #     isLosscut = st.losscutScalar(stock['code'], current, buyDate, 0.75)
+    #     if isLosscut:
+    #         blackList.append(stock['code'])
+    #         printG('blackList', blackList)
     #손절
     for stock in wallet.getAllStock():
         isLosscut = st.losscut(stock['code'], current, buyDate)

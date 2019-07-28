@@ -37,6 +37,7 @@ class StockTransaction:
         target = self.topdf[code]
         currentloc = self.topdf.index.get_loc(current, method='ffill')
         before = current + pd.Timedelta(-1, unit='M')
+        # before = current + pd.Timedelta(-90, unit='D')
         beforeloc = self.topdf.index.get_loc(before, method='ffill')
         beforedf = target.iloc[beforeloc:currentloc]
         return 1 - (((beforedf.max() - beforedf.min()) / beforedf.mean())*0.5)
@@ -50,6 +51,17 @@ class StockTransaction:
         beforeValue = self.topdf.iloc[beforeIndex][code]
         yieRate = 1 + (stockValue - beforeValue)/beforeValue
         cutRate = self.calculateLosscutRate(code, self.topdf.index[currentIndex])
+        return yieRate < cutRate
+    
+    def losscutScalar(self, code, current, buyDate, cutRate):
+        currentIndex = self.topdf.index.get_loc(current, method='ffill')
+        beforeIndex = self.topdf.index.get_loc(buyDate, method='ffill')
+        if beforeIndex < 0:
+            return False
+        stockValue = self.topdf.iloc[currentIndex][code]
+        beforeValue = self.topdf.iloc[beforeIndex][code]
+        yieRate = 1 + (stockValue - beforeValue)/beforeValue
+        # cutRate = self.calculateLosscutRate(code, self.topdf.index[currentIndex])
         return yieRate < cutRate
     
     def losscutMeanVal(self, code, current, targetdf):
