@@ -10,7 +10,7 @@ from crawler.naver.NavarSearchCodeCrawler import NavarSearchCodeCrawler
 from crawler.naver.NaverCrawler import NaverCrawler
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
 
-
+pd.set_option('display.float_format', None)
 class StockLoader:
     @staticmethod
     def create():

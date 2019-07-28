@@ -115,7 +115,7 @@ class StockStrategy:
         return list(mdf.sort_values(ascending=False).head(limit).index)
         
 
-    def getFactorList(self, current, targetdf, factordf, factor, ascending, num, minVal=-10000000, maxVal=10000000):
+    def getFactorList(self, current, targetdf, factordf, factor, ascending, num, minVal=float('-inf'), maxVal=float('inf')):
         # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
         yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
         # print(factordf[factor])

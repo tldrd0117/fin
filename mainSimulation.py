@@ -13,7 +13,8 @@ from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
 logging.basicConfig(filename='myapp2.log', level=logging.INFO, format='%(message)s')
-    
+pd.set_option('display.float_format', None)
+np.set_printoptions(suppress=True)
 def printG(*msg):
     joint = ' '.join(list(map(lambda x : str(x), msg)))
     print(joint)
@@ -67,7 +68,6 @@ if not one:
         factordf[key] = toNumeric(factordf[key])
 one = True
 # In[3]:
-
 # In[2]:
 ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
@@ -142,14 +142,18 @@ while endDate > current:
         # target = ss.getFactorLists(current, topdf[target], factordf, factors, 20, weights)
         # target = ss.getRiseMeanList(current, topdf[target], 500, 0)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 3000, minVal=100)
-        target = ss.getFactorList(current, topdf[target], factordf, 'roe', False, 3000, minVal=20)
-        target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', True, 1000, minVal=0)
-        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', True, 1000, minVal=0)
+        target = ss.getFactorList(current, topdf[target], factordf, 'roe', False, 3000, minVal=0)
+        # target = ss.getFactorList(current, topdf[target], factordf, 'per', True, int(len(target)/2))
+        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', False, 3000, minVal=0)
+        target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', False, 3000, minVal=0)
+
         # target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=int(len(target)/2), minVal=0)
         
-        target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
+        target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 200, minVal=0)
+        target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름', False, 30, minVal=0)
+
         # target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
-        target = ss.getFactorList(current, topdf[target], factordf, 'per', True, 30)
+        # target = ss.getFactorList(current, topdf[target], factordf, 'per', True, 30)
         # target = ss.getFactorList(current, topdf[target], factordf, 'psr', True, 1)
 
         # target = ss.getFactorList(current, topdf[target], factordf, '당기순이익', True, 200)
