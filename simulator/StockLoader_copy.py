@@ -78,11 +78,11 @@ class StockLoader:
         targetShares = {}
         for index, row  in topcap.iterrows():
             targetShares[row['Code']] = row['Name']
-        topcapdf = self.loadStockFromDict(self.makeName('SHARETOPCAP', beforeStr='2006-01-01', endDateStr='2019-12-31'), targetShares, '2005-12-31', '2019-12-31')
+        topcapdf = self.loadStockFromDict(self.makeName('SHARETOPCAP', beforeStr='2006-01-01', endDateStr='2019-07-29'), targetShares, '2005-12-31', '2019-07-29')
         self.filterETF()
-        etfdf = self.loadStockFromArr(self.makeName('ETF2', beforeStr='2006-12-31', endDateStr='2019-12-31'), self.KODEX + self.TIGER + self.KOSEF, '2006-12-31', '2019-12-31')
+        etfdf = self.loadStockFromArr(self.makeName('ETF2', beforeStr='2006-12-31', endDateStr='2019-12-31'), self.KODEX + self.TIGER + self.KOSEF, '2006-12-31', '2019-07-29')
         etfdf.index = etfdf.index.map(lambda dt: pd.to_datetime(dt.date()))
-        topdf = pd.concat([etfdf,topcapdf], sort=False, axis=1)
+        topdf = pd.concat([etfdf,topcapdf['close']], sort=False, axis=1)
 
         return topdf, topcap
 
@@ -147,7 +147,11 @@ class StockLoader:
 
     
     def loadStockFromDict(self, name, targets, beforeStr, endStr):
-        prices = dict()
+        close = dict()
+        open_ = dict()
+        high = dict()
+        low = dict()
+        volume = dict()
         if not os.path.isfile(name):
             date = NaverDate.create(startDate=beforeStr, endDate=endStr)
             progress = 0
@@ -157,14 +161,26 @@ class StockLoader:
                 crawler = NaverStockCrawler.create(key)
                 data = crawler.crawling(date)
 
-                prices[targets[key]] = { pd.to_datetime(item.date, format='%Y-%m-%d') : item.close for item in data }
+                close[key] = { pd.to_datetime(item.date, format='%Y-%m-%d') : item.close for item in data }
+                open_[key] = { pd.to_datetime(item.date, format='%Y-%m-%d') : item.open for item in data }
+                high[key] = { pd.to_datetime(item.date, format='%Y-%m-%d') : item.high for item in data }
+                low[key] = { pd.to_datetime(item.date, format='%Y-%m-%d') : item.low for item in data }
+                volume[key] = { pd.to_datetime(item.date, format='%Y-%m-%d') : item.volume for item in data }
                 progress+=1
-
-            topdf = pd.DataFrame(prices)
-            topdf.to_hdf(name, key='df', mode='w')
+            topdf = {'close': pd.DataFrame(close), 'open': pd.DataFrame(open_), 'high': pd.DataFrame(high), 'low': pd.DataFrame(low), 'volume': pd.DataFrame(volume)}
+            topdf['close'].to_hdf(name, key='df', mode='w')
+            topdf['open'].to_hdf('open_'+name, key='df', mode='w')
+            topdf['high'].to_hdf('high_'+name, key='df', mode='w')
+            topdf['low'].to_hdf('low_'+name, key='df', mode='w')
+            topdf['volume'].to_hdf('volume_'+name, key='df', mode='w')
         else:
             print(name, 'read...')
-            topdf = pd.read_hdf(name, key='df')
+            close = pd.read_hdf(name, key='df')
+            open_ = pd.read_hdf('open_'+name, key='df')
+            high = pd.read_hdf('high_'+name, key='df')
+            low = pd.read_hdf('low_'+name, key='df')
+            volume = pd.read_hdf('volume_'+name, key='df')
+            topdf = {'close': close, 'open': open_, 'high': high, 'low': low, 'volume': volume}
         return topdf
     
     def loadStockFromArr(self, name, targets, beforeStr, endStr):

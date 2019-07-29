@@ -12,7 +12,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
-logging.basicConfig(handlers=[logging.FileHandler('myapp4.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
+logging.basicConfig(handlers=[logging.FileHandler('simulation.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
 pd.set_option('display.float_format', None)
 np.set_printoptions(suppress=True)
 def printG(*msg):
@@ -143,13 +143,16 @@ while endDate > current:
         # target = ss.getRiseMeanList(current, topdf[target], 500, 0)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 3000, minVal=100)
         target = ss.getFactorList(current, topdf[target], factordf, 'roe', False, 3000, minVal=0)
-        target = ss.getFactorList(current, topdf[target], factordf, 'per', True, int(len(target)/2), minVal=0)
+        target = ss.getFactorList(current, topdf[target], factordf, 'roic', False, 3000, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', True, 1000, minVal=0)
-
-        # target = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=int(len(target)/2), minVal=0)
-        
+        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', True, 1000, minVal=0)
+        target = ss.getFactorList(current, topdf[target], factordf, '매출총이익률', True, 1000, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
-        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', True, 30, minVal=0)
+        target = ss.getFactorList(current, topdf[target], factordf, 'ev_ebitda', True, 30)
+
+        # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, int(len(target)*4/5))
+        # target = ss.getFactorList(current, topdf[target], factordf, 'per', False, int(len(target)*4/5))
+        # target = ss.getFactorList(current, topdf[target], factordf, 'pbr', False, 30)
 
         # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름', False, 30)
 
