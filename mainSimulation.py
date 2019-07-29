@@ -142,13 +142,14 @@ while endDate > current:
         # target = ss.getFactorLists(current, topdf[target], factordf, factors, 20, weights)
         # target = ss.getRiseMeanList(current, topdf[target], 500, 0)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 3000, minVal=100)
+        #roe 0 => 저 per반 => 영업수익률 1000 => pcr 50 => 당기순수익률 30  
         target = ss.getFactorList(current, topdf[target], factordf, 'roe', False, 3000, minVal=0)
-        target = ss.getFactorList(current, topdf[target], factordf, 'roic', False, 3000, minVal=0)
+        target = ss.getFactorList(current, topdf[target], factordf, 'per', True, int(len(target)/2), minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', True, 1000, minVal=0)
-        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', True, 1000, minVal=0)
-        target = ss.getFactorList(current, topdf[target], factordf, '매출총이익률', True, 1000, minVal=0)
-        target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
-        target = ss.getFactorList(current, topdf[target], factordf, 'ev_ebitda', True, 30)
+        target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50, minVal=0)
+        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', True, 30, minVal=0)
+
+        # target = ss.getFactorList(current, topdf[target], factordf, 'ev_ebitda', True, 30)
 
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, int(len(target)*4/5))
         # target = ss.getFactorList(current, topdf[target], factordf, 'per', False, int(len(target)*4/5))
