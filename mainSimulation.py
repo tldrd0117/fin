@@ -18,7 +18,7 @@ np.set_printoptions(suppress=True)
 def printG(*msg):
     joint = ' '.join(list(map(lambda x : str(x), msg)))
     print(joint)
-    # logging.info(joint)
+    logging.info(joint)
 
 
 # In[1]:
