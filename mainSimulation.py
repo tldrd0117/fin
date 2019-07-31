@@ -27,8 +27,8 @@ def printG(*msg):
 sl = StockLoader.create()
 topdf, topcap = sl.loadTopDf()
 factordf = sl.loadFactor()
-
-
+intersect = list(set(topdf.columns) & set(topcap['Name'].values)) + ['KOSEF 국고채10년레버리지']
+topdf = topdf[intersect]
 # salesdf = factordf['영업활동으로인한현금흐름']
 # compdf = salesdf.shift(-1, axis=1)
 # compdf['종목명'] = np.nan
@@ -47,6 +47,8 @@ factordf = sl.loadFactor()
 # targetdf['종목명'] = yielddf['종목명']
 # factordf['당기순이익증가율'] = targetdf
 one = None
+# In[222]:
+
 # In[232]:
 def isNumber(val):
     return isinstance(val, (int, float, complex))
@@ -101,6 +103,7 @@ weights = {'per': 1.63437670e+05, 'pcr':-1.51993291e+05, 'pbr':3.01448559e+05, '
 
 investigation = []
 blackList = []
+rebalanceRate = 0
 
 while endDate > current:
     if nextYearDay <= current:
@@ -108,8 +111,8 @@ while endDate > current:
 
     if nextInvestDay <= current:
         for pair in investigation:
-            if pair['code'] in alreadyCut:
-                continue
+            # if pair['code'] in alreadyCut:
+            #     continue
             lastMoney = wallet.getStockLastMoney(pair['code'])
             if not lastMoney:
                 printG(pair['code'], 'notExist')
@@ -129,7 +132,8 @@ while endDate > current:
         wallet.clear()
         buyDate = current
         stockMoney = 0
-        restMoney = money
+        restMoney = int(money * (1 - rebalanceRate))
+        rebalaceMoney = int(money * rebalanceRate)
         #한달마다 주식 변경
         nextInvestDay = current + pd.Timedelta(1, unit='M')
         #15일마다 주식 변경
@@ -172,9 +176,10 @@ while endDate > current:
         results = []
         currentStr = current.strftime(format='%Y-%m-%d')
         nextStr = nextInvestDay.strftime(format='%Y-%m-%d')
+        beforeMoney = restMoney
         for stockName in target:
             investigation.append({'code':stockName, 'price':st.getValue(current, stockName)})
-            investMoney = money * moneyRate
+            investMoney = beforeMoney * moneyRate
             q = st.possibleQuantity(current, investMoney, stockName)
             if not q:
                 continue
@@ -189,6 +194,7 @@ while endDate > current:
         bondName = 'KOSEF 국고채10년레버리지'
         q=st.possibleQuantity(current, restMoney, bondName)
         if q:
+            investigation.append({'code':bondName, 'price':st.getValue(current, bondName)})
             printG('채권:', q, '개 매매')
             buyMoney = st.getValue(current, bondName)
             wallet.buy(bondName, q, buyMoney)
@@ -205,6 +211,25 @@ while endDate > current:
     #     if isLosscut:
     #         blackList.append(stock['code'])
     #         printG('blackList', blackList)
+    #인버스
+    # for stock in wallet.getAllStock():
+    #     isLosscut = st.losscut(stock['code'], current, buyDate)
+    #     if isLosscut and stock['code'] not in losscutTarget:
+    #         losscutTarget.append(stock['code'])
+    #         if len(losscutTarget) >= 15: 
+    #             printG('물타기갯수:', len(losscutTarget))
+    #             for lossTarget in losscutTarget:
+    #                 if lossTarget not in alreadyCut:
+    #                     bondName = lossTarget
+    #                     sailingMoney = rebalaceMoney/15
+    #                     q=st.possibleQuantity(current, sailingMoney, bondName)
+    #                     if q:
+    #                         alreadyCut.append(lossTarget)
+    #                         investigation.append({'code':bondName, 'price':st.getValue(current, bondName)})
+    #                         printG('물타기 '+lossTarget+':', q, '개 매매')
+    #                         buyMoney = st.getValue(current, bondName)
+    #                         wallet.buy(bondName, q, buyMoney)
+    #                         rebalaceMoney -= buyMoney * q
     #손절
     for stock in wallet.getAllStock():
         isLosscut = st.losscut(stock['code'], current, buyDate)
@@ -273,9 +298,9 @@ while endDate > current:
     nextDay = current + pd.Timedelta(1, unit='D')
 
     current = nextDay
-    money = stockMoney + restMoney
+    money = stockMoney + restMoney + rebalaceMoney
     moneySum.loc[current] = money
-    printG(current, money, stockMoney, restMoney)
+    printG(current, money, stockMoney, restMoney, rebalaceMoney)
 # In[4]: look
 # moneySum
 # In[3]: 통계
