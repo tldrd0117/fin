@@ -104,10 +104,14 @@ weights = {'per': 1.63437670e+05, 'pcr':-1.51993291e+05, 'pbr':3.01448559e+05, '
 investigation = []
 blackList = []
 rebalanceRate = 0
+momentumList = []
 
 while endDate > current:
     if nextYearDay <= current:
         nextYearDay = current + pd.Timedelta(1, unit='Y')
+        if len(momentumList) > 0:
+            printG('momentumSumTotal',sum(momentumList), sum(momentumList)/len(momentumList))
+        momentumList = []
 
     if nextInvestDay <= current:
         for pair in investigation:
@@ -152,7 +156,12 @@ while endDate > current:
         target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', True, 1000, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', True, 30, minVal=0)
-
+        beforeTarget = target
+        target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0)
+        printG('momentumSum', momentumSum)
+        momentumList.append(momentumSum)
+        # if momentumSum <= 5:
+            # target = beforeTarget
         # target = ss.getFactorList(current, topdf[target], factordf, 'ev_ebitda', True, 30)
 
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, int(len(target)*4/5))
@@ -172,7 +181,10 @@ while endDate > current:
         # target = ss.getRsi30perList(current, topdf[target], 30)
 
         printG(target)
-        moneyRate = 1 / len(target)
+        if len(target) <= 0:
+            moneyRate = 0
+        else:
+            moneyRate = 1 / len(target)
         results = []
         currentStr = current.strftime(format='%Y-%m-%d')
         nextStr = nextInvestDay.strftime(format='%Y-%m-%d')

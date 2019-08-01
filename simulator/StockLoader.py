@@ -74,7 +74,7 @@ class StockLoader:
 
     def loadTopDf(self):
         topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
-        topcap = topcap[topcap['Marcap']>=500000000000]
+        # topcap = topcap[topcap['Marcap']>=500000000000]
         #시가
         targetShares = {}
         for index, row  in topcap.iterrows():

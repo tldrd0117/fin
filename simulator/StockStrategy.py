@@ -45,7 +45,7 @@ class StockStrategy:
         altmanZ = 1.2 * x1 + 1.4 * x2 + 3.3 * x3 + 0.6 * x4 + 0.999 * x5
         return list(altmanZ[altmanZ >= 1.81].index)
     
-    def getMomentumList(self, current, targetdf, mNum, mUnit, limit, minVal=-100, maxVal=100):
+    def getMomentumScore(self, current, targetdf, mNum, mUnit):
         mdf = targetdf.resample('M').mean()
         beforeMomentumDate = current + pd.Timedelta(-mNum, unit=mUnit)
         start = mdf.index.get_loc(beforeMomentumDate, method='nearest')
@@ -59,11 +59,32 @@ class StockStrategy:
         momentumValues[momentumValues>0] = 1
         momentumValues[momentumValues<=0] = 0
         momentumScore = pd.DataFrame(momentumValues, momentum.index, momentum.columns)
+        return momentumScore
+    
+    def getMinusMomentumScore(self, current, targetdf, mNum, mUnit):
+        mdf = targetdf.resample('M').mean()
+        beforeMomentumDate = current + pd.Timedelta(-mNum, unit=mUnit)
+        start = mdf.index.get_loc(beforeMomentumDate, method='nearest')
+        end = mdf.index.get_loc(current, method='nearest')
+        
+        oneYearDf = mdf.iloc[start:end+1]
+        latelyValue = oneYearDf.iloc[-1]
+        momentum = pd.DataFrame(latelyValue.values - oneYearDf.values, oneYearDf.index, oneYearDf.columns)
+        # momentumScore = momentum.applymap(lambda val: 1 if val > 0 else 0 )
+        momentumValues = momentum.values
+        momentumValues[momentumValues>0] = 1
+        momentumValues[momentumValues<=0] = -1
+        momentumScore = pd.DataFrame(momentumValues, momentum.index, momentum.columns)
+        return momentumScore.mean(axis=0)
+    
+    def getMomentumList(self, current, targetdf, mNum, mUnit, limit, minVal=-100, maxVal=100):
+        momentumScore = self.getMinusMomentumScore(current, targetdf, mNum, mUnit)
         # momentumScore = momentumScore.query('')
         momentumScore = momentumScore[momentumScore >= minVal]
         momentumScore = momentumScore[momentumScore <= maxVal]
+        sixMonthMomentumScore = self.getMinusMomentumScore(current, targetdf, 6, 'M')
         
-        return list(momentumScore.mean().sort_values(ascending=False).head(limit).index)
+        return list(momentumScore.sort_values(ascending=False).head(limit).index), sixMonthMomentumScore.sum()
     
     def getRsi30perList(self, current, targetdf, limit, minVal=0):
         raiseDf = targetdf - targetdf.shift(1)
