@@ -159,6 +159,8 @@ while endDate > current:
         beforeTarget = target
         target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0)
         printG('momentumSum', momentumSum)
+        if abs(momentumSum) <= 10:
+            target = beforeTarget
         momentumList.append(momentumSum)
         # if momentumSum <= 5:
             # target = beforeTarget
