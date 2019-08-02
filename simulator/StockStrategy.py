@@ -86,6 +86,12 @@ class StockStrategy:
         
         return list(momentumScore.sort_values(ascending=False).head(limit).index), sixMonthMomentumScore.sum()
     
+    def isUnemployedYear(self, year):
+        unemployedNum = [77.6, 89.4, 92.4, 86.3, 82.6, 80.8, 93.9, 97.6, 100.9, 102.3, 107.3, 122.4]
+        idx = list(range(2008, 2020)).index(year)
+        unemployedMean = sum(unemployedNum)/len(unemployedNum)
+        return unemployedNum[idx] > unemployedMean
+
     def getRsi30perList(self, current, targetdf, limit, minVal=0):
         raiseDf = targetdf - targetdf.shift(1)
         beforebeforeOneMonth = current + pd.Timedelta(-1, unit='M') + pd.Timedelta(-1, unit='D')

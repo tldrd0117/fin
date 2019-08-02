@@ -27,8 +27,8 @@ def printG(*msg):
 sl = StockLoader.create()
 topdf, topcap = sl.loadTopDf()
 factordf = sl.loadFactor()
-intersect = list(set(topdf.columns) & set(topcap['Name'].values)) + ['KOSEF 국고채10년레버리지']
-topdf = topdf[intersect]
+# intersect = list(set(topdf.columns) & set(topcap['Name'].values)) + ['KOSEF 국고채10년레버리지']
+# topdf = topdf[intersect]
 # salesdf = factordf['영업활동으로인한현금흐름']
 # compdf = salesdf.shift(-1, axis=1)
 # compdf['종목명'] = np.nan
@@ -159,8 +159,11 @@ while endDate > current:
         beforeTarget = target
         target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0)
         printG('momentumSum', momentumSum)
-        if abs(momentumSum) <= 10:
+        if ss.isUnemployedYear(current.year):
+            printG('isUnemployedYear')
             target = beforeTarget
+        # if abs(momentumSum) <= 5:
+            # target = beforeTarget
         momentumList.append(momentumSum)
         # if momentumSum <= 5:
             # target = beforeTarget
