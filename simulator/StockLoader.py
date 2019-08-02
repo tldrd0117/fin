@@ -86,9 +86,23 @@ class StockLoader:
         etfdf = self.loadStockFromArr(self.makeName('ETF2', beforeStr='2006-12-31', endDateStr='2019-12-31'), self.KODEX + self.TIGER + self.KOSEF, '2006-12-31', '2019-12-31')
         etfdf.index = etfdf.index.map(lambda dt: pd.to_datetime(dt.date()))
         topdf = pd.concat([etfdf,topcapdf], sort=False, axis=1)
-
         return topdf, topcap
-
+    
+    def loadCodeName(self):
+        codeName = {}
+        for year in range(2007,2020):
+            kospiCompanyDf = pd.read_excel('finData/시가총액_'+year+'.xlsx',sheet_name='시가총액', skiprows=3, converters={'종목코드':str})
+            kospiCompanyDf = kospiCompanyDf.iloc[1:]
+            for index, row in kospiCompanyDf.iterrows():
+                codeName[row['종목코드']] = row['종목명']
+        return codeName
+    
+    def loadTermTopDf(self, codeName, start, end):
+        name = self.makeName('SHARETOPCAP', beforeStr=start, endDateStr=end)
+        self.filterETF()
+        topcapdf = self.loadStockFromDict(name, codeName, start, end)
+        
+        pass
     def loadStockDf(self):
         with ThreadPoolExecutor(5) as executor:
             future1 = executor.submit(self.load,self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
@@ -101,8 +115,8 @@ class StockLoader:
             domesticTargets = [ {'Code':row['Code'], 'Name':row['Name']} for index, row  in topcap.iterrows()]
             etfTargets = self.KODEX + self.TIGER + self.KOSEF
             stockdf = pd.DataFrame(columns=['날짜','종목명', '종목코드', '종가', '시가', '고가', '저가', '거래량'])
-            domesticName = self.makeName('SHARETOPCAP', beforeStr='2006-01-01', endDateStr='2019-12-31')
-            etfName = self.makeName('ETF2', beforeStr='2006-12-31', endDateStr='2019-12-31')
+            domesticName = self.makeName('SHARETOPCAP3', beforeStr='2006-01-01', endDateStr='2019-12-31')
+            etfName = self.makeName('ETF3', beforeStr='2006-12-31', endDateStr='2019-12-31')
             
             future3 = executor.submit(self.loadStockDataFrame,domesticName, domesticTargets, stockdf, '2006-01-01', '2019-12-31')
             future4 = executor.submit(self.loadStockDataFrame,etfName, etfTargets, stockdf, '2006-01-01', '2019-12-31')
@@ -150,6 +164,27 @@ class StockLoader:
 
     
     def loadStockFromDict(self, name, targets, beforeStr, endStr):
+        prices = dict()
+        if not os.path.isfile(name):
+            date = NaverDate.create(startDate=beforeStr, endDate=endStr)
+            progress = 0
+            compliteLen = len(targets.keys())
+            for key in targets:
+                print(targets[key],'collect...', str(progress),'/',str(compliteLen) ,str(progress/compliteLen)+'%')
+                crawler = NaverStockCrawler.create(key)
+                data = crawler.crawling(date)
+
+                prices[targets[key]] = { pd.to_datetime(item.date, format='%Y-%m-%d') : item.close for item in data }
+                progress+=1
+
+            topdf = pd.DataFrame(prices)
+            topdf.to_hdf(name, key='df', mode='w')
+        else:
+            print(name, 'read...')
+            topdf = pd.read_hdf(name, key='df')
+        return topdf
+
+    def loadStockAllFromDict(self, name, targets, beforeStr, endStr):
         prices = dict()
         if not os.path.isfile(name):
             date = NaverDate.create(startDate=beforeStr, endDate=endStr)
