@@ -116,7 +116,7 @@ class StockLoader:
             etfTargets = self.KODEX + self.TIGER + self.KOSEF
             stockdf = pd.DataFrame(columns=['날짜','종목명', '종목코드', '종가', '시가', '고가', '저가', '거래량'])
             domesticName = self.makeName('SHARETOPCAP3', beforeStr='2006-01-01', endDateStr='2019-12-31')
-            etfName = self.makeName('ETF3', beforeStr='2006-12-31', endDateStr='2019-12-31')
+            etfName = self.makeName('ETF3', beforeStr='2006-01-01', endDateStr='2019-12-31')
             
             future3 = executor.submit(self.loadStockDataFrame,domesticName, domesticTargets, stockdf, '2006-01-01', '2019-12-31')
             future4 = executor.submit(self.loadStockDataFrame,etfName, etfTargets, stockdf, '2006-01-01', '2019-12-31')
