@@ -23,4 +23,6 @@ topdf, topcap = sl.loadStockDf()
 factordf = sl.loadFactor()
 topdf
 
-# In[3]:
+
+
+#%%

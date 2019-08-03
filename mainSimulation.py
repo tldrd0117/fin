@@ -12,7 +12,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
-logging.basicConfig(handlers=[logging.FileHandler('simulation2.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
+logging.basicConfig(handlers=[logging.FileHandler('simulation3.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
 pd.set_option('display.float_format', None)
 np.set_printoptions(suppress=True)
 def printG(*msg):
@@ -27,8 +27,8 @@ def printG(*msg):
 sl = StockLoader.create()
 topdf, topcap = sl.loadTopDf()
 factordf = sl.loadFactor()
-# intersect = list(set(topdf.columns) & set(topcap['Name'].values)) + ['KOSEF 국고채10년레버리지']
-# topdf = topdf[intersect]
+intersect = list(set(topdf.columns) & set(topcap['Name'].values)) + ['KOSEF 국고채10년레버리지']
+topdf = topdf[intersect]
 # salesdf = factordf['영업활동으로인한현금흐름']
 # compdf = salesdf.shift(-1, axis=1)
 # compdf['종목명'] = np.nan
@@ -152,20 +152,27 @@ while endDate > current:
         # target = ss.getRiseMeanList(current, topdf[target], 500, 0)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 3000, minVal=100)
         #roe 0 => 저 per반 => 영업수익률 1000 => pcr 50 => 당기순수익률 30  
-        target = ss.getFactorList(current, topdf[target], factordf, 'roe', False, 3000, minVal=0)
+        if ss.isUnemployedYear(current.year):
+            minRoe = 20
+            maxRoe = 40
+        else:
+            minRoe = 0
+            maxRoe = 10000
+
+        target = ss.getFactorList(current, topdf[target], factordf, 'roe', False, 3000, minVal=minRoe, maxVal=maxRoe)
         target = ss.getFactorList(current, topdf[target], factordf, 'per', True, int(len(target)/2), minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', True, 1000, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', True, 30, minVal=0)
         beforeTarget = target
-        target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0)
-        printG('momentumSum', momentumSum)
+        # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0)
+        # printG('momentumSum', momentumSum)
         if ss.isUnemployedYear(current.year):
             printG('isUnemployedYear')
             target = beforeTarget
         # if abs(momentumSum) <= 5:
             # target = beforeTarget
-        momentumList.append(momentumSum)
+        # momentumList.append(momentumSum)
         # if momentumSum <= 5:
             # target = beforeTarget
         # target = ss.getFactorList(current, topdf[target], factordf, 'ev_ebitda', True, 30)
@@ -194,10 +201,16 @@ while endDate > current:
         results = []
         currentStr = current.strftime(format='%Y-%m-%d')
         nextStr = nextInvestDay.strftime(format='%Y-%m-%d')
-        beforeMoney = restMoney
+
+        readyMoney = restMoney * 1
+        # if ss.isUnemployedYear(current.year):
+        #     readyMoney = restMoney * 0.75
+        # else:
+        #     readyMoney = restMoney * 1
+
         for stockName in target:
             investigation.append({'code':stockName, 'price':st.getValue(current, stockName)})
-            investMoney = beforeMoney * moneyRate
+            investMoney = readyMoney * moneyRate
             q = st.possibleQuantity(current, investMoney, stockName)
             if not q:
                 continue
@@ -253,7 +266,7 @@ while endDate > current:
         isLosscut = st.losscut(stock['code'], current, buyDate)
         if isLosscut and stock['code'] not in losscutTarget:
             losscutTarget.append(stock['code'])
-            if len(losscutTarget) >= 15:
+            if len(losscutTarget) >= 1:#len(target)/2:
                 printG('손절갯수:', len(losscutTarget))
                 for lossTarget in losscutTarget:
                     if lossTarget not in alreadyCut:
