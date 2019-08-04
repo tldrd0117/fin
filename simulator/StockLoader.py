@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import time
+import numpy as np
 
 from crawler.naver.NaverTopMarketCapCrawler import NaverTopMarketCapCrawler
 from crawler.naver.data.NaverDate import NaverDate
@@ -73,12 +74,11 @@ class StockLoader:
 
 
     def loadTopDf(self):
-
         pd.options.display.float_format = '{:.2f}'.format
         topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
         #5천억 500000000000
         #300억 30000000000
-        topcap = topcap[topcap['Marcap']>=500000000000]
+        # topcap = topcap[topcap['Marcap']>=500000000000]
         #시가
         targetShares = {}
         for index, row  in topcap.iterrows():
@@ -88,7 +88,51 @@ class StockLoader:
         etfdf = self.loadStockFromArr(self.makeName('ETF2', beforeStr='2006-12-31', endDateStr='2019-12-31'), self.KODEX + self.TIGER + self.KOSEF, '2006-12-31', '2019-12-31')
         etfdf.index = etfdf.index.map(lambda dt: pd.to_datetime(dt.date()))
         topdf = pd.concat([etfdf,topcapdf], sort=False, axis=1)
-        return topdf, topcap
+        return topdf, topcap, targetShares
+    
+    def loadTopLately(self, start, end):
+        pd.options.display.float_format = '{:.2f}'.format
+        topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
+        #5천억 500000000000
+        #300억 30000000000
+        # topcap = topcap[topcap['Marcap']>=500000000000]
+        #시가
+        targetShares = {}
+        for index, row  in topcap.iterrows():
+            targetShares[row['Code']] = row['Name']
+        topcapdf = self.loadStockFromDict(self.makeName('SHARETOPCAP', beforeStr=start, endDateStr=end), targetShares, start, end)
+        self.filterETF()
+        etfdf = self.loadStockFromArr(self.makeName('ETF2', beforeStr=start, endDateStr=end), self.KODEX + self.TIGER + self.KOSEF, start, end)
+        etfdf.index = etfdf.index.map(lambda dt: pd.to_datetime(dt.date()))
+        topdf = pd.concat([etfdf,topcapdf], sort=False, axis=1)
+        return topdf, topcap, targetShares
+    
+    def loadMarcap(self):
+        marcapdf = self.load('h5data/MARCAP_2006-01-01_2019_05_30.h5')
+        # indexes = list(set(marcapdf.index.values))
+        # columns = list(set(marcapdf['Code'].values))
+        # topdf = pd.DataFrame([], index=indexes, columns=columns)
+        # for idx in indexes:
+        #     for column in columns:
+        #         marcap = marcapdf.loc[idx]
+        #         close = marcap[marcap['Code']==column]['Close'].values
+        #         if len(close) > 0:
+        #             topdf.at[idx, column] = marcap[marcap['Code']==column]['Close'].values[0]
+        #     print(topdf)
+        return marcapdf
+    def loadAmountDf(self):
+        marcapdf = self.load('h5data/MARCAP_2006-01-01_2019_05_30.h5')
+        indexes = list(set(marcapdf.index.values))
+        columns = list(set(marcapdf['Code'].values))
+        topdf = pd.DataFrame([], index=indexes, columns=columns)
+        for idx in indexes:
+            for column in columns:
+                marcap = marcapdf.loc[idx]
+                close = marcap[marcap['Code']==column]['Close'].values
+                if len(close) > 0:
+                    topdf.at[idx, column] = marcap[marcap['Code']==column]['Close'].values[0]
+            print(topdf)
+
     
     def loadCodeName(self):
         codeName = {}

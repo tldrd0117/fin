@@ -91,6 +91,20 @@ class StockStrategy:
         idx = list(range(2008, 2020)).index(year)
         unemployedMean = sum(unemployedNum)/len(unemployedNum)
         return unemployedNum[idx] > unemployedMean
+    
+    def getAmount(self, current, targetdf, sCode, limit):
+        beforebeforeOneMonth = current + pd.Timedelta(-1, unit='M') + pd.Timedelta(-1, unit='D')
+        beforebeforeOneDay = current + pd.Timedelta(-2, unit='D')
+        termdf = targetdf.loc[beforebeforeOneMonth:beforebeforeOneDay]
+        codes = termdf['Code'].values
+        results = []
+        groupMean = termdf['Amount'].groupby(termdf['Code']).mean()
+        for code in codes:
+            if groupMean[code] > limit:
+                if code in sCode.keys():
+                    results.append(sCode[code])
+        return results
+
 
     def getRsi30perList(self, current, targetdf, limit, minVal=0):
         raiseDf = targetdf - targetdf.shift(1)
