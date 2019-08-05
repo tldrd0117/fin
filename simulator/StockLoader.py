@@ -217,7 +217,7 @@ class StockLoader:
             progress = 0
             compliteLen = len(targets.keys())
             for key in targets:
-                print(targets[key],'collect...', str(progress),'/',str(compliteLen) ,str(progress/compliteLen)+'%')
+                print(targets[key],'collect...', str(progress),'/',str(compliteLen) ,str(progress/compliteLen*100)+'%')
                 crawler = NaverStockCrawler.create(key)
                 data = crawler.crawling(date)
 

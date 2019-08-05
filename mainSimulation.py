@@ -26,7 +26,11 @@ def printG(*msg):
 
 sl = StockLoader.create()
 topdf, topcap, sCode = sl.loadTopDf()
-marcapdf = sl.loadMarcap()
+topdf2, topcap2, sCode2 = sl.loadTopLately('2019-05-01','2019-08-04')
+topdf3, topcap3, sCode3 = sl.loadTopLately('2019-08-05','2019-08-05')
+topdf = pd.concat([topdf, topdf2, topdf3])
+topdf = topdf[~topdf.index.duplicated(keep='first')]
+# marcapdf = sl.loadMarcap()
 factordf = sl.loadFactor()
 # intersect = list(set(topdf.columns) & set(topcap['Name'].values)) + ['KOSEF 국고채10년레버리지']
 # topdf = topdf[intersect]
@@ -76,7 +80,7 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-05-01', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-08-05', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -225,15 +229,15 @@ while endDate > current:
             restMoney -= buyMoney * so.quantity
 
         #채권
-        bondName = 'KOSEF 국고채10년레버리지'
-        q=st.possibleQuantity(current, restMoney, bondName)
-        if q:
-            investigation.append({'code':bondName, 'price':st.getValue(current, bondName)})
-            printG('채권:', q, '개 매매')
-            buyMoney = st.getValue(current, bondName)
-            wallet.buy(bondName, q, buyMoney)
+        # bondName = 'KOSEF 국고채10년레버리지'
+        # q=st.possibleQuantity(current, restMoney, bondName)
+        # if q:
+        #     investigation.append({'code':bondName, 'price':st.getValue(current, bondName)})
+        #     printG('채권:', q, '개 매매')
+        #     buyMoney = st.getValue(current, bondName)
+        #     wallet.buy(bondName, q, buyMoney)
 
-            restMoney -= buyMoney * q
+        #     restMoney -= buyMoney * q
 
         losscutTarget = []
         alreadyCut = []
@@ -264,30 +268,30 @@ while endDate > current:
     #                         wallet.buy(bondName, q, buyMoney)
     #                         rebalaceMoney -= buyMoney * q
     #손절
-    for stock in wallet.getAllStock():
-        isLosscut = st.losscut(stock['code'], current, buyDate)
-        if isLosscut and stock['code'] not in losscutTarget:
-            losscutTarget.append(stock['code'])
-            if len(losscutTarget) >= 15:#len(target)/2:
-                printG('손절갯수:', len(losscutTarget))
-                for lossTarget in losscutTarget:
-                    if lossTarget not in alreadyCut:
-                        alreadyCut.append(lossTarget)
-                        lossStock = wallet.getStock(lossTarget)
-                        stockQuantity = lossStock['quantity']
-                        sellMoney = st.getValue(current, lossTarget)
-                        isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
-                        if isSold:
-                            restMoney += sellMoney * stockQuantity
+    # for stock in wallet.getAllStock():
+    #     isLosscut = st.losscut(stock['code'], current, buyDate)
+    #     if isLosscut and stock['code'] not in losscutTarget:
+    #         losscutTarget.append(stock['code'])
+    #         if len(losscutTarget) >= 15:#len(target)/2:
+    #             printG('손절갯수:', len(losscutTarget))
+    #             for lossTarget in losscutTarget:
+    #                 if lossTarget not in alreadyCut:
+    #                     alreadyCut.append(lossTarget)
+    #                     lossStock = wallet.getStock(lossTarget)
+    #                     stockQuantity = lossStock['quantity']
+    #                     sellMoney = st.getValue(current, lossTarget)
+    #                     isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+    #                     if isSold:
+    #                         restMoney += sellMoney * stockQuantity
                             
-                            #채권 사기
-                            bondName = 'KOSEF 국고채10년레버리지'
-                            q=st.possibleQuantity(current, restMoney, bondName)
-                            if q:
-                                printG('채권:', q, '개 매매')
-                                buyMoney = st.getValue(current, bondName)
-                                wallet.buy(bondName, q, buyMoney)
-                                restMoney -= buyMoney * q
+    #                         #채권 사기
+    #                         bondName = 'KOSEF 국고채10년레버리지'
+    #                         q=st.possibleQuantity(current, restMoney, bondName)
+    #                         if q:
+    #                             printG('채권:', q, '개 매매')
+    #                             buyMoney = st.getValue(current, bondName)
+    #                             wallet.buy(bondName, q, buyMoney)
+    #                             restMoney -= buyMoney * q
 
 
     # for losscutTarget in st.losscutRsi(wallet.getAllStock(), current, topdf[target]):

@@ -25,7 +25,13 @@ def printG(*msg):
 #StockLoader 시간에따른 주식 가격을 가져온다
 
 sl = StockLoader.create()
-topdf, topcap, sCode = sl.loadTopLately('2019-05-01','2019-08-04')
+
+topdf1, topcap, sCode = sl.loadTopDf()
+topdf2, topcap2, sCode2 = sl.loadTopLately('2019-05-01','2019-08-04')
+topdf3, topcap3, sCode3 = sl.loadTopLately('2019-08-05','2019-08-05')
+topdf = pd.concat([topdf1, topdf2, topdf3])
+topdf = topdf[~topdf.index.duplicated(keep='first')]
+
 # marcapdf = sl.loadMarcap()
 factordf = sl.loadFactor()
 ss = StockStrategy.create()
