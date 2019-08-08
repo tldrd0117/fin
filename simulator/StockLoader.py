@@ -78,7 +78,7 @@ class StockLoader:
         topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
         #5천억 500000000000
         #300억 30000000000
-        # topcap = topcap[topcap['Marcap']>=500000000000]
+        # topcap = topcap[topcap['Marcap']<=700000000000]
         #시가
         targetShares = {}
         for index, row  in topcap.iterrows():
@@ -96,7 +96,7 @@ class StockLoader:
         topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
         #5천억 500000000000
         #300억 30000000000
-        # topcap = topcap[topcap['Marcap']>=500000000000]
+        # topcap = topcap[topcap['Marcap']<=700000000000]
         #시가
         targetShares = {}
         for index, row  in topcap.iterrows():
