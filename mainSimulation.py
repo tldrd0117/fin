@@ -135,12 +135,11 @@ while endDate > current:
             printG(lastMoney, pair['price'], ratio, pair['price']*ratio)
             printG('####################################')
             printG(pair['code'], lastMoney/(pair['price']*ratio))
-            codedf = marcapdf[marcapdf['Code']==sName[pair['code']]]
-            codedf = codedf.loc[~codedf.index.duplicated(keep='first')]
-            # beforeStr = beforeInvestDay.strftime(format='%Y-%m-%d')
-            beforeLoc = codedf.index.get_loc(beforeInvestDay, method='ffill')
+            # codedf = marcapdf[marcapdf['Code']==sName[pair['code']]]
+            # codedf = codedf.loc[~codedf.index.duplicated(keep='first')]
+            # beforeLoc = codedf.index.get_loc(beforeInvestDay, method='ffill')
         
-            printG('거래대금:',codedf.iloc[beforeLoc]['Amount'])
+            # printG('거래대금:',codedf.iloc[beforeLoc]['Amount'])
             printG('####################################')
             for factor in allfactors:
                 printG(factor,':',ss.getFactor(current, factordf, factor, pair['code']))
