@@ -12,7 +12,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
-logging.basicConfig(handlers=[logging.FileHandler('simulation3.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
+logging.basicConfig(handlers=[logging.FileHandler('simulation4.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
 pd.set_option('display.float_format', None)
 np.set_printoptions(suppress=True)
 def printG(*msg):
@@ -25,13 +25,14 @@ def printG(*msg):
 #StockLoader 시간에따른 주식 가격을 가져온다
 
 sl = StockLoader.create()
-topdf, topcap, sCode = sl.loadTopDf()
-topdf2, topcap2, sCode2 = sl.loadTopLately('2019-05-01','2019-08-04')
-topdf3, topcap3, sCode3 = sl.loadTopLately('2019-08-05','2019-08-05')
-topdf3, topcap3, sCode3 = sl.loadTopLately('2019-08-06','2019-08-08')
-topdf = pd.concat([topdf, topdf2, topdf3])
+topdf, topcap, sCode, sName = sl.loadTopDf()
+topdf2, topcap2, sCode2, sName2 = sl.loadTopLately('2019-05-01','2019-08-04')
+topdf3, topcap3, sCode3, sName3 = sl.loadTopLately('2019-08-05','2019-08-05')
+topdf4, topcap4, sCode4, sName4 = sl.loadTopLately('2019-08-06','2019-08-08')
+topdf5, topcap5, sCode5, sName5 = sl.loadTopLately('2019-08-09','2019-08-09')
+topdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5])
 topdf = topdf[~topdf.index.duplicated(keep='first')]
-# marcapdf = sl.loadMarcap()
+marcapdf = sl.loadMarcap()
 factordf = sl.loadFactor()
 intersect = list(set(topdf.columns) & set(topcap['Name'].values)) + ['KOSEF 국고채10년레버리지']
 topdf = topdf[intersect]
@@ -81,12 +82,13 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-08-08', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-05-30', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
 wallet = Wallet.create()
 nextInvestDay = current
+beforeInvestDay = current
 nextYearDay = current
 moneyOrder = []
 losscutTarget = []
@@ -133,6 +135,12 @@ while endDate > current:
             printG(lastMoney, pair['price'], ratio, pair['price']*ratio)
             printG('####################################')
             printG(pair['code'], lastMoney/(pair['price']*ratio))
+            codedf = marcapdf[marcapdf['Code']==sName[pair['code']]]
+            codedf = codedf.loc[~codedf.index.duplicated(keep='first')]
+            # beforeStr = beforeInvestDay.strftime(format='%Y-%m-%d')
+            beforeLoc = codedf.index.get_loc(beforeInvestDay, method='ffill')
+        
+            printG('거래대금:',codedf.iloc[beforeLoc]['Amount'])
             printG('####################################')
             for factor in allfactors:
                 printG(factor,':',ss.getFactor(current, factordf, factor, pair['code']))
@@ -147,9 +155,12 @@ while endDate > current:
         restMoney = int(money * (1 - rebalanceRate))
         rebalaceMoney = int(money * rebalanceRate)
         #한달마다 주식 변경
-        nextInvestDay = current + pd.Timedelta(1, unit='M')
+        # nextInvestDay = current + pd.Timedelta(1, unit='M')
         #15일마다 주식 변경
         # nextInvestDay = current + pd.Timedelta(15, unit='d')
+        #7일마다 주식 변경
+        beforeInvestDay = current
+        nextInvestDay = current + pd.Timedelta(1, unit='M')
         target = list(topdf.columns)
         if len(blackList) > 0:
             target = list(filter(lambda x : x not in blackList, target ))
@@ -166,7 +177,7 @@ while endDate > current:
         # else:
         minRoe = 0
         maxRoe = 10000
-        # target = ss.getAmount(current, marcapdf, sCode, limit=500000000)
+        # target = ss.getAmount(current, marcapdf, sCode, limit=0)
         target = ss.getFactorList(current, topdf[target], factordf, 'roe', False, 3000, minVal=minRoe, maxVal=maxRoe)
         target = ss.getFactorList(current, topdf[target], factordf, 'per', True, int(len(target)/2), minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', True, 1000, minVal=0)
@@ -178,6 +189,7 @@ while endDate > current:
         if ss.isUnemployedYear(current.year):
             printG('isUnemployedYear')
             target = beforeTarget
+
         # if abs(momentumSum) <= 5:
             # target = beforeTarget
         # momentumList.append(momentumSum)

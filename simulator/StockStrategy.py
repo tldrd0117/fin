@@ -62,7 +62,7 @@ class StockStrategy:
         return momentumScore
     
     def getMinusMomentumScore(self, current, targetdf, mNum, mUnit):
-        mdf = targetdf.resample('M').mean()
+        mdf = targetdf.resample(mUnit).mean()
         beforeMomentumDate = current + pd.Timedelta(-mNum, unit=mUnit)
         start = mdf.index.get_loc(beforeMomentumDate, method='nearest')
         end = mdf.index.get_loc(current, method='nearest')
