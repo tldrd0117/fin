@@ -55,7 +55,19 @@ topdf = topdf[intersect]
 one = None
 topdf
 # In[222]:
+epsdf = factordf['eps']
+compdf = epsdf.shift(-1, axis=1)
+compdf['종목명'] = np.nan
+compdf['결산월'] = np.nan
+compdf['단위'] = np.nan
+compdf[2007] = -1
+# compdf = compdf.fillna(-1)
+print(compdf)
+targetdf = epsdf-compdf
+targetdf['종목명'] = epsdf['종목명']
+factordf['eps증가율'] = targetdf
 
+factordf['eps증가율']
 # In[232]:
 def isNumber(val):
     return isinstance(val, (int, float, complex))
@@ -82,7 +94,7 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-05-30', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-08-09', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -181,10 +193,11 @@ while endDate > current:
         target = ss.getFactorList(current, topdf[target], factordf, 'per', True, int(len(target)/2), minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', True, 1000, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50, minVal=0)
-        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', True, 30, minVal=0)
+        # target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', False, 30, minVal=0)
+        # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', False, 30, minVal=0)
         beforeTarget = target
-        target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0)
-        printG('momentumSum', momentumSum)
+        # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=50, minVal=0)
+        # printG('momentumSum', momentumSum)
         if ss.isUnemployedYear(current.year):
             printG('isUnemployedYear')
             target = beforeTarget
@@ -284,7 +297,7 @@ while endDate > current:
         isLosscut = st.losscut(stock['code'], current, buyDate)
         if isLosscut and stock['code'] not in losscutTarget:
             losscutTarget.append(stock['code'])
-            if len(losscutTarget) >= 15:#len(target)/2:
+            if len(losscutTarget) >= 25:#len(target)/2:
                 printG('손절갯수:', len(losscutTarget))
                 for lossTarget in losscutTarget:
                     if lossTarget not in alreadyCut:
