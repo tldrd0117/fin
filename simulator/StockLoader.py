@@ -78,6 +78,9 @@ class StockLoader:
         topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
         #5천억 500000000000
         #300억 30000000000
+        allShares = {}
+        for index, row  in topcap.iterrows():
+            allShares[row['Code']] = row['Name']
         topcap = topcap[topcap['Marcap']<=700000000000]
         #시가
         targetShares = {}
@@ -92,14 +95,12 @@ class StockLoader:
         etfdf.index = etfdf.index.map(lambda dt: pd.to_datetime(dt.date()))
         topdf = pd.concat([etfdf,topcapdf], sort=False, axis=1)
         
-        return topdf, topcap, targetShares, reversedCode
+        return topdf, topcap, targetShares, reversedCode, allShares
     
-    def loadTopLately(self, start, end):
+    def loadTopLately(self,topcap, start, end):
         pd.options.display.float_format = '{:.2f}'.format
-        topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
         #5천억 500000000000
         #300억 30000000000
-        topcap = topcap[topcap['Marcap']<=700000000000]
         #시가
         targetShares = {}
         reversedCode = {}
@@ -111,7 +112,7 @@ class StockLoader:
         etfdf = self.loadStockFromArr(self.makeName('ETF2', beforeStr=start, endDateStr=end), self.KODEX + self.TIGER + self.KOSEF, start, end)
         etfdf.index = etfdf.index.map(lambda dt: pd.to_datetime(dt.date()))
         topdf = pd.concat([etfdf,topcapdf], sort=False, axis=1)
-        return topdf, topcap, targetShares, reversedCode
+        return topdf
     
     def loadMarcap(self):
         marcapdf = self.load('h5data/MARCAP_2006-01-01_2019_05_30.h5')

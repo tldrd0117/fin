@@ -172,6 +172,33 @@ class StockStrategy:
         # nameList = list(factordf[factor].loc[shcodes].index)
         intersect = list(set(targetdf.columns) & set(shcodes))
         return intersect
+
+    def getFactorPerStockNum(self, current, targetdf, factordf, factor, marcapdf, allShares, ascending, num, minVal=float('-inf'), maxVal=float('inf') ):
+        # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
+        yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
+        # print(factordf[factor])
+        if current.month > 4:
+            yearDf = yearDf[current.year - 1]
+        else:
+            yearDf = yearDf[current.year - 2]
+        yearDf = yearDf.dropna()
+        yearDf = yearDf[yearDf >= minVal]
+        yearDf = yearDf[yearDf <= maxVal]
+        # intersect = list(set(yearDf.columns) & set(nameList))
+        
+        marcapdf2 = marcapdf[str(current.year)+'-'+str(current.month)]
+        inter = list(set(allShares.keys()) & set(marcapdf2['Code'].values))
+        marcapdf2 = marcapdf2[marcapdf2['Code'].isin(inter)]
+        indexes = list(map(lambda x : allShares[x], marcapdf2['Code'].values))
+        stockNum = pd.Series(marcapdf2['Stocks'].values, index=indexes)
+        for index in list(yearDf.index):
+            print(index, yearDf.at[index])
+            print(index, stockNum.at[index][0])
+            yearDf.at[index] = yearDf.at[index] / stockNum.at[index][0]
+        shcodes = list(yearDf.sort_values(ascending=ascending).head(num).index)
+        # nameList = list(factordf[factor].loc[shcodes].index)
+        intersect = list(set(targetdf.columns) & set(shcodes))
+        return intersect
     
     def getFactorRank(self, current, targetdf, factordf, factor):
         yearDf = factordf[factor][factordf[factor].isin(targetdf.columns)]

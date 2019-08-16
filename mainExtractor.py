@@ -26,11 +26,16 @@ def printG(*msg):
 
 sl = StockLoader.create()
 
-topdf1, topcap, sCode = sl.loadTopDf()
-topdf2, topcap2, sCode2 = sl.loadTopLately('2019-05-01','2019-08-04')
-topdf3, topcap3, sCode3 = sl.loadTopLately('2019-08-05','2019-08-05')
-topdf = pd.concat([topdf1, topdf2, topdf3])
+topdf, topcap, sCode, sName = sl.loadTopDf()
+topdf2, topcap2, sCode2, sName2 = sl.loadTopLately('2019-05-01','2019-08-04')
+topdf3, topcap3, sCode3, sName3 = sl.loadTopLately('2019-08-05','2019-08-05')
+topdf4, topcap4, sCode4, sName4 = sl.loadTopLately('2019-08-06','2019-08-08')
+topdf5, topcap5, sCode5, sName5 = sl.loadTopLately('2019-08-09','2019-08-09')
+topdf6, topcap6, sCode6, sName6 = sl.loadTopLately('2019-08-10','2019-08-16')
+topdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5, topdf6])
 topdf = topdf[~topdf.index.duplicated(keep='first')]
+intersect = list(set(topdf.columns) & set(topcap['Name'].values)) + ['KOSEF 국고채10년레버리지']
+topdf = topdf[intersect]
 
 # marcapdf = sl.loadMarcap()
 factordf = sl.loadFactor()
@@ -63,8 +68,7 @@ for key in factordf.keys():
 # In[3]:
 
 
-current = pd.to_datetime('2019-08-04', format='%Y-%m-%d')
-
+current = pd.to_datetime('2019-08-16', format='%Y-%m-%d')
 
 target = list(topdf.columns)
 if len(blackList) > 0:
