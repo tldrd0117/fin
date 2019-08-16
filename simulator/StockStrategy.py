@@ -191,6 +191,7 @@ class StockStrategy:
         marcapdf2 = marcapdf2[marcapdf2['Code'].isin(inter)]
         indexes = list(map(lambda x : allShares[x], marcapdf2['Code'].values))
         stockNum = pd.Series(marcapdf2['Stocks'].values, index=indexes)
+        
         for index in list(yearDf.index):
             print(index, yearDf.at[index])
             print(index, stockNum.at[index][0])
