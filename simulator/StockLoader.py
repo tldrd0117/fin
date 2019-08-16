@@ -78,9 +78,11 @@ class StockLoader:
         topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
         #5천억 500000000000
         #300억 30000000000
-        allShares = {}
+        allCodes = {}
+        allNames = {}
         for index, row  in topcap.iterrows():
-            allShares[row['Code']] = row['Name']
+            allCodes[row['Code']] = row['Name']
+            allNames[row['Name']] = row['Code']
         topcap = topcap[topcap['Marcap']<=700000000000]
         #시가
         targetShares = {}
@@ -95,7 +97,7 @@ class StockLoader:
         etfdf.index = etfdf.index.map(lambda dt: pd.to_datetime(dt.date()))
         topdf = pd.concat([etfdf,topcapdf], sort=False, axis=1)
         
-        return topdf, topcap, targetShares, reversedCode, allShares
+        return topdf, topcap, allCodes, allNames
     
     def loadTopLately(self,topcap, start, end):
         pd.options.display.float_format = '{:.2f}'.format

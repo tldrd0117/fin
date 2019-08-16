@@ -7,8 +7,11 @@ class StockStrategy:
         stockStrategy = StockStrategy()
         return stockStrategy
     
-    def getCurrentFactor(self, current, factordf, targetdf, factor):
-        yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
+    def getCurrentFactor(self, current, factordf, targetdf, sName, factor):
+        codeList = list(map(lambda x: sName[x], list(targetdf.columns)))
+        yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
+       
+        # yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
         # print(factordf[factor])
         if current.month > 4:
             yearDf = yearDf[current.year - 1]
@@ -16,23 +19,25 @@ class StockStrategy:
             yearDf = yearDf[current.year - 2]
         return yearDf
 
-    def getFactor(self, current, factordf, factor, code):
-        df = factordf[factor][factordf[factor].index.isin([code])]
+    def getFactor(self, current, factordf, factor, code, sName):
+        codeList = list(map(lambda x: sName[x], list([code])))
+        df = factordf[factor][factordf[factor].index.isin(codeList)]
+        # df = factordf[factor][factordf[factor].index.isin([code])]
         if len(df.index) <= 0:
             return 'None'
         if current.month > 4:
-            return df.loc[code, current.year - 1]
+            return df.loc[sName[code], current.year - 1]
         else:
-            return df.loc[code, current.year - 2]
+            return df.loc[sName[code], current.year - 2]
 
-    def filterAltmanZScore(self, current, targetdf, factordf, topcap ):
-        floatingAsset = self.getCurrentFactor(current, factordf, targetdf, '유동자산')
-        floatingLiablilities = self.getCurrentFactor(current, factordf, targetdf, '유동부채')
-        totalAsset = self.getCurrentFactor(current, factordf, targetdf, '자산')
-        liablilities = self.getCurrentFactor(current, factordf, targetdf, '자산')
-        retainedEarning = self.getCurrentFactor(current, factordf, targetdf, '이익잉여금')
-        sales = self.getCurrentFactor(current, factordf, targetdf, '매출액')
-        ebit = self.getCurrentFactor(current, factordf, targetdf, 'ebit')
+    def filterAltmanZScore(self, current, targetdf, factordf, topcap, sName, sCode ):
+        floatingAsset = self.getCurrentFactor(current, factordf, targetdf, sName, '유동자산')
+        floatingLiablilities = self.getCurrentFactor(current, factordf, targetdf, sName, '유동부채')
+        totalAsset = self.getCurrentFactor(current, factordf, targetdf, sName, '자산')
+        liablilities = self.getCurrentFactor(current, factordf, targetdf, sName, '자산')
+        retainedEarning = self.getCurrentFactor(current, factordf, targetdf, sName, '이익잉여금')
+        sales = self.getCurrentFactor(current, factordf, targetdf, sName, '매출액')
+        ebit = self.getCurrentFactor(current, factordf, targetdf, sName, 'ebit')
         topcap = topcap.resample('A').first()
         loc = topcap.index.get_loc(current, method='pad')
         marketValueOfEquity = topcap.iloc[loc]['Marcap']
@@ -43,7 +48,7 @@ class StockStrategy:
         x4 = marketValueOfEquity / liablilities
         x5 = sales / totalAsset
         altmanZ = 1.2 * x1 + 1.4 * x2 + 3.3 * x3 + 0.6 * x4 + 0.999 * x5
-        return list(altmanZ[altmanZ >= 1.81].index)
+        return list(map(lambda x : sCode[x],list(altmanZ[altmanZ >= 1.81].index)))
     
     def getMomentumScore(self, current, targetdf, mNum, mUnit):
         mdf = targetdf.resample('M').mean()
@@ -156,9 +161,12 @@ class StockStrategy:
         return list(mdf.sort_values(ascending=False).head(limit).index)
         
 
-    def getFactorList(self, current, targetdf, factordf, factor, ascending, num, minVal=float('-inf'), maxVal=float('inf')):
+    def getFactorList(self, current, targetdf, factordf, factor, sName, sCode, ascending, num, minVal=float('-inf'), maxVal=float('inf')):
         # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
-        yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
+        codeList = list(map(lambda x: sName[x], list(targetdf.columns)))
+        yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
+        
+        # yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
         # print(factordf[factor])
         if current.month > 4:
             yearDf = yearDf[current.year - 1]
@@ -168,14 +176,16 @@ class StockStrategy:
         yearDf = yearDf[yearDf >= minVal]
         yearDf = yearDf[yearDf <= maxVal]
         # intersect = list(set(yearDf.columns) & set(nameList))
-        shcodes = list(yearDf.sort_values(ascending=ascending).head(num).index)
+        shcodes = list(map(lambda x : sCode[x], list(yearDf.sort_values(ascending=ascending).head(num).index)))
         # nameList = list(factordf[factor].loc[shcodes].index)
         intersect = list(set(targetdf.columns) & set(shcodes))
         return intersect
 
-    def getFactorPerStockNum(self, current, targetdf, factordf, factor, marcapdf, allShares, ascending, num, minVal=float('-inf'), maxVal=float('inf') ):
+    def getFactorPerStockNum(self, current, targetdf, factordf, factor, marcapdf, sCode, sName, ascending, num, minVal=float('-inf'), maxVal=float('inf') ):
         # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
-        yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
+        # yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
+        codeList = list(map(lambda x: sName[x], targetdf.columns))
+        yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
         # print(factordf[factor])
         if current.month > 4:
             yearDf = yearDf[current.year - 1]
@@ -187,16 +197,22 @@ class StockStrategy:
         # intersect = list(set(yearDf.columns) & set(nameList))
         
         marcapdf2 = marcapdf[str(current.year)+'-'+str(current.month)]
-        inter = list(set(allShares.keys()) & set(marcapdf2['Code'].values))
+        inter = list(set(sCode.keys()) & set(marcapdf2['Code'].values))
         marcapdf2 = marcapdf2[marcapdf2['Code'].isin(inter)]
-        indexes = list(map(lambda x : allShares[x], marcapdf2['Code'].values))
+
+        # indexes = list(map(lambda x : sCode[x], marcapdf2['Code'].values))
+        indexes = list(marcapdf2['Code'].values)
         stockNum = pd.Series(marcapdf2['Stocks'].values, index=indexes)
-        
+        inter = list(set(yearDf.index) & set(indexes))
+        deleteList = []
         for index in list(yearDf.index):
-            print(index, yearDf.at[index])
-            print(index, stockNum.at[index][0])
-            yearDf.at[index] = yearDf.at[index] / stockNum.at[index][0]
-        shcodes = list(yearDf.sort_values(ascending=ascending).head(num).index)
+            if index not in stockNum.index:
+                deleteList.append(index)
+                continue
+            if len(stockNum.at[index]) > 0:
+                yearDf.at[index] = yearDf.at[index] / stockNum.at[index][0]
+        yearDf = yearDf.drop(deleteList, axis=0)
+        shcodes = list(map(lambda x : sCode[x], list(yearDf.sort_values(ascending=ascending).head(num).index)))
         # nameList = list(factordf[factor].loc[shcodes].index)
         intersect = list(set(targetdf.columns) & set(shcodes))
         return intersect

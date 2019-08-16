@@ -25,7 +25,7 @@ def printG(*msg):
 #StockLoader 시간에따른 주식 가격을 가져온다
 
 sl = StockLoader.create()
-topdf, topcap, sCode, sName, allShares = sl.loadTopDf()
+topdf, topcap, sCode, sName = sl.loadTopDf()
 topdf2 = sl.loadTopLately(topcap, '2019-05-01','2019-08-04')
 topdf3 = sl.loadTopLately(topcap, '2019-08-05','2019-08-05')
 topdf4 = sl.loadTopLately(topcap, '2019-08-06','2019-08-08')
@@ -35,7 +35,7 @@ topdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5, topdf6])
 topdf = topdf[~topdf.index.duplicated(keep='first')]
 marcapdf = sl.loadMarcap()
 factordf = sl.loadFactor()
-intersect = list(set(topdf.columns) & set(topcap['Name'].values)) + ['KOSEF 국고채10년레버리지']
+intersect = list(set(topdf.columns) & set(topcap['Name'].values)) #+ ['KOSEF 국고채10년레버리지']
 topdf = topdf[intersect]
 # salesdf = factordf['영업활동으로인한현금흐름']
 # compdf = salesdf.shift(-1, axis=1)
@@ -86,8 +86,8 @@ def toNumeric(df):
 if not one:
     for key in factordf.keys():
         factordf[key].columns = list(map(lambda col : float(col) if isNumber(col) or col.isnumeric() else col, factordf[key].columns))
-    for key in factordf.keys():
-        factordf[key] = factordf[key].set_index(['종목명'])
+    # for key in factordf.keys():
+        # factordf[key] = factordf[key].set_index(['종목명'])
     for key in factordf.keys():
         factordf[key] = toNumeric(factordf[key])
 one = True
@@ -130,9 +130,6 @@ momentumList = []
 konexCode = ['076340','223220','186230','112190','214610','224880','086220','284610','272420','178600','114920','199150','183410','176750','220110','086080','200350','271850','302920','270020','163430','216400','126340','232680','285770','215050','110660','135270','162120','210610','302550','185190','217320','233250','103660','189330','189540','267060','279600','149010','281310','208890','158300','086460','266170','203400','064850','260870','236030','271400','179720','216280','140660','267810','270660','121060','084440','221800','210120','101360','270210','299670','219750','140290','217910','189350','136660','116100','262760','199800','217880','202960','276240','225860','065370','107640','222670','121060','224760','225220','221670','299480','220250','207230','224810','228180','229000','229500','092590','217950','211050','230400','180060','225850','044990','232680','226610','258050','234070','277880','266870','278990','135160','215570','233990','176560','232530','206950','067370','236340','237720','222160','284420','238500','240340','241510','058970','242420','066830','228760','242850','112190','244880','245030','229480','208850','245450','246250','247300','224020','212310','191600','250300','239890','251960','252370','251280','243870','253840','199290','148780','167380','258540','232830','258250','227420','260970','205290','242350','120780']
 blackList = list(map(lambda x : sCode[x] if x in sCode.keys() else '', konexCode))
 
-
-
-
 while endDate > current:
     if nextYearDay <= current:
         nextYearDay = current + pd.Timedelta(1, unit='Y')
@@ -159,7 +156,7 @@ while endDate > current:
             # printG('거래대금:',codedf.iloc[beforeLoc]['Amount'])
             printG('####################################')
             for factor in allfactors:
-                printG(factor,':',ss.getFactor(current, factordf, factor, pair['code']))
+                printG(factor,':',ss.getFactor(current, factordf, factor, pair['code'], sName))
             # if lastMoney/(pair['price']*ratio) <= 0.8:
                 # blackList.append(pair['code'])
         # printG('blackList', blackList)
@@ -180,7 +177,7 @@ while endDate > current:
         target = list(topdf.columns)
         if len(blackList) > 0:
             target = list(filter(lambda x : x not in blackList, target ))
-        target = ss.filterAltmanZScore(current, topdf[target], factordf, topcap )
+        target = ss.filterAltmanZScore(current, topdf[target], factordf, topcap, sName, sCode )
         printG('altman', len(target))
         # target = ss.getFactorLists(current, topdf[target], factordf, factors, 20, weights)
         # target = ss.getRiseMeanList(current, topdf[target], 500, 0)
@@ -191,15 +188,14 @@ while endDate > current:
             # minRoe = 20
             # maxRoe = 40
         # else:
-        minRoe = 0.00000001
-        maxRoe = 10000
         # target = ss.getAmount(current, marcapdf, sCode, limit=0)
-        target = ss.getFactorList(current, topdf[target], factordf, 'roe', False, 3000, minVal=minRoe, maxVal=maxRoe)
-        target = ss.getFactorList(current, topdf[target], factordf, 'per', True, int(len(target)/2), minVal=0.00000001)
-        target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', False, 3000, minVal=0.00000001)
-        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', False, 3000, minVal=0.00000001)
-        target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50, minVal=0.00000001)
-        target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, allShares, False, 30, minVal=0.00000001)
+        inter = list(set(topdf.columns) & set(target))
+        target = ss.getFactorList(current, topdf[inter], factordf, 'roe', sName, sCode, False, 3000, minVal=0.00000001)
+        target = ss.getFactorList(current, topdf[target], factordf, 'per', sName, sCode, True, int(len(target)/2), minVal=0.00000001)
+        target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
+        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, False, 3000, minVal=0.00000001)
+        target = ss.getFactorList(current, topdf[target], factordf, 'pcr', sName, sCode, True, 50, minVal=0.00000001)
+        target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, False, 30, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름', False, 30, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', False, 30, minVal=0)
