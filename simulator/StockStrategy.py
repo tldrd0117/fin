@@ -30,6 +30,64 @@ class StockStrategy:
             return df.loc[sName[code], current.year - 1]
         else:
             return df.loc[sName[code], current.year - 2]
+    
+    def getQuarterFactor(self, current, factordf, factor, code, sName):
+        codeList = list(map(lambda x: sName[x], list([code])))
+        df = factordf[factor][factordf[factor].index.isin(codeList)]
+        # df = factordf[factor][factordf[factor].index.isin([code])]
+        if len(df.index) <= 0:
+            return 'None'
+        elif current.month > 9:
+            #반기보고서
+            return df.loc[sName[code], float(str(current.year)+'.06')]
+        elif current.month > 5:
+            #1/4분기보고서
+            return df.loc[sName[code], float(str(current.year)+'.03')]
+        elif current.month > 4:
+            #사업보고서
+            return df.loc[sName[code], float(str(current.year-1)+'.12')]
+        elif current.month > 0:
+            #3/4분기보고서
+            return df.loc[sName[code], float(str(current.year-1)+'.09')]
+
+    def getCurrentQuarterFactor(self, current, factordf, targetdf, sName, factor):
+        codeList = list(map(lambda x: sName[x], list(targetdf.columns)))
+        df = factordf[factor][factordf[factor].index.isin(codeList)]
+        # df = factordf[factor][factordf[factor].index.isin([code])]
+        if len(df.index) <= 0:
+            return 'None'
+        elif current.month > 9:
+            #반기보고서
+            return df[float(str(current.year)+'.06')]
+        elif current.month > 5:
+            #1/4분기보고서
+            return df[float(str(current.year)+'.03')]
+        elif current.month > 4:
+            #사업보고서
+            return df[float(str(current.year-1)+'.12')]
+        elif current.month > 0:
+            #3/4분기보고서
+            return df[float(str(current.year-1)+'.09')]
+
+    def filterAltmanZScoreQuarter(self, current, targetdf, factordf, topcap, sName, sCode):
+        floatingAsset = self.getCurrentQuarterFactor(current, factordf, targetdf, sName, '유동자산')
+        floatingLiablilities = self.getCurrentQuarterFactor(current, factordf, targetdf, sName, '유동부채')
+        totalAsset = self.getCurrentQuarterFactor(current, factordf, targetdf, sName, '자산')
+        liablilities = self.getCurrentQuarterFactor(current, factordf, targetdf, sName, '자산')
+        retainedEarning = self.getCurrentQuarterFactor(current, factordf, targetdf, sName, '이익잉여금')
+        sales = self.getCurrentQuarterFactor(current, factordf, targetdf, sName, '매출액')
+        ebit = self.getCurrentQuarterFactor(current, factordf, targetdf, sName, 'ebit')
+        topcap = topcap.resample('A').first()
+        loc = topcap.index.get_loc(current, method='pad')
+        marketValueOfEquity = topcap.iloc[loc]['Marcap']
+        
+        x1 = (floatingAsset - floatingLiablilities) / totalAsset
+        x2 = retainedEarning / totalAsset
+        x3 = ebit / totalAsset
+        x4 = marketValueOfEquity / liablilities
+        x5 = sales / totalAsset
+        altmanZ = 1.2 * x1 + 1.4 * x2 + 3.3 * x3 + 0.6 * x4 + 0.999 * x5
+        return list(map(lambda x : sCode[x],list(altmanZ[altmanZ >= 1.81].index)))
 
     def filterAltmanZScore(self, current, targetdf, factordf, topcap, sName, sCode ):
         floatingAsset = self.getCurrentFactor(current, factordf, targetdf, sName, '유동자산')
@@ -181,6 +239,36 @@ class StockStrategy:
         # nameList = list(factordf[factor].loc[shcodes].index)
         intersect = list(set(targetdf.columns) & set(shcodes))
         return intersect
+    
+    def getQuarterFactorList(self, current, targetdf, factordf, factor, sName, sCode, ascending, num, minVal=float('-inf'), maxVal=float('inf')):
+        # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
+        codeList = list(map(lambda x: sName[x], list(targetdf.columns)))
+        yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
+        
+        # yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
+        # print(factordf[factor])
+        print(current, current.month)
+        if current.month > 9:
+            #반기보고서
+            yearDf = yearDf[float(str(current.year)+'.06')]
+        elif current.month > 5:
+            #1/4분기보고서
+            yearDf = yearDf[float(str(current.year)+'.03')]
+        elif current.month > 4:
+            #사업보고서
+            yearDf = yearDf[float(str(current.year-1)+'.12')]
+        elif current.month > 0:
+            #3/4분기보고서
+            yearDf = yearDf[float(str(current.year-1)+'.09')]
+
+        yearDf = yearDf.dropna()
+        yearDf = yearDf[yearDf >= minVal]
+        yearDf = yearDf[yearDf <= maxVal]
+        # intersect = list(set(yearDf.columns) & set(nameList))
+        shcodes = list(map(lambda x : sCode[x], list(yearDf.sort_values(ascending=ascending).head(num).index)))
+        # nameList = list(factordf[factor].loc[shcodes].index)
+        intersect = list(set(targetdf.columns) & set(shcodes))
+        return intersect
 
     def getFactorPerStockNum(self, current, targetdf, factordf, factor, marcapdf, sCode, sName, ascending, num, minVal=float('-inf'), maxVal=float('inf') ):
         # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
@@ -228,6 +316,62 @@ class StockStrategy:
         # nameList = list(factordf[factor].loc[shcodes].index)
         intersect = list(set(targetdf.columns) & set(shcodes))
         return intersect
+
+    def getQuarterFactorPerStockNum(self, current, targetdf, factordf, factor, marcapdf, sCode, sName, ascending, num, minVal=float('-inf'), maxVal=float('inf') ):
+        # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
+        # yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
+        codeList = list(map(lambda x: sName[x], targetdf.columns))
+        yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
+        # print(factordf[factor])
+        if current.month > 9:
+            #반기보고서
+            yearDf = yearDf[float(str(current.year)+'.06')]
+        elif current.month > 5:
+            #1/4분기보고서
+            yearDf = yearDf[float(str(current.year)+'.03')]
+        elif current.month > 4:
+            #사업보고서
+            yearDf = yearDf[float(str(current.year-1)+'.12')]
+        elif current.month > 0:
+            #3/4분기보고서
+            yearDf = yearDf[float(str(current.year-1)+'.09')]
+
+        yearDf = yearDf.dropna()
+        # intersect = list(set(yearDf.columns) & set(nameList))
+        
+        if marcapdf.index[-1] > current:
+            marcapdf2 = marcapdf[str(current.year)+'-'+str(current.month)]
+        else:
+            lastDate = marcapdf.index[-1]
+            marcapdf2 = marcapdf[str(lastDate.year)+'-'+str(lastDate.month)]
+        inter = list(set(sCode.keys()) & set(marcapdf2['Code'].values))
+        marcapdf2 = marcapdf2[marcapdf2['Code'].isin(inter)]
+
+        # indexes = list(map(lambda x : sCode[x], marcapdf2['Code'].values))
+        indexes = list(marcapdf2['Code'].values)
+        values = list(marcapdf2['Stocks'].values)
+        print(len(indexes), len(values))
+        stockNum = pd.Series(values, index=indexes)
+        inter = list(set(yearDf.index) & set(indexes))
+        deleteList = []
+        for index in list(yearDf.index):
+            if index not in stockNum.index:
+                deleteList.append(index)
+                continue
+            if type(stockNum.at[index]) is np.float64:
+                # print(stockNum)
+                yearDf.at[index] = yearDf.at[index] / stockNum.at[index]
+            if type(stockNum.at[index]) is np.array:
+                yearDf.at[index] = yearDf.at[index] / stockNum.at[index][0]
+        # if len(deleteList) > 0:
+        #     print(deleteList, sCode[deleteList[0]])
+        yearDf = yearDf.drop(deleteList, axis=0)
+        yearDf = yearDf[yearDf >= minVal]
+        yearDf = yearDf[yearDf <= maxVal]
+        shcodes = list(map(lambda x : sCode[x], list(yearDf.sort_values(ascending=ascending).head(num).index)))
+        # nameList = list(factordf[factor].loc[shcodes].index)
+        intersect = list(set(targetdf.columns) & set(shcodes))
+        return intersect
     
     def getCurValuePerStockNumFactor(self, current, targetdf, factordf, factor, marcapdf, sCode, sName, factorUnit, ascending, num, minVal=float('-inf'), maxVal=float('inf') ):
         # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
@@ -239,6 +383,65 @@ class StockStrategy:
             yearDf = yearDf[current.year - 1]
         else:
             yearDf = yearDf[current.year - 2]
+        yearDf = yearDf.dropna()
+        # intersect = list(set(yearDf.columns) & set(nameList))
+        
+        if marcapdf.index[0] > current:
+            initDate = marcapdf.index[0]
+            marcapdf2 = marcapdf[str(initDate.year)+'-'+str(initDate.month)]
+        elif marcapdf.index[-1] > current:
+            marcapdf2 = marcapdf[str(current.year)+'-'+str(current.month)]
+        else:
+            lastDate = marcapdf.index[-1]
+            marcapdf2 = marcapdf[str(lastDate.year)+'-'+str(lastDate.month)]
+        inter = list(set(sCode.keys()) & set(marcapdf2['Code'].values))
+        marcapdf2 = marcapdf2[marcapdf2['Code'].isin(inter)]
+
+        # indexes = list(map(lambda x : sCode[x], marcapdf2['Code'].values))
+        indexes = list(marcapdf2['Code'].values)
+        values = list(marcapdf2['Stocks'].values)
+        print(len(indexes), len(values))
+        stockNum = pd.Series(values, index=indexes)
+        inter = list(set(yearDf.index) & set(indexes))
+        deleteList = []
+        for index in list(yearDf.index):
+            if index not in stockNum.index:
+                deleteList.append(index)
+                continue
+            value = targetdf.iloc[targetdf.index.get_loc(current, method='ffill')][sCode[index]]
+            if type(stockNum.at[index]) is np.float64:
+                yearDf.at[index] = value * stockNum.at[index] / (yearDf.at[index] * factorUnit) 
+            else:
+                yearDf.at[index] = value * stockNum.at[index][0] / (yearDf.at[index] * factorUnit)
+        # if len(deleteList) > 0:
+        yearDf = yearDf.drop(deleteList, axis=0)
+        yearDf = yearDf[yearDf >= minVal]
+        yearDf = yearDf[yearDf <= maxVal]
+        shcodes = list(map(lambda x : sCode[x], list(yearDf.sort_values(ascending=ascending).head(num).index)))
+        # nameList = list(factordf[factor].loc[shcodes].index)
+        intersect = list(set(targetdf.columns) & set(shcodes))
+        return intersect
+
+    
+    def getQuarterCurValuePerStockNumFactor(self, current, targetdf, factordf, factor, marcapdf, sCode, sName, factorUnit, ascending, num, minVal=float('-inf'), maxVal=float('inf') ):
+        # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
+        # yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
+        codeList = list(map(lambda x: sName[x], targetdf.columns))
+        yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
+        # print(factordf[factor])
+        if current.month > 9:
+            #반기보고서
+            yearDf = yearDf[float(str(current.year)+'.06')]
+        elif current.month > 5:
+            #1/4분기보고서
+            yearDf = yearDf[float(str(current.year)+'.03')]
+        elif current.month > 4:
+            #사업보고서
+            yearDf = yearDf[float(str(current.year-1)+'.12')]
+        elif current.month > 0:
+            #3/4분기보고서
+            yearDf = yearDf[float(str(current.year-1)+'.09')]
+
         yearDf = yearDf.dropna()
         # intersect = list(set(yearDf.columns) & set(nameList))
         

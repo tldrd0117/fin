@@ -118,6 +118,7 @@ for val1 in [1,2,5,10,20,25,50,100]:
 parValues = list(set(parValues))
 
 allfactors = ['per', 'pcr', 'pbr', 'roe', '당기순이익', '영업활동으로인한현금흐름', '투자활동으로인한현금흐름', '재무활동으로인한현금흐름', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률', '매출액', '자산', '유동자산', '부채','유동부채']
+quarterFactors = ['당기순이익', '영업활동으로인한현금흐름','당기순이익률', '영업이익률', '매출액', '자산', '유동자산','유동부채']
 # weights = {'per':0.30458087, 'pcr':-0.03745455, 'pbr':0.23468399, 'roe':0.36092985, '당기순이익':0.19461265, '영업활동으로인한현금흐름':0.05416971, '투자활동으로인한현금흐름':0.3000804, '재무활동으로인한현금흐름':0.0256378, 'psr':-1.3246877, 'roic':-0.35830158, 'eps':0.02405762, 'ebit':0.04227263, 'ev_ebit':0.0967356, 'ev_sales':0.01554028, 'ev_ebitda':0.5191966, '당기순이익률':0.13129355, '영업이익률':0.15036112, '매출총이익률':0.44065595, '배당수익률':0.52419686, '매출액':-0.69880736}
 # weights = {'per': 0.05186881, 'pcr':0.03852479, 'pbr':0.0313778, 'roe':0.03718218, '당기순이익':-0.00151721, '영업활동으로인한현금흐름': 0.01412872, '투자활동으로인한현금흐름':0.07871272, '재무활동으로인한현금흐름':0.02713266, 'psr':0.01447739, 'roic':0.03316823, 'eps':0.00521486, 'ebit':0.01497366, 'ev_ebit':0.07060508, 'ev_sales':0.00256039, 'ev_ebitda':0.04957749, '당기순이익률':0.03347141, '영업이익률':0.0247674, '매출총이익률':0.03217566, '배당수익률':0.09379209, '매출액':0.01340407}
 # weights = {'per':0.30458087, 'pcr':-0.03745455, 'pbr':0.23468399, 'roe':0.36092985, '당기순이익':0.19461265, '영업활동으로인한현금흐름':0.05416971, '투자활동으로인한현금흐름':0.3000804, '재무활동으로인한현금흐름':0.0256378, 'psr':-1.3246877, 'roic':-0.35830158, 'eps':0.02405762, 'ebit':0.04227263, 'ev_ebit':0.0967356, 'ev_sales':0.01554028, 'ev_ebitda':0.5191966, '당기순이익률':0.13129355, '영업이익률':0.15036112, '매출총이익률':0.44065595, '배당수익률':0.52419686, '매출액':-0.69880736}
@@ -158,8 +159,8 @@ while endDate > current:
         
             # printG('거래대금:',codedf.iloc[beforeLoc]['Amount'])
             printG('####################################')
-            for factor in allfactors:
-                printG(factor,':',ss.getFactor(current, factordf, factor, pair['code'], sName))
+            for factor in quarterFactors:
+                printG(factor,':',ss.getQuarterFactor(current, qfactordf, factor, pair['code'], sName))
             # if lastMoney/(pair['price']*ratio) <= 0.8:
                 # blackList.append(pair['code'])
         # printG('blackList', blackList)
@@ -181,17 +182,17 @@ while endDate > current:
         if len(blackList) > 0:
             target = list(filter(lambda x : x not in blackList, target ))
 
-        target = ss.filterAltmanZScore(current, topdf[target], factordf, topcap, sName, sCode )
+        target = ss.filterAltmanZScoreQuarter(current, topdf[target], qfactordf, topcap, sName, sCode )
         printG('altman', len(target))
         # target = ss.getAmount(current, marcapdf, sCode, limit=0)
         inter = list(set(topdf.columns) & set(target))
         target = ss.getFactorList(current, topdf[inter], factordf, 'roe', sName, sCode, False, 3000, minVal=0.00000001)
-        target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
-        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
+        target = ss.getQuarterFactorList(current, topdf[target], qfactordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
+        target = ss.getQuarterFactorList(current, topdf[target], qfactordf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
         # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
-        target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
-        target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
-        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
+        target = ss.getQuarterCurValuePerStockNumFactor(current, topdf[target], qfactordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
+        target = ss.getQuarterCurValuePerStockNumFactor(current, topdf[target], qfactordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
+        target = ss.getQuarterFactorList(current, topdf[target], qfactordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
         # target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, False, 30, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
