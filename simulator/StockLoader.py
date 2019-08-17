@@ -16,6 +16,7 @@ class StockLoader:
     @staticmethod
     def create():
         stockloader = StockLoader()
+        stockloader.filterETF()
         return stockloader
     
     def makeName(self, name, beforeStr, endDateStr):
@@ -90,10 +91,10 @@ class StockLoader:
         for index, row  in topcap.iterrows():
             targetShares[row['Code']] = row['Name']
             reversedCode[row['Name']] = row['Code']
-
-        topcapdf = self.loadStockFromDict(self.makeName('SHARETOPCAP', beforeStr='2006-01-01', endDateStr='2019-12-31'), targetShares, '2005-12-31', '2019-12-31')
-        self.filterETF()
-        etfdf = self.loadStockFromArr(self.makeName('ETF2', beforeStr='2006-12-31', endDateStr='2019-12-31'), self.KODEX + self.TIGER + self.KOSEF, '2006-12-31', '2019-12-31')
+        shareTopCapName = self.makeName('SHARETOPCAP', beforeStr='2006-01-01', endDateStr='2019-12-31')
+        etfName = self.makeName('ETF2', beforeStr='2006-12-31', endDateStr='2019-12-31')
+        topcapdf = self.loadStockFromDict(shareTopCapName, targetShares, '2005-12-31', '2019-12-31')
+        etfdf = self.loadStockFromArr(etfName, self.KODEX + self.TIGER + self.KOSEF, '2006-12-31', '2019-12-31')
         etfdf.index = etfdf.index.map(lambda dt: pd.to_datetime(dt.date()))
         topdf = pd.concat([etfdf,topcapdf], sort=False, axis=1)
         
@@ -110,7 +111,6 @@ class StockLoader:
             targetShares[row['Code']] = row['Name']
             reversedCode[row['Name']] = row['Code']
         topcapdf = self.loadStockFromDict(self.makeName('SHARETOPCAP', beforeStr=start, endDateStr=end), targetShares, start, end)
-        self.filterETF()
         etfdf = self.loadStockFromArr(self.makeName('ETF2', beforeStr=start, endDateStr=end), self.KODEX + self.TIGER + self.KOSEF, start, end)
         etfdf.index = etfdf.index.map(lambda dt: pd.to_datetime(dt.date()))
         topdf = pd.concat([etfdf,topcapdf], sort=False, axis=1)

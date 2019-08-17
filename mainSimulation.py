@@ -128,7 +128,8 @@ investigation = []
 rebalanceRate = 0
 momentumList = []
 konexCode = ['076340','223220','186230','112190','214610','224880','086220','284610','272420','178600','114920','199150','183410','176750','220110','086080','200350','271850','302920','270020','163430','216400','126340','232680','285770','215050','110660','135270','162120','210610','302550','185190','217320','233250','103660','189330','189540','267060','279600','149010','281310','208890','158300','086460','266170','203400','064850','260870','236030','271400','179720','216280','140660','267810','270660','121060','084440','221800','210120','101360','270210','299670','219750','140290','217910','189350','136660','116100','262760','199800','217880','202960','276240','225860','065370','107640','222670','121060','224760','225220','221670','299480','220250','207230','224810','228180','229000','229500','092590','217950','211050','230400','180060','225850','044990','232680','226610','258050','234070','277880','266870','278990','135160','215570','233990','176560','232530','206950','067370','236340','237720','222160','284420','238500','240340','241510','058970','242420','066830','228760','242850','112190','244880','245030','229480','208850','245450','246250','247300','224020','212310','191600','250300','239890','251960','252370','251280','243870','253840','199290','148780','167380','258540','232830','258250','227420','260970','205290','242350','120780']
-blackList = list(map(lambda x : sCode[x] if x in sCode.keys() else '', konexCode))
+defblackList = list(map(lambda x : sCode[x] if x in sCode.keys() else '', konexCode))
+blackList = defblackList
 
 while endDate > current:
     if nextYearDay <= current:
@@ -136,6 +137,7 @@ while endDate > current:
         if len(momentumList) > 0:
             printG('momentumSumTotal',sum(momentumList), sum(momentumList)/len(momentumList))
         momentumList = []
+        blackList = defblackList
 
     if nextInvestDay <= current:
         for pair in investigation:
@@ -177,31 +179,25 @@ while endDate > current:
         target = list(topdf.columns)
         if len(blackList) > 0:
             target = list(filter(lambda x : x not in blackList, target ))
+
         target = ss.filterAltmanZScore(current, topdf[target], factordf, topcap, sName, sCode )
         printG('altman', len(target))
-        # target = ss.getFactorLists(current, topdf[target], factordf, factors, 20, weights)
-        # target = ss.getRiseMeanList(current, topdf[target], 500, 0)
-        # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 3000, minVal=100)
-        #roe 0 => 저 per반 => 영업수익률 1000 => pcr 50 => 당기순수익률 30  
-        
-        # if ss.isUnemployedYear(current.year):
-            # minRoe = 20
-            # maxRoe = 40
-        # else:
         # target = ss.getAmount(current, marcapdf, sCode, limit=0)
         inter = list(set(topdf.columns) & set(target))
         target = ss.getFactorList(current, topdf[inter], factordf, 'roe', sName, sCode, False, 3000, minVal=0.00000001)
-        target = ss.getFactorList(current, topdf[target], factordf, 'per', sName, sCode, True, int(len(target)/2), minVal=0.00000001)
         target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
-        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, False, 3000, minVal=0.00000001)
-        target = ss.getFactorList(current, topdf[target], factordf, 'pcr', sName, sCode, True, 50, minVal=0.00000001)
-        target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, False, 30, minVal=0.00000001)
-        # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름', False, 30, minVal=0.00000001)
+        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
+        # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
+        target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
+        target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
+        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
+        # target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, False, 30, minVal=0.00000001)
+        # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
-        # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', False, 30, minVal=0)
+        # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', sName, sCode, False, 30, minVal=0)
         beforeTarget = target
-        # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
-        # printG('momentumSum', momentumSum)
+        target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
+        printG('momentumSum', momentumSum)
         if ss.isUnemployedYear(current.year):
             printG('isUnemployedYear')
             target = beforeTarget
@@ -270,6 +266,9 @@ while endDate > current:
 
         losscutTarget = []
         alreadyCut = []
+        for stock in wallet.getAllStock():
+            loss = st.calculateLosscutRate(stock['code'], current)
+            printG(stock['code'], loss)
 
     # #blacklist
     # for stock in wallet.getAllStock():
@@ -299,6 +298,9 @@ while endDate > current:
     #손절
     for stock in wallet.getAllStock():
         isLosscut = st.losscut(stock['code'], current, buyDate)
+        # isLosscutScalar = st.losscutScalar(stock['code'], current, buyDate, 0.8)
+        # if isLosscutScalar and stock['code'] not in blackList:
+        #     blackList.append(stock['code'])
         if isLosscut and stock['code'] not in losscutTarget:
             losscutTarget.append(stock['code'])
             if len(losscutTarget) >= 15:#len(target)/2:

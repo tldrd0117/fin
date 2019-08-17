@@ -1,5 +1,6 @@
 import pandas as pd
 import math
+import numpy as np
 
 class StockStrategy:
     @staticmethod
@@ -192,26 +193,86 @@ class StockStrategy:
         else:
             yearDf = yearDf[current.year - 2]
         yearDf = yearDf.dropna()
-        yearDf = yearDf[yearDf >= minVal]
-        yearDf = yearDf[yearDf <= maxVal]
         # intersect = list(set(yearDf.columns) & set(nameList))
         
-        marcapdf2 = marcapdf[str(current.year)+'-'+str(current.month)]
+        if marcapdf.index[-1] > current:
+            marcapdf2 = marcapdf[str(current.year)+'-'+str(current.month)]
+        else:
+            lastDate = marcapdf.index[-1]
+            marcapdf2 = marcapdf[str(lastDate.year)+'-'+str(lastDate.month)]
         inter = list(set(sCode.keys()) & set(marcapdf2['Code'].values))
         marcapdf2 = marcapdf2[marcapdf2['Code'].isin(inter)]
 
         # indexes = list(map(lambda x : sCode[x], marcapdf2['Code'].values))
         indexes = list(marcapdf2['Code'].values)
-        stockNum = pd.Series(marcapdf2['Stocks'].values, index=indexes)
+        values = list(marcapdf2['Stocks'].values)
+        print(len(indexes), len(values))
+        stockNum = pd.Series(values, index=indexes)
         inter = list(set(yearDf.index) & set(indexes))
         deleteList = []
         for index in list(yearDf.index):
             if index not in stockNum.index:
                 deleteList.append(index)
                 continue
-            if len(stockNum.at[index]) > 0:
+            if type(stockNum.at[index]) is np.float64:
+                # print(stockNum)
+                yearDf.at[index] = yearDf.at[index] / stockNum.at[index]
+            if type(stockNum.at[index]) is np.array:
                 yearDf.at[index] = yearDf.at[index] / stockNum.at[index][0]
+        # if len(deleteList) > 0:
+        #     print(deleteList, sCode[deleteList[0]])
         yearDf = yearDf.drop(deleteList, axis=0)
+        yearDf = yearDf[yearDf >= minVal]
+        yearDf = yearDf[yearDf <= maxVal]
+        shcodes = list(map(lambda x : sCode[x], list(yearDf.sort_values(ascending=ascending).head(num).index)))
+        # nameList = list(factordf[factor].loc[shcodes].index)
+        intersect = list(set(targetdf.columns) & set(shcodes))
+        return intersect
+    
+    def getCurValuePerStockNumFactor(self, current, targetdf, factordf, factor, marcapdf, sCode, sName, factorUnit, ascending, num, minVal=float('-inf'), maxVal=float('inf') ):
+        # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
+        # yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
+        codeList = list(map(lambda x: sName[x], targetdf.columns))
+        yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
+        # print(factordf[factor])
+        if current.month > 4:
+            yearDf = yearDf[current.year - 1]
+        else:
+            yearDf = yearDf[current.year - 2]
+        yearDf = yearDf.dropna()
+        # intersect = list(set(yearDf.columns) & set(nameList))
+        
+        if marcapdf.index[0] > current:
+            initDate = marcapdf.index[0]
+            marcapdf2 = marcapdf[str(initDate.year)+'-'+str(initDate.month)]
+        elif marcapdf.index[-1] > current:
+            marcapdf2 = marcapdf[str(current.year)+'-'+str(current.month)]
+        else:
+            lastDate = marcapdf.index[-1]
+            marcapdf2 = marcapdf[str(lastDate.year)+'-'+str(lastDate.month)]
+        inter = list(set(sCode.keys()) & set(marcapdf2['Code'].values))
+        marcapdf2 = marcapdf2[marcapdf2['Code'].isin(inter)]
+
+        # indexes = list(map(lambda x : sCode[x], marcapdf2['Code'].values))
+        indexes = list(marcapdf2['Code'].values)
+        values = list(marcapdf2['Stocks'].values)
+        print(len(indexes), len(values))
+        stockNum = pd.Series(values, index=indexes)
+        inter = list(set(yearDf.index) & set(indexes))
+        deleteList = []
+        for index in list(yearDf.index):
+            if index not in stockNum.index:
+                deleteList.append(index)
+                continue
+            value = targetdf.iloc[targetdf.index.get_loc(current, method='ffill')][sCode[index]]
+            if type(stockNum.at[index]) is np.float64:
+                yearDf.at[index] = value * stockNum.at[index] / (yearDf.at[index] * factorUnit) 
+            else:
+                yearDf.at[index] = value * stockNum.at[index][0] / (yearDf.at[index] * factorUnit)
+        # if len(deleteList) > 0:
+        yearDf = yearDf.drop(deleteList, axis=0)
+        yearDf = yearDf[yearDf >= minVal]
+        yearDf = yearDf[yearDf <= maxVal]
         shcodes = list(map(lambda x : sCode[x], list(yearDf.sort_values(ascending=ascending).head(num).index)))
         # nameList = list(factordf[factor].loc[shcodes].index)
         intersect = list(set(targetdf.columns) & set(shcodes))
