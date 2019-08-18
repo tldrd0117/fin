@@ -128,8 +128,8 @@ class StockStrategy:
     def getMinusMomentumScore(self, current, targetdf, mNum, mUnit):
         mdf = targetdf.resample('M').mean()
         beforeMomentumDate = current + pd.Timedelta(-mNum, unit=mUnit)
-        start = mdf.index.get_loc(beforeMomentumDate, method='nearest')
-        end = mdf.index.get_loc(current, method='nearest')
+        start = mdf.index.get_loc(beforeMomentumDate, method='pad')
+        end = mdf.index.get_loc(current, method='pad')
         
         oneYearDf = mdf.iloc[start:end+1]
         latelyValue = oneYearDf.iloc[-1]

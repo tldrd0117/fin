@@ -197,8 +197,10 @@ while endDate > current:
         # target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, False, 30, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
+        # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
+        if len(target) > 0:
+            target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=12, mUnit='M', limit=30, minVal=0.00000001)
         beforeTarget = target
-        target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=12, mUnit='M', limit=30, minVal=0.00000001)
         if len(target) > 0:
             target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
         printG('momentumSum', momentumSum)
@@ -207,8 +209,10 @@ while endDate > current:
             # target = ss.getFactorList(current, topdf[beforebeforeTarget], factordf, '부채', sName, sCode, True, 10, minVal=0.00000001)
 
         # if ss.isUnemployedYear(current.year) :
-            # printG('isUnemployedYear')
-            # target = beforeTarget
+        #     # printG('isUnemployedYear')
+        #     target = beforeTarget
+        #     if len(target) > 0:
+        #         target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.5)
 
         # if abs(momentumSum) <= 5:
             # target = beforeTarget
