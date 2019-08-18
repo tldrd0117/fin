@@ -97,7 +97,7 @@ one = True
 ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
-current = pd.to_datetime('2016-10-03', format='%Y-%m-%d')
+current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
 endDate = pd.to_datetime('2019-08-16', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
@@ -186,22 +186,29 @@ while endDate > current:
         # target = ss.getAmount(current, marcapdf, sCode, limit=0)
         inter = list(set(topdf.columns) & set(target))
         target = ss.getFactorList(current, topdf[inter], factordf, 'roe', sName, sCode, False, 3000, minVal=0.00000001)
+        # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', sName, sCode, False, 3000, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
         target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
         # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
         target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
         target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
+        beforebeforeTarget = target
         target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
         # target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, False, 30, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
-        # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', sName, sCode, False, 30, minVal=0)
         beforeTarget = target
-        target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
+        target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=12, mUnit='M', limit=30, minVal=0.00000001)
+        if len(target) > 0:
+            target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
         printG('momentumSum', momentumSum)
-        if ss.isUnemployedYear(current.year):
-            printG('isUnemployedYear')
-            target = beforeTarget
+        # if len(target) < 2:
+        #     target = []
+            # target = ss.getFactorList(current, topdf[beforebeforeTarget], factordf, '부채', sName, sCode, True, 10, minVal=0.00000001)
+
+        # if ss.isUnemployedYear(current.year) :
+            # printG('isUnemployedYear')
+            # target = beforeTarget
 
         # if abs(momentumSum) <= 5:
             # target = beforeTarget
