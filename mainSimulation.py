@@ -141,6 +141,7 @@ while endDate > current:
         blackList = defblackList
 
     if nextInvestDay <= current:
+        #표시하기
         for pair in investigation:
             # if pair['code'] in alreadyCut:
             #     continue
@@ -163,6 +164,11 @@ while endDate > current:
             # if lastMoney/(pair['price']*ratio) <= 0.8:
                 # blackList.append(pair['code'])
         # printG('blackList', blackList)
+
+        # #한달 수익률
+        if current != buyDate:
+            afterBuyDate = buyDate + pd.Timedelta(1, unit='d')
+            printG('monthPercentage: ', (moneySum.loc[current] - moneySum.loc[afterBuyDate])/moneySum.loc[afterBuyDate] * 100 )
         
         investigation = []
         wallet.clear()
@@ -198,9 +204,11 @@ while endDate > current:
         # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
         # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
+        beforeTarget = target
+        notMomentumTarget = target
         if len(target) > 0:
             target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=12, mUnit='M', limit=30, minVal=0.00000001)
-        beforeTarget = target
+        only12MomentumTarget = target
         if len(target) > 0:
             target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
         printG('momentumSum', momentumSum)
@@ -211,8 +219,6 @@ while endDate > current:
         # if ss.isUnemployedYear(current.year) :
         #     # printG('isUnemployedYear')
         #     target = beforeTarget
-        #     if len(target) > 0:
-        #         target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.5)
 
         # if abs(momentumSum) <= 5:
             # target = beforeTarget
@@ -220,23 +226,24 @@ while endDate > current:
         # if momentumSum <= 5:
             # target = beforeTarget
         # target = ss.getFactorList(current, topdf[target], factordf, 'ev_ebitda', True, 30)
-
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, int(len(target)*4/5))
         # target = ss.getFactorList(current, topdf[target], factordf, 'per', False, int(len(target)*4/5))
         # target = ss.getFactorList(current, topdf[target], factordf, 'pbr', False, 30)
-
         # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름', False, 30)
-
-        printG('investNum',len(target))
-
         # target = ss.getFactorList(current, topdf[target], factordf, 'pcr', True, 50)
         # target = ss.getFactorList(current, topdf[target], factordf, 'per', True, 30)
         # target = ss.getFactorList(current, topdf[target], factordf, 'psr', True, 1)
-
         # target = ss.getFactorList(current, topdf[target], factordf, '당기순이익', True, 200)
         # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름', False, 30, minVal=0.000001)
         # target = ss.getRsi30perList(current, topdf[target], 30)
-
+        printG('NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@')
+        printG('investNum1:',len(notMomentumTarget))
+        printG(notMomentumTarget)
+        printG('12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@')
+        printG('investNum2:',len(only12MomentumTarget))
+        printG(only12MomentumTarget)
+        printG('INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+        printG('investNum3:',len(target))
         printG(target)
         if len(target) <= 0:
             moneyRate = 0

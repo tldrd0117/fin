@@ -130,14 +130,16 @@ class StockStrategy:
         beforeMomentumDate = current + pd.Timedelta(-mNum, unit=mUnit)
         start = mdf.index.get_loc(beforeMomentumDate, method='pad')
         end = mdf.index.get_loc(current, method='pad')
-        
+        print(mdf.index[start], mdf.index[end], current)
         oneYearDf = mdf.iloc[start:end+1]
+        # curVal = targetdf.index.get_loc(current, method='pad')
+        # latelyValue = targetdf.iloc[curVal]
         latelyValue = oneYearDf.iloc[-1]
         momentum = pd.DataFrame(latelyValue.values - oneYearDf.values, oneYearDf.index, oneYearDf.columns)
         # momentumScore = momentum.applymap(lambda val: 1 if val > 0 else 0 )
         momentumValues = momentum.values
-        momentumValues[momentumValues>0] = 1
-        momentumValues[momentumValues<=0] = -1
+        momentumValues[momentumValues > 0] = 1
+        momentumValues[momentumValues <= 0] = -1
         momentumScore = pd.DataFrame(momentumValues, momentum.index, momentum.columns)
         return momentumScore.mean(axis=0)
     
