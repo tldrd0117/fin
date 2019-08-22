@@ -64,6 +64,22 @@ class StockTransaction:
         # cutRate = self.calculateLosscutRate(code, self.topdf.index[currentIndex])
         return yieRate < cutRate
     
+    def losscutScalarSum(self, codes, current, buyDate, cutRate):
+        if len(codes) <= 0:
+            return False
+        currentIndex = self.topdf.index.get_loc(current, method='ffill')
+        beforeIndex = self.topdf.index.get_loc(buyDate, method='ffill')
+        if beforeIndex < 0:
+            return False
+        stockValues = 0
+        beforeValues = 0
+        for code in codes:
+            stockValues += self.topdf.iloc[currentIndex][code]
+            beforeValues += self.topdf.iloc[beforeIndex][code]
+        yieRate = 1 + (stockValues - beforeValues)/beforeValues
+        # cutRate = self.calculateLosscutRate(code, self.topdf.index[currentIndex])
+        return yieRate < cutRate
+    
     def losscutMeanVal(self, code, current, targetdf):
         raiseDf = targetdf - targetdf.shift(1)
         beforeOneMonth = current + pd.Timedelta(-1, unit='M')

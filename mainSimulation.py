@@ -12,7 +12,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
-logging.basicConfig(handlers=[logging.FileHandler('simulation4.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
+logging.basicConfig(handlers=[logging.FileHandler('simulation6.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
 pd.set_option('display.float_format', None)
 np.set_printoptions(suppress=True)
 def printG(*msg):
@@ -31,7 +31,8 @@ topdf3 = sl.loadTopLately(topcap, '2019-08-05','2019-08-05')
 topdf4 = sl.loadTopLately(topcap, '2019-08-06','2019-08-08')
 topdf5 = sl.loadTopLately(topcap, '2019-08-09','2019-08-09')
 topdf6 = sl.loadTopLately(topcap, '2019-08-10','2019-08-16')
-topdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5, topdf6])
+topdf7 = sl.loadTopLately(topcap, '2019-08-17','2019-08-22')
+topdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5, topdf6, topdf7])
 topdf = topdf[~topdf.index.duplicated(keep='first')]
 marcapdf = sl.loadMarcap()
 factordf = sl.loadFactor()
@@ -98,7 +99,7 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-08-16', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-08-22', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -200,8 +201,8 @@ while endDate > current:
         target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
         beforebeforeTarget = target
         target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
-        # target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, False, 30, minVal=0.00000001)
-        # target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
+        target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, False, 30, minVal=0.00000001)
+        target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
         # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
         beforeTarget = target
@@ -212,9 +213,11 @@ while endDate > current:
         if len(target) > 0:
             target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
         printG('momentumSum', momentumSum)
+        # if current.month >=4 and current.month <=10:
+        #     target = []
         # if len(target) < 2:
         #     target = []
-            # target = ss.getFactorList(current, topdf[beforebeforeTarget], factordf, '부채', sName, sCode, True, 10, minVal=0.00000001)
+        #     target = ss.getFactorList(current, topdf[beforebeforeTarget], factordf, '부채', sName, sCode, True, 10, minVal=0.00000001)
 
         # if ss.isUnemployedYear(current.year) :
         #     # printG('isUnemployedYear')
@@ -314,25 +317,45 @@ while endDate > current:
     #                         buyMoney = st.getValue(current, bondName)
     #                         wallet.buy(bondName, q, buyMoney)
     #                         rebalaceMoney -= buyMoney * q
+    #손절 Sum
+    stockCodes = list(map(lambda x : x['code'], wallet.getAllStock()))
+    isLosscut = st.losscutScalarSum(stockCodes, current, buyDate, 0.9)
+    if isLosscut:
+        for stock in wallet.getAllStock():
+            if stock['code'] not in losscutTarget:
+                losscutTarget.append(stock['code'])
+                if len(losscutTarget) >= len(target):
+                    printG('손절갯수:', len(losscutTarget))
+                    for lossTarget in losscutTarget:
+                        if lossTarget not in alreadyCut:
+                            alreadyCut.append(lossTarget)
+                            lossStock = wallet.getStock(lossTarget)
+                            stockQuantity = lossStock['quantity']
+                            sellMoney = st.getValue(current, lossTarget)
+                            isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+                            if isSold:
+                                restMoney += sellMoney * stockQuantity
+                            
+
     #손절
-    for stock in wallet.getAllStock():
-        isLosscut = st.losscut(stock['code'], current, buyDate)
-        # isLosscutScalar = st.losscutScalar(stock['code'], current, buyDate, 0.8)
-        # if isLosscutScalar and stock['code'] not in blackList:
-        #     blackList.append(stock['code'])
-        if isLosscut and stock['code'] not in losscutTarget:
-            losscutTarget.append(stock['code'])
-            if len(losscutTarget) >= 15:#len(target)/2:
-                printG('손절갯수:', len(losscutTarget))
-                for lossTarget in losscutTarget:
-                    if lossTarget not in alreadyCut:
-                        alreadyCut.append(lossTarget)
-                        lossStock = wallet.getStock(lossTarget)
-                        stockQuantity = lossStock['quantity']
-                        sellMoney = st.getValue(current, lossTarget)
-                        isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
-                        if isSold:
-                            restMoney += sellMoney * stockQuantity
+    # for stock in wallet.getAllStock():
+    #     # isLosscut = st.losscut(stock['code'], current, buyDate)
+    #     isLosscutScalar = st.losscutScalar(stock['code'], current, buyDate, 0.9)
+    #     # if isLosscutScalar and stock['code'] not in blackList:
+    #     #     blackList.append(stock['code'])
+    #     if isLosscutScalar and stock['code'] not in losscutTarget:
+    #         losscutTarget.append(stock['code'])
+    #         if len(losscutTarget) >= len(target):
+    #             printG('손절갯수:', len(losscutTarget))
+    #             for lossTarget in losscutTarget:
+    #                 if lossTarget not in alreadyCut:
+    #                     alreadyCut.append(lossTarget)
+    #                     lossStock = wallet.getStock(lossTarget)
+    #                     stockQuantity = lossStock['quantity']
+    #                     sellMoney = st.getValue(current, lossTarget)
+    #                     isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+    #                     if isSold:
+    #                         restMoney += sellMoney * stockQuantity
                             
                             #채권 사기
                             # bondName = 'KOSEF 국고채10년레버리지'
