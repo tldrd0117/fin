@@ -158,7 +158,9 @@ class StockStrategy:
         unemployedMean = sum(unemployedNum)/len(unemployedNum)
         return unemployedNum[idx] > unemployedMean
     
-    def getAmount(self, current, targetdf, sCode, limit):
+    def getAmount(self, current, targetdf, target, sName, sCode, limit):
+        targetCode = list(map(lambda x : sName[x], target))
+        targetdf = targetdf[targetdf['Code'].isin(targetCode)]
         beforebeforeOneMonth = current + pd.Timedelta(-1, unit='M') + pd.Timedelta(-1, unit='D')
         beforebeforeOneDay = current + pd.Timedelta(-2, unit='D')
         termdf = targetdf.loc[beforebeforeOneMonth:beforebeforeOneDay]

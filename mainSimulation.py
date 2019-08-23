@@ -12,7 +12,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
-logging.basicConfig(handlers=[logging.FileHandler('simulation6.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
+logging.basicConfig(handlers=[logging.FileHandler('simulation7.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
 pd.set_option('display.float_format', None)
 np.set_printoptions(suppress=True)
 def printG(*msg):
@@ -32,7 +32,8 @@ topdf4 = sl.loadTopLately(topcap, '2019-08-06','2019-08-08')
 topdf5 = sl.loadTopLately(topcap, '2019-08-09','2019-08-09')
 topdf6 = sl.loadTopLately(topcap, '2019-08-10','2019-08-16')
 topdf7 = sl.loadTopLately(topcap, '2019-08-17','2019-08-22')
-topdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5, topdf6, topdf7])
+topdf8 = sl.loadTopLately(topcap, '2019-08-23','2019-08-23')
+topdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5, topdf6, topdf7, topdf8])
 topdf = topdf[~topdf.index.duplicated(keep='first')]
 marcapdf = sl.loadMarcap()
 factordf = sl.loadFactor()
@@ -141,7 +142,7 @@ while endDate > current:
         momentumList = []
         blackList = defblackList
 
-    if nextInvestDay <= current:
+    if nextInvestDay <= current or nextInvestDay.day == current.day:
         #표시하기
         for pair in investigation:
             # if pair['code'] in alreadyCut:
@@ -168,8 +169,13 @@ while endDate > current:
 
         # #한달 수익률
         if current != buyDate:
-            afterBuyDate = buyDate + pd.Timedelta(1, unit='d')
-            printG('monthPercentage: ', (moneySum.loc[current] - moneySum.loc[afterBuyDate])/moneySum.loc[afterBuyDate] * 100 )
+            buyDateIdx = moneySum.index.get_loc(buyDate, method='nearest')
+            currentIdx = moneySum.index.get_loc(current, method='nearest')
+            bDate = moneySum.index[buyDateIdx]
+            cDate = moneySum.index[currentIdx]
+
+            printG('monthPercentage: ',bDate,'~',cDate, ' # ', (moneySum.iloc[currentIdx] - moneySum.iloc[buyDateIdx])/moneySum.iloc[buyDateIdx] * 100 )
+            printG('monthTotal: ',bDate,' # ', moneySum.iloc[buyDateIdx],"  ",cDate, ' # ', moneySum.iloc[currentIdx] )
         
         investigation = []
         wallet.clear()
@@ -183,14 +189,13 @@ while endDate > current:
         # nextInvestDay = current + pd.Timedelta(15, unit='d')
         #7일마다 주식 변경
         beforeInvestDay = current
-        nextInvestDay = current + pd.Timedelta(1, unit='M')
+        nextInvestDay = current + pd.Timedelta(32, unit='d')
+        nextInvestDay = nextInvestDay.replace(day=1)
         target = list(topdf.columns)
         if len(blackList) > 0:
             target = list(filter(lambda x : x not in blackList, target ))
-
         target = ss.filterAltmanZScore(current, topdf[target], factordf, topcap, sName, sCode )
         printG('altman', len(target))
-        # target = ss.getAmount(current, marcapdf, sCode, limit=0)
         inter = list(set(topdf.columns) & set(target))
         target = ss.getFactorList(current, topdf[inter], factordf, 'roe', sName, sCode, False, 3000, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', sName, sCode, False, 3000, minVal=0)
@@ -205,6 +210,8 @@ while endDate > current:
         target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
         # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
+        target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=500000000)
+
         beforeTarget = target
         notMomentumTarget = target
         if len(target) > 0:
@@ -318,23 +325,24 @@ while endDate > current:
     #                         wallet.buy(bondName, q, buyMoney)
     #                         rebalaceMoney -= buyMoney * q
     #손절 Sum
-    stockCodes = list(map(lambda x : x['code'], wallet.getAllStock()))
-    isLosscut = st.losscutScalarSum(stockCodes, current, buyDate, 0.9)
-    if isLosscut:
-        for stock in wallet.getAllStock():
-            if stock['code'] not in losscutTarget:
-                losscutTarget.append(stock['code'])
-                if len(losscutTarget) >= len(target):
-                    printG('손절갯수:', len(losscutTarget))
-                    for lossTarget in losscutTarget:
-                        if lossTarget not in alreadyCut:
-                            alreadyCut.append(lossTarget)
-                            lossStock = wallet.getStock(lossTarget)
-                            stockQuantity = lossStock['quantity']
-                            sellMoney = st.getValue(current, lossTarget)
-                            isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
-                            if isSold:
-                                restMoney += sellMoney * stockQuantity
+    # if len(target) <= 6:
+    #     stockCodes = list(map(lambda x : x['code'], wallet.getAllStock()))
+    #     isLosscut = st.losscutScalarSum(stockCodes, current, buyDate, 0.9)
+    #     if isLosscut:
+    #         for stock in wallet.getAllStock():
+    #             if stock['code'] not in losscutTarget:
+    #                 losscutTarget.append(stock['code'])
+    #                 if len(losscutTarget) >= len(target):
+    #                     printG('손절갯수:', len(losscutTarget))
+    #                     for lossTarget in losscutTarget:
+    #                         if lossTarget not in alreadyCut:
+    #                             alreadyCut.append(lossTarget)
+    #                             lossStock = wallet.getStock(lossTarget)
+    #                             stockQuantity = lossStock['quantity']
+    #                             sellMoney = st.getValue(current, lossTarget)
+    #                             isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+    #                             if isSold:
+    #                                 restMoney += sellMoney * stockQuantity
                             
 
     #손절
@@ -407,10 +415,11 @@ while endDate > current:
 
     nextDay = current + pd.Timedelta(1, unit='D')
 
-    current = nextDay
     money = stockMoney + restMoney + rebalaceMoney
     moneySum.loc[current] = money
     printG(current, money, stockMoney, restMoney, rebalaceMoney)
+    current = nextDay
+
 # In[4]: look
 # moneySum
 # In[3]: 통계
