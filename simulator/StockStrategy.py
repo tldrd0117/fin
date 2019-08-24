@@ -171,7 +171,7 @@ class StockStrategy:
             if groupMean[code] > limit:
                 if code in sCode.keys():
                     results.append(sCode[code])
-        return results
+        return list(set(results))
 
 
     def getRsi30perList(self, current, targetdf, limit, minVal=0):

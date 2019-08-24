@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import time
 import numpy as np
+import json
 
 from crawler.naver.NaverTopMarketCapCrawler import NaverTopMarketCapCrawler
 from crawler.naver.data.NaverDate import NaverDate
@@ -10,6 +11,7 @@ from crawler.naver.DartCrawler import DartCrawler
 from crawler.naver.NavarSearchCodeCrawler import NavarSearchCodeCrawler
 from crawler.naver.NaverCrawler import NaverCrawler
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
+from simulator.MongoStockCollection import MongoStockCollection
 
 pd.set_option('display.float_format', None)
 class StockLoader:
@@ -21,6 +23,9 @@ class StockLoader:
     
     def makeName(self, name, beforeStr, endDateStr):
         return 'h5data/'+name + '_' + beforeStr + '_' + endDateStr + '.h5'
+
+    def makeNameJson(self, name, beforeStr, endDateStr):
+        return 'h5data/'+name + '_' + beforeStr + '_' + endDateStr + '.json'
 
     def topk(self, num):
         crawler = NaverTopMarketCapCrawler.create()
@@ -73,6 +78,10 @@ class StockLoader:
 
         return self.TIGER, self.KODEX, self.KODEX
 
+    def loadStockFromDb(self):
+        msc = MongoStockCollection.create()
+        stockDb = msc.get()
+        stockDb.find()
 
     def loadTopDf(self):
         pd.options.display.float_format = '{:.2f}'.format
@@ -215,9 +224,62 @@ class StockLoader:
         # stockdf = pd.concat([stockdf, tempstockdf], axis=0)
         return tempstockdf
 
+    def loadStockJson(self, name, targets, beforeStr, endStr):
+        dataArray = []
+        if not os.path.isfile(name):
+            date = NaverDate.create(startDate=beforeStr, endDate=endStr)
+            progress = 0
+            compliteLen = len(targets)
+            for target in targets:
+                print(target['Name'],'collect...', str(progress),'/',str(compliteLen) ,str(progress/compliteLen)+'%')
+                crawler = NaverStockCrawler.create(target['Code'])
+                data = crawler.crawling(date)
+                for result in data:
+                    priceDate = pd.to_datetime(result.date, format='%Y-%m-%d')
+                    resultDict = { \
+                        '날짜': priceDate, \
+                        '종목명': target['Name'], \
+                        '종목코드': target['Code'], \
+                        '종가': result.close, \
+                        '시가': result.open, \
+                        '고가': result.high, \
+                        '저가': result.low, \
+                        '거래량': result.volume \
+                    }
+                    dataArray.append(resultDict)
+                progress+=1
+            
+            with open(name, 'w') as fp:
+                json.dump(dataArray, fp)
+        else:
+            print(name, 'is Already Exist')
+        return dataArray
+        # stockdf = pd.concat([stockdf, tempstockdf], axis=0)
+    def loadStockMongo(self, name, targets, beforeStr, endStr, stockdb):
+        date = NaverDate.create(startDate=beforeStr, endDate=endStr)
+        progress = 0
+        compliteLen = len(targets)
+        for target in targets:
+            print(target['Name'],'collect...', str(progress),'/',str(compliteLen) ,str(progress/compliteLen)+'%')
+            crawler = NaverStockCrawler.create(target['Code'])
+            data = crawler.crawling(date)
+            for result in data:
+                priceDate = pd.to_datetime(result.date, format='%Y-%m-%d')
+                resultDict = { \
+                    '날짜': priceDate, \
+                    '종목명': target['Name'], \
+                    '종목코드': target['Code'], \
+                    '종가': result.close, \
+                    '시가': result.open, \
+                    '고가': result.high, \
+                    '저가': result.low, \
+                    '거래량': result.volume \
+                }
+                stockdb.insert(resultDict)
+            progress+=1
+        return list(stockdb.find())
 
 
-    
     def loadStockFromDict(self, name, targets, beforeStr, endStr):
         prices = dict()
         if not os.path.isfile(name):

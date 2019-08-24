@@ -1,17 +1,22 @@
 # In[0]:
-# from simulator.StockLoader import StockLoader
-# sl = StockLoader.create()
-# stockdf = sl.loadStockDf()
-import matplotlib.pyplot as plt
-import pandas as pd
-choosedDf = pd.Series([0,1,2,3,4,5], index=[0,1,2,3,4,5])
-print(choosedDf)
-# jisuDf = choosedDf / choosedDf.iloc[0]
-plot = choosedDf.plot(figsize = (18,12), fontsize=12)
-# fontProp = fm.FontProperties(fname=path, size=18)
-# plt.legend(prop=fontProp)
+from simulator.StockLoader import StockLoader
+from simulator.MongoStockCollection import MongoStockCollection
 
-plt.show()
+msc = MongoStockCollection.create()
+stockDb = msc.get()
+sl = StockLoader.create()
+
+alreadyIn = stockDb.distinct('종목코드')
+print(alreadyIn)
+
+topcap = sl.load(sl.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
+sCode = {row['Code'] : row['Name'] for index, row  in topcap.iterrows()}
+codes = list(set(topcap['Code']))
+targets = [ {'Code':code, 'Name':sCode[code]} for code in codes if code not in alreadyIn ]
+
+name = sl.makeNameJson('STOCK_DATA', '2006-01-01', '2019-8-24')
+data = sl.loadStockMongo(name, targets, '2006-01-01', '2019-8-24',stockDb)
+print(data)
 
 
 #%%

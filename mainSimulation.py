@@ -174,8 +174,13 @@ while endDate > current:
             bDate = moneySum.index[buyDateIdx]
             cDate = moneySum.index[currentIdx]
 
+            maxValue = moneySum.iloc[buyDateIdx,currentIdx].max()
+            minValue = moneySum.iloc[buyDateIdx,currentIdx].min()
+            meanValue = moneySum.iloc[buyDateIdx,currentIdx].mean()
+
             printG('monthPercentage: ',bDate,'~',cDate, ' # ', (moneySum.iloc[currentIdx] - moneySum.iloc[buyDateIdx])/moneySum.iloc[buyDateIdx] * 100 )
             printG('monthTotal: ',bDate,' # ', moneySum.iloc[buyDateIdx],"  ",cDate, ' # ', moneySum.iloc[currentIdx] )
+            printG('lossPoint:',1 - (maxValue - minValue)/meanValue)
         
         investigation = []
         wallet.clear()
@@ -210,7 +215,7 @@ while endDate > current:
         target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
         # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
-        target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=500000000)
+        target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)
 
         beforeTarget = target
         notMomentumTarget = target
