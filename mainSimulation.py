@@ -36,11 +36,14 @@ topcap, sCode, sName = sl.loadTopcapDf()
 # topdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5, topdf6, topdf7, topdf8])
 topdf = pd.read_hdf('h5data/STOCK_CLOSE_2006-01-01_2019-08-23.h5', key='df')
 amountdf = pd.read_hdf('h5data/STOCK_AMOUNT_2006-01-01_2019-08-23.h5', key='df')
+# snamedf = pd.read_hdf('h5data/SHARE_NAME.h5', key='df')
+# scodedf = pd.read_hdf('h5data/SHARE_CODE.h5', key='df')
 topdf = topdf[~topdf.index.duplicated(keep='first')]
 marcapdf = sl.loadMarcap()
 factordf = sl.loadFactor()
 qfactordf = sl.loadQuaterFactor()
 intersect = list(set(topdf.columns) & set(topcap['Name'].values)) #+ ['KOSEF 국고채10년레버리지']
+# intersect = list(map(lambda x : sCode[x],intersect))
 topdf = topdf[intersect]
 # salesdf = factordf['영업활동으로인한현금흐름']
 # compdf = salesdf.shift(-1, axis=1)
