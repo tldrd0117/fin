@@ -16,7 +16,6 @@ targets = [ {'Code':code, 'Name':sCode[code]} for code in codes if code not in a
 
 name = sl.makeNameJson('STOCK_DATA', '2006-01-01', '2019-8-24')
 data = sl.loadStockMongo(name, targets, '2006-01-01', '2019-8-24',stockDb)
-print(data)
-
+# print(data)
 
 #%%

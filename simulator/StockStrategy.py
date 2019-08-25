@@ -157,6 +157,15 @@ class StockStrategy:
         idx = list(range(2008, 2020)).index(year)
         unemployedMean = sum(unemployedNum)/len(unemployedNum)
         return unemployedNum[idx] > unemployedMean
+
+    def getAmountLimitList(self, current, targetdf, amountdf, limit):
+        beforebeforeOneMonth = current + pd.Timedelta(-1, unit='M') + pd.Timedelta(-1, unit='D')
+        beforebeforeOneDay = current + pd.Timedelta(-2, unit='D')
+        termTargetdf = targetdf.loc[beforebeforeOneMonth:beforebeforeOneDay]
+        termAmountdf = amountdf.loc[beforebeforeOneMonth:beforebeforeOneDay]
+        amount = (termTargetdf * termAmountdf).mean()
+        return list(amount[amount>=limit].index)
+
     
     def getAmount(self, current, targetdf, target, sName, sCode, limit):
         targetCode = list(map(lambda x : sName[x], target))

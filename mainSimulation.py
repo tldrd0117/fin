@@ -25,15 +25,17 @@ def printG(*msg):
 #StockLoader 시간에따른 주식 가격을 가져온다
 
 sl = StockLoader.create()
-topdf, topcap, sCode, sName = sl.loadTopDf()
-topdf2 = sl.loadTopLately(topcap, '2019-05-01','2019-08-04')
-topdf3 = sl.loadTopLately(topcap, '2019-08-05','2019-08-05')
-topdf4 = sl.loadTopLately(topcap, '2019-08-06','2019-08-08')
-topdf5 = sl.loadTopLately(topcap, '2019-08-09','2019-08-09')
-topdf6 = sl.loadTopLately(topcap, '2019-08-10','2019-08-16')
-topdf7 = sl.loadTopLately(topcap, '2019-08-17','2019-08-22')
-topdf8 = sl.loadTopLately(topcap, '2019-08-23','2019-08-23')
-topdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5, topdf6, topdf7, topdf8])
+topcap, sCode, sName = sl.loadTopcapDf()
+# topdf2 = sl.loadTopLately(topcap, '2019-05-01','2019-08-04')
+# topdf3 = sl.loadTopLately(topcap, '2019-08-05','2019-08-05')
+# topdf4 = sl.loadTopLately(topcap, '2019-08-06','2019-08-08')
+# topdf5 = sl.loadTopLately(topcap, '2019-08-09','2019-08-09')
+# topdf6 = sl.loadTopLately(topcap, '2019-08-10','2019-08-16')
+# topdf7 = sl.loadTopLately(topcap, '2019-08-17','2019-08-22')
+# topdf8 = sl.loadTopLately(topcap, '2019-08-23','2019-08-23')
+# topdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5, topdf6, topdf7, topdf8])
+topdf = pd.read_hdf('h5data/STOCK_CLOSE_2006-01-01_2019-08-23.h5', key='df')
+amountdf = pd.read_hdf('h5data/STOCK_AMOUNT_2006-01-01_2019-08-23.h5', key='df')
 topdf = topdf[~topdf.index.duplicated(keep='first')]
 marcapdf = sl.loadMarcap()
 factordf = sl.loadFactor()
@@ -100,7 +102,7 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-08-22', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-08-23', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -174,13 +176,16 @@ while endDate > current:
             bDate = moneySum.index[buyDateIdx]
             cDate = moneySum.index[currentIdx]
 
-            maxValue = moneySum.iloc[buyDateIdx,currentIdx].max()
-            minValue = moneySum.iloc[buyDateIdx,currentIdx].min()
-            meanValue = moneySum.iloc[buyDateIdx,currentIdx].mean()
+            maxValue = moneySum.iloc[buyDateIdx:currentIdx+1].max()
+            minValue = moneySum.iloc[buyDateIdx:currentIdx+1].min()
+            meanValue = moneySum.iloc[buyDateIdx:currentIdx+1].mean()
+            buyValue = moneySum.iloc[buyDateIdx]
 
             printG('monthPercentage: ',bDate,'~',cDate, ' # ', (moneySum.iloc[currentIdx] - moneySum.iloc[buyDateIdx])/moneySum.iloc[buyDateIdx] * 100 )
             printG('monthTotal: ',bDate,' # ', moneySum.iloc[buyDateIdx],"  ",cDate, ' # ', moneySum.iloc[currentIdx] )
             printG('lossPoint:',1 - (maxValue - minValue)/meanValue)
+            printG('maxPoint:',1 + ((maxValue - buyValue)/buyValue))
+            printG('minPoint:',1 + ((minValue - buyValue)/buyValue))
         
         investigation = []
         wallet.clear()
@@ -215,7 +220,8 @@ while endDate > current:
         target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
         # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
-        target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)
+        # target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)
+        target = ss.getAmountLimitList(current, topdf[target], amountdf[target], limit=200000000)
 
         beforeTarget = target
         notMomentumTarget = target

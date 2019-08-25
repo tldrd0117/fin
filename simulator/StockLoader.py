@@ -109,6 +109,19 @@ class StockLoader:
         
         return topdf, topcap, allCodes, allNames
     
+    def loadTopcapDf(self):
+        pd.options.display.float_format = '{:.2f}'.format
+        topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
+        #5천억 500000000000
+        #300억 30000000000
+        allCodes = {}
+        allNames = {}
+        for index, row  in topcap.iterrows():
+            allCodes[row['Code']] = row['Name']
+            allNames[row['Name']] = row['Code']
+        topcap = topcap[topcap['Marcap']<=700000000000]
+        return topcap, allCodes, allNames
+    
     def loadTopLately(self,topcap, start, end):
         pd.options.display.float_format = '{:.2f}'.format
         #5천억 500000000000
