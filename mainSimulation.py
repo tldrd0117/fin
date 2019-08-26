@@ -35,7 +35,12 @@ topcap, sCode, sName = sl.loadTopcapDf()
 # topdf8 = sl.loadTopLately(topcap, '2019-08-23','2019-08-23')
 # topdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5, topdf6, topdf7, topdf8])
 topdf = pd.read_hdf('h5data/STOCK_CLOSE_2006-01-01_2019-08-23.h5', key='df')
+topdf2 = pd.read_hdf('h5data/STOCK_CLOSE_2019-08-24_2019-08-26.h5', key='df')
+topdf = pd.concat([topdf, topdf2])
+
 amountdf = pd.read_hdf('h5data/STOCK_AMOUNT_2006-01-01_2019-08-23.h5', key='df')
+amountdf2 = pd.read_hdf('h5data/STOCK_AMOUNT_2019-08-24_2019-08-26.h5', key='df')
+amountdf = pd.concat([amountdf, amountdf2])
 # snamedf = pd.read_hdf('h5data/SHARE_NAME.h5', key='df')
 # scodedf = pd.read_hdf('h5data/SHARE_CODE.h5', key='df')
 topdf = topdf[~topdf.index.duplicated(keep='first')]
@@ -105,7 +110,7 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-08-23', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-08-26', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -139,7 +144,7 @@ konexCode = ['076340','223220','186230','112190','214610','224880','086220','284
 defblackList = list(map(lambda x : sCode[x] if x in sCode.keys() else '', konexCode))
 blackList = defblackList
 
-while endDate > current:
+while endDate >= current:
     if nextYearDay <= current:
         nextYearDay = current + pd.Timedelta(1, unit='Y')
         if len(momentumList) > 0:
@@ -309,6 +314,7 @@ while endDate > current:
 
         losscutTarget = []
         alreadyCut = []
+        cutList = {}
         for stock in wallet.getAllStock():
             loss = st.calculateLosscutRate(stock['code'], current)
             printG(stock['code'], loss)
@@ -357,7 +363,42 @@ while endDate > current:
     #                             isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
     #                             if isSold:
     #                                 restMoney += sellMoney * stockQuantity
-                            
+
+    #손절 및 다시 들어가기
+    #손절
+    for stock in wallet.getAllStock():   
+        isLosscutScalar = st.losscutScalar(stock['code'], current, buyDate, 0.99)
+        if isLosscutScalar and stock['code'] not in cutList.keys():
+            lossStock = wallet.getStock(stock['code'])
+            stockQuantity = lossStock['quantity']
+            sellMoney = st.getValue(current, stock['code'])
+            isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+            if isSold:
+                cutList[stock['code']] = {'value':st.getValue(current, stock['code']), 'money':sellMoney * stockQuantity}
+                printG('손절갯수:', len(cutList.keys()))
+                restMoney += sellMoney * stockQuantity
+    delList = []
+    #다시 들어가기
+    for code in cutList:
+        curValue = st.getValue(current, code)
+        if cutList[code]['value'] < curValue:
+            printG('다시 사기:', len(cutList.keys()))
+            buyAllMoney = 0
+            if restMoney > cutList[code]['money']:
+                buyAllMoney = cutList[code]['money']
+            else:
+                buyAllMoney = restMoney
+            q = st.possibleQuantity(current, buyAllMoney, code)
+            if not q:
+                continue
+            so = StockOrder.create(code, q, investMoney)
+            #일단사기
+            buyMoney = st.getValue(current, code)
+            wallet.buy(so.code, so.quantity, buyMoney)
+            restMoney -= buyMoney * so.quantity
+            delList.append(code)
+    for item in delList:
+        cutList.pop(item)
 
     #손절
     # for stock in wallet.getAllStock():
