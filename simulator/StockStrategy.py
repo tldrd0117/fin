@@ -143,6 +143,24 @@ class StockStrategy:
         momentumScore = pd.DataFrame(momentumValues, momentum.index, momentum.columns)
         return momentumScore.mean(axis=0)
     
+    def getTimeDeltaMomentumScoreMonth(self, current, targetdf, month):
+        endDate = current + pd.Timedelta((-1 - (30 * month)),unit='D')
+        mdf = targetdf.loc[endDate:current].resample('30D').mean()
+        start = mdf.index.get_loc(endDate, method='pad')
+        end = mdf.index.get_loc(current, method='pad')
+        print(mdf.index[start], mdf.index[end], current)
+        oneYearDf = mdf.iloc[start:end+1]
+        # curVal = targetdf.index.get_loc(current, method='pad')
+        # latelyValue = targetdf.iloc[curVal]
+        latelyValue = oneYearDf.iloc[-1]
+        momentum = pd.DataFrame(latelyValue.values - oneYearDf.values, oneYearDf.index, oneYearDf.columns)
+        # momentumScore = momentum.applymap(lambda val: 1 if val > 0 else 0 )
+        momentumValues = momentum.values
+        momentumValues[momentumValues > 0] = 1
+        momentumValues[momentumValues <= 0] = -1
+        momentumScore = pd.DataFrame(momentumValues, momentum.index, momentum.columns)
+        return momentumScore.mean(axis=0)
+    
     def getMomentumList(self, current, targetdf, mNum, mUnit, limit, minVal=-100, maxVal=100):
         momentumScore = self.getMinusMomentumScore(current, targetdf, mNum, mUnit)
         # momentumScore = momentumScore.query('')
@@ -152,6 +170,15 @@ class StockStrategy:
         
         return list(momentumScore.sort_values(ascending=False).head(limit).index), sixMonthMomentumScore.sum()
     
+    def getMomentumListMonthCurrent(self, current, targetdf, month, limit, minVal=-100, maxVal=100):
+        momentumScore = self.getTimeDeltaMomentumScoreMonth(current, targetdf, month)
+        # momentumScore = momentumScore.query('')
+        momentumScore = momentumScore[momentumScore >= minVal]
+        momentumScore = momentumScore[momentumScore <= maxVal]
+        sixMonthMomentumScore = self.getMinusMomentumScore(current, targetdf, 6, 'M')
+        return list(momentumScore.sort_values(ascending=False).head(limit).index), sixMonthMomentumScore.sum()
+    
+
     def isUnemployedYear(self, year):
         unemployedNum = [77.6, 89.4, 92.4, 86.3, 82.6, 80.8, 93.9, 97.6, 100.9, 102.3, 107.3, 122.4]
         idx = list(range(2008, 2020)).index(year)

@@ -12,8 +12,8 @@ sl = StockLoader.create()
 alreadyIn = []#stockDb.distinct('종목코드')
 print(alreadyIn)
 
-startDate = '2019-08-24'
-endDate = '2019-08-26'
+startDate = '2019-08-27'
+endDate = '2019-08-28'
 
 topcap, allCodes, allNames = sl.loadTopcapDf()
 
@@ -22,7 +22,7 @@ codes = list(set(topcap['Code']))
 targets = [ {'Code':code, 'Name':sCode[code]} for code in codes if code not in alreadyIn ]
 
 name = sl.makeNameJson('STOCK_DATA', startDate, endDate)
-data = sl.loadStockMongo(name, targets, startDate, endDate,stockDb)
+sl.loadStockMongo(name, targets, startDate, endDate,stockDb)
 
 # In[2]: DB에서 가져와서 h5를 만든다
 import pandas as pd
@@ -31,8 +31,8 @@ from simulator.StockLoader import StockLoader
 import pymongo
 import datetime as dt
 
-# startDate = '2019-08-24'
-# endDate = '2019-08-26'
+# startDate = '2019-08-27'
+# endDate = '2019-08-28'
 sl = StockLoader.create()
 msc = MongoStockCollection.create()
 stockDb = msc.get()

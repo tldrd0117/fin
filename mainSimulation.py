@@ -36,15 +36,18 @@ topcap, sCode, sName = sl.loadTopcapDf()
 # topdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5, topdf6, topdf7, topdf8])
 topdf = pd.read_hdf('h5data/STOCK_CLOSE_2006-01-01_2019-08-23.h5', key='df')
 topdf2 = pd.read_hdf('h5data/STOCK_CLOSE_2019-08-24_2019-08-26.h5', key='df')
-topdf = pd.concat([topdf, topdf2])
+topdf3 = pd.read_hdf('h5data/STOCK_CLOSE_2019-08-27_2019-08-28.h5', key='df')
+topdf = pd.concat([topdf, topdf2, topdf3])
 
 amountdf = pd.read_hdf('h5data/STOCK_AMOUNT_2006-01-01_2019-08-23.h5', key='df')
 amountdf2 = pd.read_hdf('h5data/STOCK_AMOUNT_2019-08-24_2019-08-26.h5', key='df')
-amountdf = pd.concat([amountdf, amountdf2])
+amountdf3 = pd.read_hdf('h5data/STOCK_AMOUNT_2019-08-27_2019-08-28.h5', key='df')
+amountdf = pd.concat([amountdf, amountdf2, amountdf3])
 # snamedf = pd.read_hdf('h5data/SHARE_NAME.h5', key='df')
 # scodedf = pd.read_hdf('h5data/SHARE_CODE.h5', key='df')
 topdf = topdf[~topdf.index.duplicated(keep='first')]
-marcapdf = sl.loadMarcap()
+#marcapdf = sl.loadMarcap()
+marcapdf = pd.read_hdf('h5data/CODE_STOCKS_2006-01-01_2019_05_30.h5', key='df')
 factordf = sl.loadFactor()
 qfactordf = sl.loadQuaterFactor()
 intersect = list(set(topdf.columns) & set(topcap['Name'].values)) #+ ['KOSEF 국고채10년레버리지']
@@ -110,7 +113,7 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-08-26', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-08-28', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -366,39 +369,39 @@ while endDate >= current:
 
     #손절 및 다시 들어가기
     #손절
-    for stock in wallet.getAllStock():   
-        isLosscutScalar = st.losscutScalar(stock['code'], current, buyDate, 0.99)
-        if isLosscutScalar and stock['code'] not in cutList.keys():
-            lossStock = wallet.getStock(stock['code'])
-            stockQuantity = lossStock['quantity']
-            sellMoney = st.getValue(current, stock['code'])
-            isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
-            if isSold:
-                cutList[stock['code']] = {'value':st.getValue(current, stock['code']), 'money':sellMoney * stockQuantity}
-                printG('손절갯수:', len(cutList.keys()))
-                restMoney += sellMoney * stockQuantity
-    delList = []
-    #다시 들어가기
-    for code in cutList:
-        curValue = st.getValue(current, code)
-        if cutList[code]['value'] < curValue:
-            printG('다시 사기:', len(cutList.keys()))
-            buyAllMoney = 0
-            if restMoney > cutList[code]['money']:
-                buyAllMoney = cutList[code]['money']
-            else:
-                buyAllMoney = restMoney
-            q = st.possibleQuantity(current, buyAllMoney, code)
-            if not q:
-                continue
-            so = StockOrder.create(code, q, investMoney)
-            #일단사기
-            buyMoney = st.getValue(current, code)
-            wallet.buy(so.code, so.quantity, buyMoney)
-            restMoney -= buyMoney * so.quantity
-            delList.append(code)
-    for item in delList:
-        cutList.pop(item)
+    # for stock in wallet.getAllStock():   
+    #     isLosscutScalar = st.losscutScalar(stock['code'], current, buyDate, 0.99)
+    #     if isLosscutScalar and stock['code'] not in cutList.keys():
+    #         lossStock = wallet.getStock(stock['code'])
+    #         stockQuantity = lossStock['quantity']
+    #         sellMoney = st.getValue(current, stock['code'])
+    #         isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+    #         if isSold:
+    #             cutList[stock['code']] = {'value':st.getValue(current, stock['code']), 'money':sellMoney * stockQuantity}
+    #             printG('손절갯수:', len(cutList.keys()))
+    #             restMoney += sellMoney * stockQuantity
+    # delList = []
+    # #다시 들어가기
+    # for code in cutList:
+    #     curValue = st.getValue(current, code)
+    #     if cutList[code]['value'] < curValue:
+    #         printG('다시 사기:', len(cutList.keys()))
+    #         buyAllMoney = 0
+    #         if restMoney > cutList[code]['money']:
+    #             buyAllMoney = cutList[code]['money']
+    #         else:
+    #             buyAllMoney = restMoney
+    #         q = st.possibleQuantity(current, buyAllMoney, code)
+    #         if not q:
+    #             continue
+    #         so = StockOrder.create(code, q, investMoney)
+    #         #일단사기
+    #         buyMoney = st.getValue(current, code)
+    #         wallet.buy(so.code, so.quantity, buyMoney)
+    #         restMoney -= buyMoney * so.quantity
+    #         delList.append(code)
+    # for item in delList:
+    #     cutList.pop(item)
 
     #손절
     # for stock in wallet.getAllStock():
@@ -474,6 +477,57 @@ while endDate >= current:
     moneySum.loc[current] = money
     printG(current, money, stockMoney, restMoney, rebalaceMoney)
     current = nextDay
+# In[3]:
+current = endDate
+target = list(topdf.columns)
+if len(blackList) > 0:
+    target = list(filter(lambda x : x not in blackList, target ))
+target = ss.filterAltmanZScore(current, topdf[target], factordf, topcap, sName, sCode )
+printG('altman', len(target))
+inter = list(set(topdf.columns) & set(target))
+target = ss.getFactorList(current, topdf[inter], factordf, 'roe', sName, sCode, False, 3000, minVal=0.00000001)
+# target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', sName, sCode, False, 3000, minVal=0)
+target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
+target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
+# target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
+target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
+target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
+beforebeforeTarget = target
+target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
+target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, False, 30, minVal=0.00000001)
+target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
+# target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
+# target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
+# target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)
+target = ss.getAmountLimitList(current, topdf[target], amountdf[target], limit=200000000)
+
+notMomentumTarget = target
+if len(target) > 0:
+    target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=12, mUnit='M', limit=30, minVal=0.00000001)
+only12MomentumTarget = target
+if len(target) > 0:
+    target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
+if len(target) > 0:
+    only2MomentumTarget, momentumSum = ss.getMomentumList(current, topdf[notMomentumTarget], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
+
+
+printG('notMomentumTarget', notMomentumTarget)
+printG('only12MomentumTarget', only12MomentumTarget)
+printG('only2MomentumTarget', only2MomentumTarget)
+printG('lastTarget', target)
+
+#getMomentumListMonthCurrent
+printG('#####getMomentumListMonthCurrent')
+if len(target) > 0:
+    target, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[target], month=12, limit=30, minVal=0.00000001)
+only12MomentumTarget = target
+if len(target) > 0:
+    target, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[target], month=2, limit=30, minVal=0.00000001)
+if len(target) > 0:
+    only2MomentumTarget, momentumSum = ss.getMomentumList(current, topdf[notMomentumTarget], month=2, limit=30, minVal=0.00000001)
+
+
+
 
 # In[4]: look
 # moneySum

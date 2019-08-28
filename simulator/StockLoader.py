@@ -290,7 +290,8 @@ class StockLoader:
                 }
                 stockdb.insert(resultDict)
             progress+=1
-        return list(stockdb.find())
+        print('complete')
+        # return list(stockdb.find())
 
 
     def loadStockFromDict(self, name, targets, beforeStr, endStr):
