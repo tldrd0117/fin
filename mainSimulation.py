@@ -524,7 +524,7 @@ only12MomentumTarget = target
 if len(target) > 0:
     target, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[target], month=2, limit=30, minVal=0.00000001)
 if len(target) > 0:
-    only2MomentumTarget, momentumSum = ss.getMomentumList(current, topdf[notMomentumTarget], month=2, limit=30, minVal=0.00000001)
+    only2MomentumTarget, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[notMomentumTarget], month=2, limit=30, minVal=0.00000001)
 
 
 
