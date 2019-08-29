@@ -11,7 +11,7 @@ from crawler.naver.DartCrawler import DartCrawler
 from crawler.naver.NavarSearchCodeCrawler import NavarSearchCodeCrawler
 from crawler.naver.NaverCrawler import NaverCrawler
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
-from simulator.MongoStockCollection import MongoStockCollection
+# from simulator.MongoStockCollection import MongoStockCollection
 
 pd.set_option('display.float_format', None)
 class StockLoader:
@@ -78,10 +78,10 @@ class StockLoader:
 
         return self.TIGER, self.KODEX, self.KODEX
 
-    def loadStockFromDb(self):
-        msc = MongoStockCollection.create()
-        stockDb = msc.get()
-        stockDb.find()
+    # def loadStockFromDb(self):
+    #     msc = MongoStockCollection.create()
+    #     stockDb = msc.get()
+    #     stockDb.find()
 
     def loadTopDf(self):
         pd.options.display.float_format = '{:.2f}'.format

@@ -242,6 +242,7 @@ while endDate >= current:
         if len(target) > 0:
             target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
         printG('momentumSum', momentumSum)
+
         # if current.month >=4 and current.month <=10:
         #     target = []
         # if len(target) < 2:
@@ -526,7 +527,10 @@ if len(target) > 0:
 if len(target) > 0:
     only2MomentumTarget, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[notMomentumTarget], month=2, limit=30, minVal=0.00000001)
 
-
+printG('notMomentumTarget', notMomentumTarget)
+printG('only12MomentumTarget', only12MomentumTarget)
+printG('only2MomentumTarget', only2MomentumTarget)
+printG('lastTarget', target)
 
 
 # In[4]: look

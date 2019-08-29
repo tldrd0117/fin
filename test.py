@@ -16,7 +16,8 @@ with open("h5data/CODE_STOCKS_2006-01-01_2019_05_30.h5", "rb") as file_in:
 # In[2]: 압출 풀기
 import pandas as pd
 import io
-with gzip.open("h5data/CODE_STOCKS_2006-01-01_2019_05_30.h5.gz", "rb") as f:
+import gzip
+with gzip.open("h5data/CODE_MARCAP_2006-01-01_2019_05_30.h5.gz", "rb") as f:
     # Read in string.
     content = f.read()
     # Print length.
