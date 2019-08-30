@@ -145,11 +145,13 @@ class StockStrategy:
     
     def getTimeDeltaMomentumScoreMonth(self, current, targetdf, month):
         endDate = current + pd.Timedelta((-1 - (30 * month)),unit='D')
-        perioddf = targetdf.loc[endDate:current].resample('30D', loffset= '30D')
+        perioddf = targetdf.loc[endDate:current].resample('30D')
         mdf = perioddf.mean()
         start = mdf.index.get_loc(endDate, method='nearest')
         end = mdf.index.get_loc(current, method='nearest')
+        print(start, end)
         print(mdf.index[start], mdf.index[end], current)
+        print(mdf)
         oneYearDf = mdf.iloc[start:end+1]
         # curVal = targetdf.index.get_loc(current, method='pad')
         # latelyValue = targetdf.iloc[curVal]
