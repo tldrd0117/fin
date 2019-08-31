@@ -195,11 +195,11 @@ while endDate >= current:
             meanValue = moneySum.iloc[buyDateIdx:currentIdx+1].mean()
             buyValue = moneySum.iloc[buyDateIdx]
 
-            printG('monthPercentage: ',bDate,'~',cDate, ' # ', (moneySum.iloc[currentIdx] - moneySum.iloc[buyDateIdx])/moneySum.iloc[buyDateIdx] * 100 )
-            printG('monthTotal: ',bDate,' # ', moneySum.iloc[buyDateIdx],"  ",cDate, ' # ', moneySum.iloc[currentIdx] )
-            printG('lossPoint:',1 - (maxValue - minValue)/meanValue)
-            printG('maxPoint:',1 + ((maxValue - buyValue)/buyValue))
-            printG('minPoint:',1 + ((minValue - buyValue)/buyValue))
+            printG('monthPercentage: ', bDate,'~',cDate, ' # ', (moneySum.iloc[currentIdx] - moneySum.iloc[buyDateIdx])/moneySum.iloc[buyDateIdx] * 100 )
+            printG('monthTotal: ', bDate,' # ', moneySum.iloc[buyDateIdx],"  ",cDate, ' # ', moneySum.iloc[currentIdx] )
+            printG('lossPoint:', 1 - (maxValue - minValue)/meanValue)
+            printG('maxPoint:', 1 + ((maxValue - buyValue)/buyValue))
+            printG('minPoint:', 1 + ((minValue - buyValue)/buyValue))
         
         investigation = []
         wallet.clear()
@@ -334,6 +334,7 @@ while endDate >= current:
 
         losscutTarget = []
         alreadyCut = []
+        maxalreadyCut = []
         cutList = {}
         for stock in wallet.getAllStock():
             loss = st.calculateLosscutRate(stock['code'], current)
@@ -347,8 +348,8 @@ while endDate >= current:
                 maxgap = maxValues[name]['max'] - maxValues[name]['buy']
                 gapPercent = curgap / maxgap * 100
                 topPercent = maxgap / maxValues[name]['buy'] * 100
-                if gapPercent <= 50 and topPercent >= 30 and name not in alreadyCut:
-                    alreadyCut.append(name)
+                if gapPercent <= 50 and topPercent >= 30 and name not in maxalreadyCut:
+                    maxalreadyCut.append(name)
                     printG('최대값 비율 손절: ', name, str(gapPercent) + '%', maxValues[name]['max'], maxValues[name]['buy'])
                     lossStock = wallet.getStock(name)
                     stockQuantity = lossStock['quantity']
@@ -383,24 +384,38 @@ while endDate >= current:
     #                         wallet.buy(bondName, q, buyMoney)
     #                         rebalaceMoney -= buyMoney * q
     #손절 Sum
-    # if len(target) <= 6:
-    #     stockCodes = list(map(lambda x : x['code'], wallet.getAllStock()))
-    #     isLosscut = st.losscutScalarSum(stockCodes, current, buyDate, 0.9)
-    #     if isLosscut:
-    #         for stock in wallet.getAllStock():
-    #             if stock['code'] not in losscutTarget:
-    #                 losscutTarget.append(stock['code'])
-    #                 if len(losscutTarget) >= len(target):
-    #                     printG('손절갯수:', len(losscutTarget))
-    #                     for lossTarget in losscutTarget:
-    #                         if lossTarget not in alreadyCut:
-    #                             alreadyCut.append(lossTarget)
-    #                             lossStock = wallet.getStock(lossTarget)
-    #                             stockQuantity = lossStock['quantity']
-    #                             sellMoney = st.getValue(current, lossTarget)
-    #                             isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
-    #                             if isSold:
-    #                                 restMoney += sellMoney * stockQuantity
+    # stockCodes = list(map(lambda x : x['code'], wallet.getAllStock()))
+    # isLosscut = st.losscutScalarSum(stockCodes, current, buyDate, 0.95)
+    # if isLosscut:
+    #     li = []
+    #     for stock in wallet.getAllStock():
+    #         val = st.getValue(current, stock['code'])
+    #         li.append({'val':val / stock['money'], 'stock':stock})
+    #     li.sort(key=lambda data : data['val'])
+    #     for d in li[0:int(len(li)/3)]:
+    #         lossTarget = d['stock']['code']
+    #         if lossTarget not in alreadyCut:
+    #             alreadyCut.append(lossTarget)
+    #             lossStock = wallet.getStock(lossTarget)
+    #             stockQuantity = lossStock['quantity']
+    #             sellMoney = st.getValue(current, lossTarget)
+    #             isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+    #             if isSold:
+    #                 restMoney += sellMoney * stockQuantity
+
+                # if stock['code'] not in losscutTarget:
+                #     losscutTarget.append(stock['code'])
+                #     if len(losscutTarget) >= len(target):
+                #         printG('손절갯수:', len(losscutTarget))
+                #         for lossTarget in losscutTarget:
+                #             if lossTarget not in alreadyCut:
+                #                 alreadyCut.append(lossTarget)
+                #                 lossStock = wallet.getStock(lossTarget)
+                #                 stockQuantity = lossStock['quantity']
+                #                 sellMoney = st.getValue(current, lossTarget)
+                #                 isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+                #                 if isSold:
+                #                     restMoney += sellMoney * stockQuantity
 
     #손절 및 다시 들어가기
     #손절
@@ -577,6 +592,17 @@ printG('only12MomentumTarget', only12MomentumTarget)
 printG('only2MomentumTarget', only2MomentumTarget)
 printG('lastTarget2', target)
 
+for name in maxValues:
+    if name in target:
+        curVal = st.getValue(current, name)
+        if maxValues[name]['max'] > curVal:
+            curgap = curVal - maxValues[name]['buy']
+            maxgap = maxValues[name]['max'] - maxValues[name]['buy']
+            gapPercent = curgap / maxgap * 100
+            topPercent = maxgap / maxValues[name]['buy'] * 100
+            if gapPercent <= 50 and topPercent >= 30 and name not in alreadyCut:
+                printG('최대값 비율 손절: ', name, str(gapPercent) + '%', maxValues[name]['max'], maxValues[name]['buy'])
+    
 
 # In[4]: look
 # moneySum
