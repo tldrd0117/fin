@@ -143,20 +143,29 @@ class StockStrategy:
         momentumScore = pd.DataFrame(momentumValues, momentum.index, momentum.columns)
         return momentumScore.mean(axis=0)
     
+    def calculateMdf(self, current, targetdf, month):
+        mdf = pd.DataFrame()
+        dates = []
+        for m in range(month + 1):
+            date = current + pd.Timedelta(-m, 'M')
+            dates.append(date)
+        for i in range(len(dates) - 1):
+            i1 = targetdf.index.get_loc(dates[i], method='pad')
+            i2 = targetdf.index.get_loc(dates[i+1], method='pad')
+            one = targetdf.iloc[i2:i1]
+            oneMean = one.mean()
+            newdf = pd.DataFrame([list(oneMean.values)], index=[one.index.values[-1]], columns=list(oneMean.index))
+            mdf = pd.concat([mdf, newdf])
+        return mdf, dates[0], dates[-1]
+    
     def getTimeDeltaMomentumScoreMonth(self, current, targetdf, month):
-        endDate = current + pd.Timedelta((-1 - (30 * month)),unit='D')
-        perioddf = targetdf.loc[endDate:current].resample('30D')
-        mdf = perioddf.mean()
-        start = mdf.index.get_loc(endDate, method='nearest')
-        end = mdf.index.get_loc(current, method='nearest')
-        print(start, end)
-        print(mdf.index[start], mdf.index[end], current)
-        print(mdf)
-        oneYearDf = mdf.iloc[start:end+1]
-        # curVal = targetdf.index.get_loc(current, method='pad')
-        # latelyValue = targetdf.iloc[curVal]
-        latelyValue = oneYearDf.iloc[-1]
-        momentum = pd.DataFrame(latelyValue.values - oneYearDf.values, oneYearDf.index, oneYearDf.columns)
+        mdf, start, end = self.calculateMdf(current, targetdf, month)
+        curVal = targetdf.index.get_loc(current, method='pad')
+        latelyValue = targetdf.iloc[curVal - 1]
+        momentum = pd.DataFrame(latelyValue.values - mdf.values, mdf.index, mdf.columns)
+        colList = [ list(momentum.columns)[i:i+6] for i in range(0, len(momentum.columns), 6)]
+        for cols in colList:
+            print(momentum[cols])
         # momentumScore = momentum.applymap(lambda val: 1 if val > 0 else 0 )
         momentumValues = momentum.values
         momentumValues[momentumValues > 0] = 1
@@ -447,11 +456,12 @@ class StockStrategy:
         stockNum = pd.Series(values, index=indexes)
         inter = list(set(yearDf.index) & set(indexes))
         deleteList = []
+        before = current + pd.Timedelta(-1, 'D')
         for index in list(yearDf.index):
             if index not in stockNum.index:
                 deleteList.append(index)
                 continue
-            value = targetdf.iloc[targetdf.index.get_loc(current, method='ffill')][sCode[index]]
+            value = targetdf.iloc[targetdf.index.get_loc(before, method='ffill')][sCode[index]]
             if type(stockNum.at[index]) is np.float64:
                 yearDf.at[index] = value * stockNum.at[index] / (yearDf.at[index] * factorUnit) 
             else:

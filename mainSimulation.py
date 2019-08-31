@@ -12,7 +12,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
-logging.basicConfig(handlers=[logging.FileHandler('simulation8.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
+logging.basicConfig(handlers=[logging.FileHandler('simulation10.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
 pd.set_option('display.float_format', None)
 np.set_printoptions(suppress=True)
 def printG(*msg):
@@ -237,13 +237,22 @@ while endDate >= current:
         # target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)
         target = ss.getAmountLimitList(current, topdf[target], amountdf[target], limit=200000000)
 
+        # beforeTarget = target
+        # notMomentumTarget = target
+        # if len(target) > 0:
+        #     target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=12, mUnit='M', limit=30, minVal=0.00000001)
+        # only12MomentumTarget = target
+        # if len(target) > 0:
+        #     target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
+        # printG('momentumSum', momentumSum)
+
         beforeTarget = target
         notMomentumTarget = target
         if len(target) > 0:
-            target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=12, mUnit='M', limit=30, minVal=0.00000001)
+            target, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[target], month=12, limit=30, minVal=0.00000001)
         only12MomentumTarget = target
         if len(target) > 0:
-            target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
+            target, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[target], month=2, limit=30, minVal=0)
         printG('momentumSum', momentumSum)
 
         # if current.month >=4 and current.month <=10:
@@ -329,7 +338,7 @@ while endDate >= current:
         for stock in wallet.getAllStock():
             loss = st.calculateLosscutRate(stock['code'], current)
             printG(stock['code'], loss)
-    #최대값 비율 손절
+    #최대값 비율 손절 내일 아침에 팔기로 할 때
     for name in maxValues:
         if name in target:
             curVal = st.getValue(current, name)
@@ -338,7 +347,7 @@ while endDate >= current:
                 maxgap = maxValues[name]['max'] - maxValues[name]['buy']
                 gapPercent = curgap / maxgap * 100
                 topPercent = maxgap / maxValues[name]['buy'] * 100
-                if gapPercent <= 50 and topPercent >= 20 and name not in alreadyCut:
+                if gapPercent <= 50 and topPercent >= 30 and name not in alreadyCut:
                     alreadyCut.append(name)
                     printG('최대값 비율 손절: ', name, str(gapPercent) + '%', maxValues[name]['max'], maxValues[name]['buy'])
                     lossStock = wallet.getStock(name)
@@ -347,7 +356,6 @@ while endDate >= current:
                     isSold = wallet.sell(name, stockQuantity, sellMoney)
                     if isSold:
                         restMoney += sellMoney * stockQuantity
-
 
     # #blacklist
     # for stock in wallet.getAllStock():
@@ -499,10 +507,19 @@ while endDate >= current:
         stockMoney += stock['quantity'] * stock['money']
 
     nextDay = current + pd.Timedelta(1, unit='D')
-
+    beforeDay = current + pd.Timedelta(-1, unit='D')
     money = stockMoney + restMoney + rebalaceMoney
     moneySum.loc[current] = money
-    printG(current, money, stockMoney, restMoney, rebalaceMoney)
+    if moneySum.index.contains(beforeDay):
+        beforeMoney = moneySum.loc[beforeDay]
+        upDownMoney = str((money - beforeMoney))
+        upDownPercent = str(((money - beforeMoney) / beforeMoney * 100)) + '%'
+        upDownSign = '▲' if beforeMoney < money else '▼'
+        upDownSign = upDownSign if beforeMoney != money else '∙'
+        upDown = upDownSign + ' ' + upDownMoney + ' ' + upDownPercent
+    else:
+        upDown = ''
+    printG(current, money, stockMoney, restMoney, rebalaceMoney, upDown)
     current = nextDay
 # In[3]:
 current = endDate
