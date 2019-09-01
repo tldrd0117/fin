@@ -20,7 +20,6 @@ def printG(*msg):
     print(joint)
     logging.info(joint)
 
-
 # In[1]:
 #StockLoader 시간에따른 주식 가격을 가져온다
 
