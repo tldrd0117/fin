@@ -51,7 +51,7 @@ topdf = topdf[~topdf.index.duplicated(keep='first')]
 #marcapdf = sl.loadMarcap()
 marcapdf = pd.read_hdf('h5data/CODE_STOCKS_2006-01-01_2019_05_30.h5', key='df')
 factordf = sl.loadFactor()
-qfactordf = sl.loadQuaterFactor()
+# qfactordf = sl.loadQuaterFactor()
 intersect = list(set(topdf.columns) & set(topcap['Name'].values)) #+ ['KOSEF 국고채10년레버리지']
 # intersect = list(map(lambda x : sCode[x],intersect))
 topdf = topdf[intersect]
