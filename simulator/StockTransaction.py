@@ -63,6 +63,17 @@ class StockTransaction:
         yieRate = 1 + (stockValue - beforeValue)/beforeValue
         # cutRate = self.calculateLosscutRate(code, self.topdf.index[currentIndex])
         return yieRate < cutRate
+
+    def getLosscutScalar(self, code, current, buyDate):
+        currentIndex = self.topdf.index.get_loc(current, method='ffill')
+        beforeIndex = self.topdf.index.get_loc(buyDate, method='ffill')
+        if beforeIndex < 0:
+            return False
+        stockValue = self.topdf.iloc[currentIndex][code]
+        beforeValue = self.topdf.iloc[beforeIndex][code]
+        yieRate = 1 + (stockValue - beforeValue)/beforeValue
+        # cutRate = self.calculateLosscutRate(code, self.topdf.index[currentIndex])
+        return yieRate
     
     def losscutScalarSum(self, codes, current, buyDate, cutRate):
         if len(codes) <= 0:

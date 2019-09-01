@@ -429,6 +429,38 @@ while endDate >= current:
                     cutList[lossStock['code']] = {'value':st.getValue(current, lossStock['code']), 'money':sellMoney * stockQuantity}
                     printG('손절갯수:', len(cutList.keys()))
                     restMoney += sellMoney * stockQuantity
+    else:
+        #손절
+        for stock in wallet.getAllStock():   
+            cut1 = st.getLosscutScalar(stock['code'], current, current + pd.Timedelta(-1, 'D'))
+            cut2 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-1, 'D'), current + pd.Timedelta(-2, 'D'))
+            cut3 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-2, 'D'), current + pd.Timedelta(-3, 'D'))
+            cut4 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-3, 'D'), current + pd.Timedelta(-4, 'D'))
+            cut5 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-4, 'D'), current + pd.Timedelta(-5, 'D'))
+            lossnum = 0
+            if cut1 < 0.97:
+                lossnum +=1
+                if cut2 < 0.97 or cut2 == 1:
+                    if cut2 != 1:
+                        lossnum +=1
+                    if cut3 < 0.97 or cut3 == 1:
+                        if cut3 != 1:
+                            lossnum +=1
+                        if cut4 < 0.97 or cut4 == 1:
+                            if cut4 != 1:
+                                lossnum +=1
+                            if cut5 < 0.97 or cut5 == 1:
+                                if cut5 != 1:
+                                    lossnum +=1
+            if lossnum >= 3 and stock['code'] not in cutList.keys():
+                lossStock = wallet.getStock(stock['code'])
+                stockQuantity = lossStock['quantity']
+                sellMoney = st.getValue(current, stock['code'])
+                isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+                if isSold:
+                    cutList[stock['code']] = {'value':st.getValue(current, stock['code']), 'money':sellMoney * stockQuantity}
+                    printG('손절갯수:', len(cutList.keys()))
+                    restMoney += sellMoney * stockQuantity
     #다시 들어가기
     # delList = []
     # for code in cutList:
