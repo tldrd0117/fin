@@ -12,7 +12,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
-logging.basicConfig(handlers=[logging.FileHandler('simulation11.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
+logging.basicConfig(handlers=[logging.FileHandler('simulation15.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
 pd.set_option('display.float_format', None)
 np.set_printoptions(suppress=True)
 def printG(*msg):
@@ -37,13 +37,15 @@ topdf = pd.read_hdf('h5data/STOCK_CLOSE_2006-01-01_2019-08-23.h5', key='df')
 topdf2 = pd.read_hdf('h5data/STOCK_CLOSE_2019-08-24_2019-08-26.h5', key='df')
 topdf3 = pd.read_hdf('h5data/STOCK_CLOSE_2019-08-27_2019-08-28.h5', key='df')
 topdf4 = pd.read_hdf('h5data/STOCK_CLOSE_2019-08-29_2019-08-30.h5', key='df')
-topdf = pd.concat([topdf, topdf2, topdf3, topdf4])
+topdf5 = pd.read_hdf('h5data/STOCK_CLOSE_2019-08-31_2019-09-05.h5', key='df')
+topdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5])
 
 amountdf = pd.read_hdf('h5data/STOCK_AMOUNT_2006-01-01_2019-08-23.h5', key='df')
 amountdf2 = pd.read_hdf('h5data/STOCK_AMOUNT_2019-08-24_2019-08-26.h5', key='df')
 amountdf3 = pd.read_hdf('h5data/STOCK_AMOUNT_2019-08-27_2019-08-28.h5', key='df')
 amountdf4 = pd.read_hdf('h5data/STOCK_AMOUNT_2019-08-29_2019-08-30.h5', key='df')
-amountdf = pd.concat([amountdf, amountdf2, amountdf3, amountdf4])
+amountdf5 = pd.read_hdf('h5data/STOCK_AMOUNT_2019-08-31_2019-09-05.h5', key='df')
+amountdf = pd.concat([amountdf, amountdf2, amountdf3, amountdf4, amountdf5])
 # snamedf = pd.read_hdf('h5data/SHARE_NAME.h5', key='df')
 # scodedf = pd.read_hdf('h5data/SHARE_CODE.h5', key='df')
 topdf = topdf[~topdf.index.duplicated(keep='first')]
@@ -114,7 +116,7 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-08-30', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-09-05', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -227,6 +229,7 @@ while endDate >= current:
         # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
         target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
         target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
+        # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '매출액', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
         beforebeforeTarget = target
         target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
         target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, False, 30, minVal=0.00000001)
@@ -429,38 +432,43 @@ while endDate >= current:
                     cutList[lossStock['code']] = {'value':st.getValue(current, lossStock['code']), 'money':sellMoney * stockQuantity}
                     printG('손절갯수:', len(cutList.keys()))
                     restMoney += sellMoney * stockQuantity
-    else:
-        #손절
-        for stock in wallet.getAllStock():   
-            cut1 = st.getLosscutScalar(stock['code'], current, current + pd.Timedelta(-1, 'D'))
-            cut2 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-1, 'D'), current + pd.Timedelta(-2, 'D'))
-            cut3 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-2, 'D'), current + pd.Timedelta(-3, 'D'))
-            cut4 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-3, 'D'), current + pd.Timedelta(-4, 'D'))
-            cut5 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-4, 'D'), current + pd.Timedelta(-5, 'D'))
-            lossnum = 0
-            if cut1 < 0.97:
-                lossnum +=1
-                if cut2 < 0.97 or cut2 == 1:
-                    if cut2 != 1:
-                        lossnum +=1
-                    if cut3 < 0.97 or cut3 == 1:
-                        if cut3 != 1:
-                            lossnum +=1
-                        if cut4 < 0.97 or cut4 == 1:
-                            if cut4 != 1:
-                                lossnum +=1
-                            if cut5 < 0.97 or cut5 == 1:
-                                if cut5 != 1:
-                                    lossnum +=1
-            if lossnum >= 3 and stock['code'] not in cutList.keys():
-                lossStock = wallet.getStock(stock['code'])
-                stockQuantity = lossStock['quantity']
-                sellMoney = st.getValue(current, stock['code'])
-                isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
-                if isSold:
-                    cutList[stock['code']] = {'value':st.getValue(current, stock['code']), 'money':sellMoney * stockQuantity}
-                    printG('손절갯수:', len(cutList.keys()))
-                    restMoney += sellMoney * stockQuantity
+    # else:
+    #     #손절
+    for stock in wallet.getAllStock():   
+        cut1 = st.getLosscutScalar(stock['code'], current, current + pd.Timedelta(-1, 'D'))
+        cut2 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-1, 'D'), current + pd.Timedelta(-2, 'D'))
+        cut3 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-2, 'D'), current + pd.Timedelta(-3, 'D'))
+        cut4 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-3, 'D'), current + pd.Timedelta(-4, 'D'))
+        cut5 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-4, 'D'), current + pd.Timedelta(-5, 'D'))
+        if current > priceLimitDate:
+            limitPercent = -0.2
+        else:
+            limitPercent = -0.1
+        isUnder10Per = cut1 + cut2 + cut3 + cut4 + cut5 - 5 <= limitPercent
+        # lossnum = 0
+        # if cut1 < 0.97:
+        #     lossnum +=1
+        #     if cut2 < 0.97 or cut2 == 1:
+        #         if cut2 != 1:
+        #             lossnum +=1
+        #         if cut3 < 0.97 or cut3 == 1:
+        #             if cut3 != 1:
+        #                 lossnum +=1
+        #             if cut4 < 0.97 or cut4 == 1:
+        #                 if cut4 != 1:
+        #                     lossnum +=1
+        #                 if cut5 < 0.97 or cut5 == 1:
+        #                     if cut5 != 1:
+        #                         lossnum +=1
+        if isUnder10Per and stock['code'] not in cutList.keys():
+            lossStock = wallet.getStock(stock['code'])
+            stockQuantity = lossStock['quantity']
+            sellMoney = st.getValue(current, stock['code'])
+            isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+            if isSold:
+                cutList[stock['code']] = {'value':st.getValue(current, stock['code']), 'money':sellMoney * stockQuantity}
+                printG('종목마다손절갯수:', len(cutList.keys()))
+                restMoney += sellMoney * stockQuantity
     #다시 들어가기
     # delList = []
     # for code in cutList:
@@ -632,6 +640,7 @@ target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률'
 # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
 target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
 target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
+# target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
 beforebeforeTarget = target
 target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
 target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, False, 30, minVal=0.00000001)
@@ -692,9 +701,9 @@ moneySum.index = moneySum.index.map(lambda dt: pd.to_datetime(dt.date()))
 portfolio = moneySum / 10000000
 
 # 투자기간 = len(moneySum.index)/12
-# print(투자기간)
 # print(portfolio)
-투자기간 = portfolio.index[-1].year - portfolio.index[0].year
+투자기간 = (portfolio.index[-1] - portfolio.index[0]).days/365
+print('투자기간',투자기간)
 e = pd.date_range(start=portfolio.index[0],end=portfolio.index[-1] + pd.Timedelta(1, unit='D'), freq=pd.DateOffset(years=1))
 d = [ portfolio.index.get_loc(date, method='nearest')for date in e]
 printG(portfolio[d]/portfolio[d].shift(1))
