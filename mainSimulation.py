@@ -445,21 +445,6 @@ while endDate >= current:
         else:
             limitPercent = -0.1
         isUnder10Per = cut1 + cut2 + cut3 + cut4 + cut5 - 5 <= limitPercent
-        # lossnum = 0
-        # if cut1 < 0.97:
-        #     lossnum +=1
-        #     if cut2 < 0.97 or cut2 == 1:
-        #         if cut2 != 1:
-        #             lossnum +=1
-        #         if cut3 < 0.97 or cut3 == 1:
-        #             if cut3 != 1:
-        #                 lossnum +=1
-        #             if cut4 < 0.97 or cut4 == 1:
-        #                 if cut4 != 1:
-        #                     lossnum +=1
-        #                 if cut5 < 0.97 or cut5 == 1:
-        #                     if cut5 != 1:
-        #                         lossnum +=1
         if isUnder10Per and stock['code'] not in cutList.keys():
             lossStock = wallet.getStock(stock['code'])
             stockQuantity = lossStock['quantity']
