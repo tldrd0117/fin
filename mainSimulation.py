@@ -38,14 +38,16 @@ topdf2 = pd.read_hdf('h5data/STOCK_CLOSE_2019-08-24_2019-08-26.h5', key='df')
 topdf3 = pd.read_hdf('h5data/STOCK_CLOSE_2019-08-27_2019-08-28.h5', key='df')
 topdf4 = pd.read_hdf('h5data/STOCK_CLOSE_2019-08-29_2019-08-30.h5', key='df')
 topdf5 = pd.read_hdf('h5data/STOCK_CLOSE_2019-08-31_2019-09-05.h5', key='df')
-topdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5])
+topdf6 = pd.read_hdf('h5data/STOCK_CLOSE_2019-09-06_2019-09-07.h5', key='df')
+topdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5, topdf6])
 
 amountdf = pd.read_hdf('h5data/STOCK_AMOUNT_2006-01-01_2019-08-23.h5', key='df')
 amountdf2 = pd.read_hdf('h5data/STOCK_AMOUNT_2019-08-24_2019-08-26.h5', key='df')
 amountdf3 = pd.read_hdf('h5data/STOCK_AMOUNT_2019-08-27_2019-08-28.h5', key='df')
 amountdf4 = pd.read_hdf('h5data/STOCK_AMOUNT_2019-08-29_2019-08-30.h5', key='df')
 amountdf5 = pd.read_hdf('h5data/STOCK_AMOUNT_2019-08-31_2019-09-05.h5', key='df')
-amountdf = pd.concat([amountdf, amountdf2, amountdf3, amountdf4, amountdf5])
+amountdf6 = pd.read_hdf('h5data/STOCK_AMOUNT_2019-09-06_2019-09-07.h5', key='df')
+amountdf = pd.concat([amountdf, amountdf2, amountdf3, amountdf4, amountdf5, amountdf6])
 # snamedf = pd.read_hdf('h5data/SHARE_NAME.h5', key='df')
 # scodedf = pd.read_hdf('h5data/SHARE_CODE.h5', key='df')
 topdf = topdf[~topdf.index.duplicated(keep='first')]
@@ -116,7 +118,7 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-09-05', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-09-07', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -226,11 +228,18 @@ while endDate >= current:
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', sName, sCode, False, 3000, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
         target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
+        # if current.month == 12:
+        #     target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
+        #     target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
+        #     target = ss.getFactorList(current, topdf[target], factordf, '배당수익률',sName, sCode, False, 30, minVal=3)
+
+        # else:
         # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
         target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
         target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
         # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '매출액', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
         beforebeforeTarget = target
+        
         target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
         target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, False, 30, minVal=0.00000001)
         target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
@@ -309,18 +318,20 @@ while endDate >= current:
         for stockName in target:
             investigation.append({'code':stockName, 'price':st.getValue(current, stockName)})
             investMoney = readyMoney * moneyRate
-            q = st.possibleQuantity(current, investMoney, stockName)
+            beforeDate = current - pd.Timedelta(1, unit='D')
+            q = st.possibleQuantity(beforeDate, investMoney, stockName)
             if not q:
                 continue
             so = StockOrder.create(stockName, q, investMoney)
             #일단사기
-            buyMoney = st.getValue(current, stockName)
+            buyMoney = st.getValue(beforeDate, stockName)
             if stockName not in maxValues:
                 maxValues[stockName] = {'buy': buyMoney, 'max':buyMoney}
             else:
                 if maxValues[stockName]['max'] < buyMoney:
                     maxValues[stockName]['max'] = buyMoney
             wallet.buy(so.code, so.quantity, buyMoney)
+            printG('BUY', so.code,str(so.quantity)+'주')
             restMoney -= buyMoney * so.quantity
         
         beforeMonthTarget = target
@@ -389,11 +400,11 @@ while endDate >= current:
     #                         rebalaceMoney -= buyMoney * q
     #손절 Sum
     stockCodes = list(map(lambda x : x['code'], wallet.getAllStock()))
-    cutSum1 = st.getLosscutScalarSum(stockCodes, current, current + pd.Timedelta(-1, 'D'))
-    cutSum2 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-1, 'D'), current + pd.Timedelta(-2, 'D'))
-    cutSum3 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-2, 'D'), current + pd.Timedelta(-3, 'D'))
-    cutSum4 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-3, 'D'), current + pd.Timedelta(-4, 'D'))
-    cutSum5 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-4, 'D'), current + pd.Timedelta(-5, 'D'))
+    cutSum1, curValue1, beforeValue1 = st.getLosscutScalarSum(stockCodes, current, current + pd.Timedelta(-1, 'D'))
+    cutSum2, curValue2, beforeValue2 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-1, 'D'), current + pd.Timedelta(-2, 'D'))
+    cutSum3, curValue3, beforeValue3 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-2, 'D'), current + pd.Timedelta(-3, 'D'))
+    cutSum4, curValue4, beforeValue4 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-3, 'D'), current + pd.Timedelta(-4, 'D'))
+    cutSum5, curValue5, beforeValue5 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-4, 'D'), current + pd.Timedelta(-5, 'D'))
     lossnum = 0
     if cutSum1 < 0.98:
         lossnum +=1
@@ -409,6 +420,9 @@ while endDate >= current:
                     if cutSum5 < 0.98 or cutSum5 == 1:
                         if cutSum5 != 1:
                             lossnum +=1
+    # printG('lossNum', lossnum, cutSum1, cutSum2, cutSum3, cutSum4, cutSum5)
+    # printG('curValue', curValue1, curValue2, curValue3, curValue4, curValue5)
+    # printG('beforeValue', beforeValue1, beforeValue2, beforeValue3, beforeValue4, beforeValue5)
     if lossnum >= 2:
         li = []
         for stock in wallet.getAllStock():
@@ -430,7 +444,7 @@ while endDate >= current:
                 isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
                 if isSold:
                     cutList[lossStock['code']] = {'value':st.getValue(current, lossStock['code']), 'money':sellMoney * stockQuantity}
-                    printG('손절갯수:', len(cutList.keys()))
+                    printG('손절갯수:', len(cutList.keys()), cutList.keys())
                     restMoney += sellMoney * stockQuantity
     # else:
     #     #손절
@@ -452,7 +466,7 @@ while endDate >= current:
             isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
             if isSold:
                 cutList[stock['code']] = {'value':st.getValue(current, stock['code']), 'money':sellMoney * stockQuantity}
-                printG('종목마다손절갯수:', len(cutList.keys()))
+                printG('종목마다손절갯수:', len(cutList.keys()), cutList.keys())
                 restMoney += sellMoney * stockQuantity
     #다시 들어가기
     # delList = []
