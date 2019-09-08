@@ -93,7 +93,7 @@ class StockLoader:
         for index, row  in topcap.iterrows():
             allCodes[row['Code']] = row['Name']
             allNames[row['Name']] = row['Code']
-        # topcap = topcap[topcap['Marcap']<=700000000000]
+        topcap = topcap[topcap['Marcap']<=700000000000]
         #시가
         targetShares = {}
         reversedCode = {}

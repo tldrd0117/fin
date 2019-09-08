@@ -22,6 +22,7 @@ for year in range(2007,2019):
         mean = df[target].mean()
         std = df[target].std()
         df[target] = (df[target] - mean)/std
+        print(mean, std)
         X = np.hstack([X.reshape(-1), df[target].values.reshape(-1)])
     y = np.hstack([y.reshape(-1),df['yield'].values.reshape(-1)])
     # X=np.array([df[targetList].values/length]).reshape(-1,factorLen)
@@ -47,21 +48,21 @@ print(X)
 print(y)
 
 #정규화
-mean = X.mean(axis=0)
-std = X.std(axis=0)
-X = (X - mean) / std
+# mean = X.mean(axis=0)
+# std = X.std(axis=0)
+# X = (X - mean) / std
 
 
 model=Sequential()
 # model.add(Dropout(0.8, input_shape=(factorLen,)))
 model.add(Dense(1, input_shape=(factorLen,), activation='relu', use_bias=False))
-sgd=optimizers.SGD(lr=0.001)
+sgd=optimizers.SGD(lr=0.00005)
 # 학습률(learning rate, lr)은 0.01로 합니다.
 model.compile(optimizer=sgd ,loss='mse',metrics=['mse'])
 # 옵티마이저는 경사하강법의 일종인 확률적 경사 하강법 sgd를 사용합니다.
 # 손실 함수(Loss function)은 평균제곱오차 mse를 사용합니다.
 model.summary()
-model.fit(X,y, batch_size=5, epochs=100, shuffle=True)
+model.fit(X,y, batch_size=30, epochs=200, shuffle=True)
 for layer in model.layers: 
     print(pd.Series([y for x in layer.get_weights() for y in x], index=factors))
 import matplotlib.pyplot as plt

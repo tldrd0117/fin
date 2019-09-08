@@ -1,7 +1,17 @@
 # In[0]:
 from simulator.StockLoader import StockLoader
+import pandas as pd
+
 sl = StockLoader.create()
-stockdf, topcap = sl.loadStockDf()
+topdf = pd.read_hdf('h5data/STOCK_CLOSE_2006-01-01_2019-08-23.h5', key='df')
+topdf2 = pd.read_hdf('h5data/STOCK_CLOSE_2019-08-24_2019-08-26.h5', key='df')
+topdf3 = pd.read_hdf('h5data/STOCK_CLOSE_2019-08-27_2019-08-28.h5', key='df')
+topdf4 = pd.read_hdf('h5data/STOCK_CLOSE_2019-08-29_2019-08-30.h5', key='df')
+topdf5 = pd.read_hdf('h5data/STOCK_CLOSE_2019-08-31_2019-09-05.h5', key='df')
+topdf6 = pd.read_hdf('h5data/STOCK_CLOSE_2019-09-06_2019-09-07.h5', key='df')
+stockdf = pd.concat([topdf, topdf2, topdf3, topdf4, topdf5, topdf6])
+
+# stockdf, topcap = sl.loadStockDf()
 factordf = sl.loadFactor()
 
 # In[1]: 액면
@@ -9,7 +19,6 @@ factordf = sl.loadFactor()
 def isNumber(val):
     return isinstance(val, (int, float, complex)) 
 
-import pandas as pd
 
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 length = len(stockdf.index)

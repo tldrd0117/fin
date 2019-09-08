@@ -560,6 +560,21 @@ class StockStrategy:
             datadf['sum'] += weights[factor] * datadf[factor]
         return list(datadf['sum'].dropna().sort_values(ascending=False).head(num).index)
 
+    def getFactorListsStd(self, current, targetdf, factordf, factors, num, weights, sName, sCode):
+        rankList = []
+        curIndex = targetdf.index.get_loc(current, method='ffill')
+        targetIdx = targetdf.iloc[curIndex].dropna().index
+        datadf = pd.DataFrame(index=targetIdx)
+        for factor in factors:
+            datadf[factor] = self.getFactorRank(current, targetdf, factordf, factor, sName, sCode)
+        datadf['sum'] = 0
+        mean = datadf[factor].mean()
+        std = datadf[factor].std()
+        for factor in factors:
+            datadf['sum'] += weights[factor] * (datadf[factor] - mean / std)
+        return list(datadf['sum'].dropna().sort_values(ascending=False).head(num).index)
+
+
     def getMoneyRate(self, nameList):
         rate = pd.Series([1/len(nameList)]*len(nameList), index=nameList)
         return rate
