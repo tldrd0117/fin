@@ -534,22 +534,27 @@ class StockStrategy:
         intersect = list(set(targetdf.columns) & set(shcodes))
         return intersect
     
-    def getFactorRank(self, current, targetdf, factordf, factor):
-        yearDf = factordf[factor][factordf[factor].isin(targetdf.columns)]
+    def getFactorRank(self, current, targetdf, factordf, factor, sName, sCode):
+        codeList = list(map(lambda x: sName[x], targetdf.columns))
+        yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
+        # yearDf = factordf[factor][factordf[factor].isin(targetdf.columns)]
         if current.month > 4:
             yearDf = yearDf[current.year - 1]
         else:
             yearDf = yearDf[current.year - 2]
         sortedDf = yearDf.sort_values(ascending=True)
-        return pd.Series(range(0,len(sortedDf.index)),index=sortedDf.index)
+        # print(sortedDf)
+        # return sortedDf
+        # return pd.Series(range(0,len(sortedDf.index)),index=sortedDf.index)
+        return pd.Series(sortedDf.values,index=map(lambda x: sCode[x], sortedDf.index))
     
-    def getFactorLists(self, current, targetdf, factordf, factors, num, weights):
+    def getFactorLists(self, current, targetdf, factordf, factors, num, weights, sName, sCode):
         rankList = []
-        curIndex = targetdf.index.get_loc(current, method='nearest')
+        curIndex = targetdf.index.get_loc(current, method='ffill')
         targetIdx = targetdf.iloc[curIndex].dropna().index
         datadf = pd.DataFrame(index=targetIdx)
         for factor in factors:
-            datadf[factor] = self.getFactorRank(current, targetdf, factordf, factor)
+            datadf[factor] = self.getFactorRank(current, targetdf, factordf, factor, sName, sCode)
         datadf['sum'] = 0
         for factor in factors:
             datadf['sum'] += weights[factor] * datadf[factor]

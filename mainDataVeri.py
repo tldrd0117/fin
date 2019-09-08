@@ -8,7 +8,6 @@ import pandas as pd
 
 factors = ['per', 'pcr', 'pbr', 'roe', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률']
 factorLen = len(factors)
-
 X = np.array([])
 y = np.array([])
 for year in range(2007,2019):
@@ -28,9 +27,19 @@ for year in range(2007,2019):
     # X=np.array([df[targetList].values/length]).reshape(-1,factorLen)
     # y=np.array([(df['yield']).values]).reshape(-1,1)
 X=X.reshape(-1,factorLen)
-X[np.isnan(X)] = 0
 y=y.reshape(-1,1)
-y[np.isnan(y)] = 0
+print(X.shape)
+print(y.shape)
+nanValues = np.argwhere(np.isnan(y))
+print(nanValues)
+X = np.delete(X, nanValues, axis=0)
+y = np.delete(y, nanValues, axis=0)
+# y = y[~nanValues, :]
+nanValues2 = np.isnan(X)
+X[np.isnan(X)] = 0
+X[X < 0] = 0
+print(X.shape)
+print(y.shape)
 # targetdf = df['roic'].dropna()
 # X=np.array(targetdf.index) # 공부하는 시간
 # y=targetdf.values.flatten() # 각 공부하는 시간에 맵핑되는 성적
@@ -43,7 +52,9 @@ print(y)
 np.set_printoptions(suppress=True)
 factors = ['per', 'pcr', 'pbr', 'roe', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률']
 arr = (((X - X.mean(axis=0))*(y-y.mean(axis=0))).sum(axis=0)/len(X))
+print(X)
 print(arr)
+print(pd.Series(arr, index=factors))
 for i in arr.argsort():
     print(factors[i])
 # 8

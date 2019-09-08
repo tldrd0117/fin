@@ -27,28 +27,43 @@ for year in range(2007,2019):
     # X=np.array([df[targetList].values/length]).reshape(-1,factorLen)
     # y=np.array([(df['yield']).values]).reshape(-1,1)
 X=X.reshape(-1,factorLen)
-X[np.isnan(X)] = 0
 y=y.reshape(-1,1)
-y[np.isnan(y)] = 0
+print(X.shape)
+print(y.shape)
+nanValues = np.argwhere(np.isnan(y))
+print(nanValues)
+X = np.delete(X, nanValues, axis=0)
+y = np.delete(y, nanValues, axis=0)
+# y = y[~nanValues, :]
+nanValues2 = np.isnan(X)
+X[np.isnan(X)] = 0
+X[X < 0] = 0
+print(X.shape)
+print(y.shape)
 # targetdf = df['roic'].dropna()
 # X=np.array(targetdf.index) # 공부하는 시간
 # y=targetdf.values.flatten() # 각 공부하는 시간에 맵핑되는 성적
 print(X)
 print(y)
 
+#정규화
+mean = X.mean(axis=0)
+std = X.std(axis=0)
+X = (X - mean) / std
+
+
 model=Sequential()
 # model.add(Dropout(0.8, input_shape=(factorLen,)))
-model.add(Dense(1, input_shape=(factorLen,), activation='linear', use_bias=False))
-sgd=optimizers.SGD(lr=0.00001)
+model.add(Dense(1, input_shape=(factorLen,), activation='relu', use_bias=False))
+sgd=optimizers.SGD(lr=0.001)
 # 학습률(learning rate, lr)은 0.01로 합니다.
 model.compile(optimizer=sgd ,loss='mse',metrics=['mse'])
 # 옵티마이저는 경사하강법의 일종인 확률적 경사 하강법 sgd를 사용합니다.
 # 손실 함수(Loss function)은 평균제곱오차 mse를 사용합니다.
 model.summary()
-model.fit(X,y, batch_size=1, epochs=50, shuffle=True)
-
-for layer in model.layers: print(layer.get_weights())
-
+model.fit(X,y, batch_size=5, epochs=100, shuffle=True)
+for layer in model.layers: 
+    print(pd.Series([y for x in layer.get_weights() for y in x], index=factors))
 import matplotlib.pyplot as plt
 plt.plot(X, model.predict(X), 'b', X,y, 'k.')
 plt.show()
