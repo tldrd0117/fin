@@ -10,10 +10,13 @@ import pandas as pd
 import asyncio
 import time
 import os
+import sys
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
-logging.basicConfig(handlers=[logging.FileHandler('simulation15.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
+import signal
+from collections import deque
+logging.basicConfig(handlers=[logging.FileHandler('simulation17.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
 pd.set_option('display.float_format', None)
 np.set_printoptions(suppress=True)
 def printG(*msg):
@@ -69,6 +72,17 @@ topdf = topdf[intersect]
 one = None
 topdf
 # In[232]:stockNum
+
+# In[232323]:DQN
+from deep.dqn import DQNAgent
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
+sys.setrecursionlimit(100000)
+agent = DQNAgent(action_size=2)
+def signal_handler(signal, frame):
+    agent.model.save_weights("save_model/fin_dqn.h5")
+    sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
+
 # In[222]:
 epsdf = factordf['eps']
 compdf = epsdf.shift(-1, axis=1)
@@ -108,9 +122,10 @@ one = True
 # In[2]:
 ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
+st.setAmountdf(amountdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-09-15', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-07-15', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -128,6 +143,7 @@ for val1 in [1,2,5,10,20,25,50,100]:
     for val2 in [1,2,5,10,20,25,50,100]:
         parValues.append(val1/val2)
 parValues = list(set(parValues))
+
 
 allfactors = ['per', 'pcr', 'pbr', 'roe', '당기순이익', '영업활동으로인한현금흐름', '투자활동으로인한현금흐름', '재무활동으로인한현금흐름', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률', '매출액', '자산', '유동자산', '부채','유동부채']
 # weights = {'per':0.30458087, 'pcr':-0.03745455, 'pbr':0.23468399, 'roe':0.36092985, '당기순이익':0.19461265, '영업활동으로인한현금흐름':0.05416971, '투자활동으로인한현금흐름':0.3000804, '재무활동으로인한현금흐름':0.0256378, 'psr':-1.3246877, 'roic':-0.35830158, 'eps':0.02405762, 'ebit':0.04227263, 'ev_ebit':0.0967356, 'ev_sales':0.01554028, 'ev_ebitda':0.5191966, '당기순이익률':0.13129355, '영업이익률':0.15036112, '매출총이익률':0.44065595, '배당수익률':0.52419686, '매출액':-0.69880736}
@@ -148,7 +164,11 @@ maxValues = {}
 
 highShare = []
 
+global_step = 0
+score = 0
+
 while endDate >= current:
+    global_step+=1
     if nextYearDay <= current:
         nextYearDay = current + pd.Timedelta(1, unit='Y')
         if len(momentumList) > 0:
@@ -355,28 +375,101 @@ while endDate >= current:
         losscutTarget = []
         alreadyCut = []
         maxalreadyCut = []
+        dqnAlreadyCut = []
         cutList = {}
         for stock in wallet.getAllStock():
             loss = st.calculateLosscutRate(stock['code'], current)
             printG(stock['code'], loss)
+
+    record = deque()
+    for stock in wallet.getAllStock():
+        if stock['code'] in dqnAlreadyCut:
+            continue
+        dqnAlreadyCut.append(stock['code'])
+
+        curStockValue = st.getValue(current, stock['code'])
+        curStockAmount = st.getAmount(current, stock['code'])
+        history = np.array([[curStockValue, curStockAmount]])
+        action, isPredicted = agent.get_action(history)
+
+        tomorrowStockValue = st.getValue(nextInvestDay, stock['code'])
+        tomorrowAmountValue = st.getAmount(nextInvestDay, stock['code'])
+        if tomorrowStockValue >= curStockValue:
+            if action[0] == 0:
+                reward = 1
+            else:
+                reward = 0
+        else:
+            if action[0] == 0:
+                reward = 1
+            else:
+                reward = 0
+        score += reward
+        
+        dead = tomorrowStockValue - curStockValue / curStockValue <= 0.7
+
+        if dead:
+            reward = -100
+        
+        nexthistory = np.array([[tomorrowStockValue, tomorrowAmountValue]])
+
+        record.append((history, action, reward, nexthistory, dead))
+
+        if action[0] == 1:
+            lossStock = wallet.getStock(stock['code'])
+            stockQuantity = lossStock['quantity']
+            sellMoney = st.getValue(current, stock['code'])
+            isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+            if isSold:
+                cutList[stock['code']] = {'value':st.getValue(current, stock['code']), 'money':sellMoney * stockQuantity}
+                printG('dqn손절:', len(cutList.keys()), cutList.keys())
+                restMoney += sellMoney * stockQuantity
+
+    agent.appends_sample(record)
+    printG(len(agent.memory), agent.train_start, len(agent.memory) >= agent.train_start)
+    if len(agent.memory) >= agent.train_start:
+        agent.train_model()
+    # 일정 시간마다 타겟모델을 모델의 가중치로 업데이트
+    if global_step % agent.update_target_rate == 0:
+        agent.update_target_model()
+    if global_step > agent.train_start:
+        stats = [score, agent.avg_q_max / float(global_step), global_step,
+                    agent.avg_loss / float(global_step)]
+        for i in range(len(stats)):
+            agent.sess.run(agent.update_ops[i], feed_dict={
+                agent.summary_placeholders[i]: float(stats[i])
+            })
+        summary_str = agent.sess.run(agent.summary_op)
+        agent.summary_writer.add_summary(summary_str, global_step + 1)
+
+        printG("episode:", global_step, "  score:", score, "  memory length:",
+                len(agent.memory), "  epsilon:", agent.epsilon,
+                "  global_step:", global_step, "  average_q:",
+                agent.avg_q_max / float(global_step), "  average loss:",
+                agent.avg_loss / float(global_step))
+
+        agent.avg_q_max, agent.avg_loss = 0, 0
+    # if e % 10 == 0:
+    agent.model.save_weights("save_model/fin_dqn.h5")
+        
     #최대값 비율 손절 내일 아침에 팔기로 할 때
-    for name in maxValues:
-        if name in target:
-            curVal = st.getValue(current, name)
-            if maxValues[name]['max'] > curVal:
-                curgap = curVal - maxValues[name]['buy']
-                maxgap = maxValues[name]['max'] - maxValues[name]['buy']
-                gapPercent = curgap / maxgap * 100
-                topPercent = maxgap / maxValues[name]['buy'] * 100
-                if gapPercent <= 50 and topPercent >= 30 and name not in maxalreadyCut:
-                    maxalreadyCut.append(name)
-                    printG('최대값 비율 손절: ', name, str(gapPercent) + '%', maxValues[name]['max'], maxValues[name]['buy'])
-                    lossStock = wallet.getStock(name)
-                    stockQuantity = lossStock['quantity']
-                    sellMoney = st.getValue(current, name)
-                    isSold = wallet.sell(name, stockQuantity, sellMoney)
-                    if isSold:
-                        restMoney += sellMoney * stockQuantity
+    # for name in maxValues:
+    #     if name in target:
+    #         curVal = st.getValue(current, name)
+    #         if maxValues[name]['max'] > curVal:
+    #             curgap = curVal - maxValues[name]['buy']
+    #             maxgap = maxValues[name]['max'] - maxValues[name]['buy']
+    #             gapPercent = curgap / maxgap * 100
+    #             topPercent = maxgap / maxValues[name]['buy'] * 100
+    #             if gapPercent <= 50 and topPercent >= 30 and name not in maxalreadyCut:
+    #                 maxalreadyCut.append(name)
+    #                 printG('최대값 비율 손절: ', name, str(gapPercent) + '%', maxValues[name]['max'], maxValues[name]['buy'])
+    #                 lossStock = wallet.getStock(name)
+    #                 stockQuantity = lossStock['quantity']
+    #                 sellMoney = st.getValue(current, name)
+    #                 isSold = wallet.sell(name, stockQuantity, sellMoney)
+    #                 if isSold:
+    #                     restMoney += sellMoney * stockQuantity
 
     # #blacklist
     # for stock in wallet.getAllStock():
@@ -404,74 +497,74 @@ while endDate >= current:
     #                         wallet.buy(bondName, q, buyMoney)
     #                         rebalaceMoney -= buyMoney * q
     #손절 Sum
-    stockCodes = list(map(lambda x : x['code'], wallet.getAllStock()))
-    cutSum1, curValue1, beforeValue1 = st.getLosscutScalarSum(stockCodes, current, current + pd.Timedelta(-1, 'D'))
-    cutSum2, curValue2, beforeValue2 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-1, 'D'), current + pd.Timedelta(-2, 'D'))
-    cutSum3, curValue3, beforeValue3 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-2, 'D'), current + pd.Timedelta(-3, 'D'))
-    cutSum4, curValue4, beforeValue4 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-3, 'D'), current + pd.Timedelta(-4, 'D'))
-    cutSum5, curValue5, beforeValue5 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-4, 'D'), current + pd.Timedelta(-5, 'D'))
-    lossnum = 0
-    if cutSum1 < 0.98:
-        lossnum +=1
-        if cutSum2 < 0.98 or cutSum2 == 1:
-            if cutSum2 != 1:
-                lossnum +=1
-            if cutSum3 < 0.98 or cutSum3 == 1:
-                if cutSum3 != 1:
-                    lossnum +=1
-                if cutSum4 < 0.98 or cutSum4 == 1:
-                    if cutSum4 != 1:
-                        lossnum +=1
-                    if cutSum5 < 0.98 or cutSum5 == 1:
-                        if cutSum5 != 1:
-                            lossnum +=1
-    # printG('lossNum', lossnum, cutSum1, cutSum2, cutSum3, cutSum4, cutSum5)
-    # printG('curValue', curValue1, curValue2, curValue3, curValue4, curValue5)
-    # printG('beforeValue', beforeValue1, beforeValue2, beforeValue3, beforeValue4, beforeValue5)
-    if lossnum >= 2:
-        li = []
-        for stock in wallet.getAllStock():
-            val = st.getValue(current, stock['code'])
-            li.append({'val':val / stock['money'], 'stock':stock})
-        li.sort(key=lambda data : data['val'])
-        length = len(li)
-        if len(li) >= 4:
-            length = int(len(li)/2)
-        else:
-            length = len(li)
-        for d in li[0:length]:
-            lossTarget = d['stock']['code']
-            if lossTarget not in cutList.keys():
-                alreadyCut.append(lossTarget)
-                lossStock = wallet.getStock(lossTarget)
-                stockQuantity = lossStock['quantity']
-                sellMoney = st.getValue(current, lossTarget)
-                isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
-                if isSold:
-                    cutList[lossStock['code']] = {'value':st.getValue(current, lossStock['code']), 'money':sellMoney * stockQuantity}
-                    printG('손절갯수:', len(cutList.keys()), cutList.keys())
-                    restMoney += sellMoney * stockQuantity
+    # stockCodes = list(map(lambda x : x['code'], wallet.getAllStock()))
+    # cutSum1, curValue1, beforeValue1 = st.getLosscutScalarSum(stockCodes, current, current + pd.Timedelta(-1, 'D'))
+    # cutSum2, curValue2, beforeValue2 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-1, 'D'), current + pd.Timedelta(-2, 'D'))
+    # cutSum3, curValue3, beforeValue3 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-2, 'D'), current + pd.Timedelta(-3, 'D'))
+    # cutSum4, curValue4, beforeValue4 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-3, 'D'), current + pd.Timedelta(-4, 'D'))
+    # cutSum5, curValue5, beforeValue5 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-4, 'D'), current + pd.Timedelta(-5, 'D'))
+    # lossnum = 0
+    # if cutSum1 < 0.98:
+    #     lossnum +=1
+    #     if cutSum2 < 0.98 or cutSum2 == 1:
+    #         if cutSum2 != 1:
+    #             lossnum +=1
+    #         if cutSum3 < 0.98 or cutSum3 == 1:
+    #             if cutSum3 != 1:
+    #                 lossnum +=1
+    #             if cutSum4 < 0.98 or cutSum4 == 1:
+    #                 if cutSum4 != 1:
+    #                     lossnum +=1
+    #                 if cutSum5 < 0.98 or cutSum5 == 1:
+    #                     if cutSum5 != 1:
+    #                         lossnum +=1
+    # # printG('lossNum', lossnum, cutSum1, cutSum2, cutSum3, cutSum4, cutSum5)
+    # # printG('curValue', curValue1, curValue2, curValue3, curValue4, curValue5)
+    # # printG('beforeValue', beforeValue1, beforeValue2, beforeValue3, beforeValue4, beforeValue5)
+    # if lossnum >= 2:
+    #     li = []
+    #     for stock in wallet.getAllStock():
+    #         val = st.getValue(current, stock['code'])
+    #         li.append({'val':val / stock['money'], 'stock':stock})
+    #     li.sort(key=lambda data : data['val'])
+    #     length = len(li)
+    #     if len(li) >= 4:
+    #         length = int(len(li)/2)
+    #     else:
+    #         length = len(li)
+    #     for d in li[0:length]:
+    #         lossTarget = d['stock']['code']
+    #         if lossTarget not in cutList.keys():
+    #             alreadyCut.append(lossTarget)
+    #             lossStock = wallet.getStock(lossTarget)
+    #             stockQuantity = lossStock['quantity']
+    #             sellMoney = st.getValue(current, lossTarget)
+    #             isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+    #             if isSold:
+    #                 cutList[lossStock['code']] = {'value':st.getValue(current, lossStock['code']), 'money':sellMoney * stockQuantity}
+    #                 printG('손절갯수:', len(cutList.keys()), cutList.keys())
+    #                 restMoney += sellMoney * stockQuantity
     #     #손절
-    for stock in wallet.getAllStock():   
-        cut1 = st.getLosscutScalar(stock['code'], current, current + pd.Timedelta(-1, 'D'))
-        cut2 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-1, 'D'), current + pd.Timedelta(-2, 'D'))
-        cut3 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-2, 'D'), current + pd.Timedelta(-3, 'D'))
-        cut4 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-3, 'D'), current + pd.Timedelta(-4, 'D'))
-        cut5 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-4, 'D'), current + pd.Timedelta(-5, 'D'))
-        if current > priceLimitDate:
-            limitPercent = -0.2
-        else:
-            limitPercent = -0.1
-        isUnder10Per = cut1 + cut2 + cut3 + cut4 + cut5 - 5 <= limitPercent
-        if isUnder10Per and stock['code'] not in cutList.keys():
-            lossStock = wallet.getStock(stock['code'])
-            stockQuantity = lossStock['quantity']
-            sellMoney = st.getValue(current, stock['code'])
-            isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
-            if isSold:
-                cutList[stock['code']] = {'value':st.getValue(current, stock['code']), 'money':sellMoney * stockQuantity}
-                printG('종목마다손절갯수:', len(cutList.keys()), cutList.keys())
-                restMoney += sellMoney * stockQuantity
+    # for stock in wallet.getAllStock():   
+    #     cut1 = st.getLosscutScalar(stock['code'], current, current + pd.Timedelta(-1, 'D'))
+    #     cut2 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-1, 'D'), current + pd.Timedelta(-2, 'D'))
+    #     cut3 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-2, 'D'), current + pd.Timedelta(-3, 'D'))
+    #     cut4 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-3, 'D'), current + pd.Timedelta(-4, 'D'))
+    #     cut5 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-4, 'D'), current + pd.Timedelta(-5, 'D'))
+    #     if current > priceLimitDate:
+    #         limitPercent = -0.2
+    #     else:
+    #         limitPercent = -0.1
+    #     isUnder10Per = cut1 + cut2 + cut3 + cut4 + cut5 - 5 <= limitPercent
+    #     if isUnder10Per and stock['code'] not in cutList.keys():
+    #         lossStock = wallet.getStock(stock['code'])
+    #         stockQuantity = lossStock['quantity']
+    #         sellMoney = st.getValue(current, stock['code'])
+    #         isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+    #         if isSold:
+    #             cutList[stock['code']] = {'value':st.getValue(current, stock['code']), 'money':sellMoney * stockQuantity}
+    #             printG('종목마다손절갯수:', len(cutList.keys()), cutList.keys())
+    #             restMoney += sellMoney * stockQuantity
     #다시 들어가기
     # delList = []
     # for code in cutList:

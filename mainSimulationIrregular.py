@@ -110,7 +110,7 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-09-10', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-09-15', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -150,7 +150,7 @@ isMaxSold = False
 isSumSold = False
 isSold = False
 
-def getBuyShare(current, inter, exclude):
+def chooseShare(current, inter, exclude):
     inter = filter(lambda x : x not in exclude, inter)
     target = ss.getFactorList(current, topdf[inter], factordf, 'roe', sName, sCode, False, 3000, minVal=0.00000001)
     target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
@@ -245,7 +245,7 @@ while endDate >= current:
         # nextInvestDay = current + pd.Timedelta(15, unit='d')
         #7일마다 주식 변경
         beforeInvestDay = current
-        nextInvestDay = current + pd.Timedelta(96, unit='d')
+        nextInvestDay = current + pd.Timedelta(32, unit='d')
         # nextInvestDay = current + pd.Timedelta(1, unit='Y')
         nextInvestDay = nextInvestDay.replace(day=1)
         target = list(topdf.columns)
@@ -255,7 +255,7 @@ while endDate >= current:
         printG('altman', len(target))
         inter = list(set(topdf.columns) & set(target))
 
-        target = getBuyShare(current, inter, [])
+        target = chooseShare(current, inter, [])
 
         target = target + target2
 
@@ -301,6 +301,7 @@ while endDate >= current:
         losscutTarget = []
         alreadyCut = []
         maxalreadyCut = []
+        oneAlreadyCut = []
         cutList = {}
         for stock in wallet.getAllStock():
             loss = st.calculateLosscutRate(stock['code'], current)
@@ -390,6 +391,7 @@ while endDate >= current:
             limitPercent = -0.1
         isUnder10Per = cut1 + cut2 + cut3 + cut4 + cut5 - 5 <= limitPercent
         if isUnder10Per and stock['code'] not in cutList.keys():
+            oneAlreadyCut.append(stock['code'])
             lossStock = wallet.getStock(stock['code'])
             stockQuantity = lossStock['quantity']
             sellMoney = st.getValue(current, stock['code'])
@@ -405,7 +407,8 @@ while endDate >= current:
         isMaxSold = False
         isSumSold = False
         isSold = False
-        target2 = getBuyShare(current, inter, target)
+        target2 = chooseShare(current, inter, target)
+        target2 = list(filter(lambda x : x not in alreadyCut and x not in maxalreadyCut and x not in oneAlreadyCut, target2))
         for stockName in target2:
             if len(target) <= 0:
                 moneyRate = 0

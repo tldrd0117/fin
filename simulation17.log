@@ -1,0 +1,3297 @@
+From /Users/iseongjae/anaconda3/lib/python3.7/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+From /Users/iseongjae/anaconda3/lib/python3.7/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+Summary name Total Reward/Episode is illegal; using Total_Reward/Episode instead.
+Summary name Average Max Q/Episode is illegal; using Average_Max_Q/Episode instead.
+Summary name Average Loss/Episode is illegal; using Average_Loss/Episode instead.
+altman 1536
+momentumSum 0.42857142857142855
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 10
+['오스템', '동양이엔피', '한진중공업홀딩스', '오상자이엘', '휴스틸', '유아이엘', '넥센타이어', '범양건영', '삼목에스폼', '현우산업']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 1
+['현우산업']
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 1
+['현우산업']
+BUY 현우산업 2439주
+현우산업 0.8996140142517814
+2008-05-01 00:00:00 10000000.0 9999900.0 100.0 0 
+2008-05-02 00:00:00 10000000.0 9999900.0 100.0 0 ∙ 0.0 0.0%
+2008-05-03 00:00:00 10000000.0 9999900.0 100.0 0 ∙ 0.0 0.0%
+2008-05-04 00:00:00 10000000.0 9999900.0 100.0 0 ∙ 0.0 0.0%
+2008-05-05 00:00:00 10000000.0 9999900.0 100.0 0 ∙ 0.0 0.0%
+2008-05-06 00:00:00 10024390.0 10024290.0 100.0 0 ▲ 24390.0 0.2439%
+2008-05-07 00:00:00 10048780.0 10048680.0 100.0 0 ▲ 24390.0 0.24330657526293373%
+2008-05-08 00:00:00 9951220.0 9951120.0 100.0 0 ▼ -97560.0 -0.9708641247992293%
+2008-05-09 00:00:00 9853660.0 9853560.0 100.0 0 ▼ -97560.0 -0.9803823048832203%
+2008-05-10 00:00:00 9853660.0 9853560.0 100.0 0 ∙ 0.0 0.0%
+2008-05-11 00:00:00 9853660.0 9853560.0 100.0 0 ∙ 0.0 0.0%
+2008-05-12 00:00:00 9853660.0 9853560.0 100.0 0 ∙ 0.0 0.0%
+2008-05-13 00:00:00 9817075.0 9816975.0 100.0 0 ▼ -36585.0 -0.371283360700491%
+2008-05-14 00:00:00 9743905.0 9743805.0 100.0 0 ▼ -73170.0 -0.7453340226085672%
+2008-05-15 00:00:00 9621955.0 9621855.0 100.0 0 ▼ -121950.0 -1.2515516109814289%
+2008-05-16 00:00:00 9512200.0 9512100.0 100.0 0 ▼ -109755.0 -1.1406725556292874%
+2008-05-17 00:00:00 9512200.0 9512100.0 100.0 0 ∙ 0.0 0.0%
+2008-05-18 00:00:00 9512200.0 9512100.0 100.0 0 ∙ 0.0 0.0%
+2008-05-19 00:00:00 10000000.0 9999900.0 100.0 0 ▲ 487800.0 5.12815121633271%
+2008-05-20 00:00:00 9975610.0 9975510.0 100.0 0 ▼ -24390.0 -0.2439%
+2008-05-21 00:00:00 9902440.0 9902340.0 100.0 0 ▼ -73170.0 -0.7334889796212963%
+2008-05-22 00:00:00 9634150.0 9634050.0 100.0 0 ▼ -268290.0 -2.7093322453859856%
+2008-05-23 00:00:00 9585370.0 9585270.0 100.0 0 ▼ -48780.0 -0.5063238583580285%
+2008-05-24 00:00:00 9585370.0 9585270.0 100.0 0 ∙ 0.0 0.0%
+2008-05-25 00:00:00 9585370.0 9585270.0 100.0 0 ∙ 0.0 0.0%
+2008-05-26 00:00:00 9756100.0 9756000.0 100.0 0 ▲ 170730.0 1.7811519012828927%
+2008-05-27 00:00:00 9743905.0 9743805.0 100.0 0 ▼ -12195.0 -0.12499871875032031%
+2008-05-28 00:00:00 9560980.0 9560880.0 100.0 0 ▼ -182925.0 -1.8773274164721434%
+2008-05-29 00:00:00 9731710.0 9731610.0 100.0 0 ▲ 170730.0 1.7856956086091593%
+2008-05-30 00:00:00 10146340.0 10146240.0 100.0 0 ▲ 414630.0 4.260607847952723%
+2008-05-31 00:00:00 10146340.0 10146240.0 100.0 0 ∙ 0.0 0.0%
+4160.0 4100.0 1 4100.0
+####################################
+현우산업 1.0146341463414634
+####################################
+per : 5.04
+pcr : 1.8
+pbr : 0.65
+roe : 12.59
+당기순이익 : 2702227.0
+영업활동으로인한현금흐름 : 5611054.0
+투자활동으로인한현금흐름 : -7507645.0
+재무활동으로인한현금흐름 : 2129401.0
+psr : 0.24
+roic : 9.67
+eps : 774.0
+ebit : 3098861.0
+ev_ebit : 7.08
+ev_sales : 0.39
+ev_ebitda : 2.75
+당기순이익률 : 4.78
+영업이익률 : 5.48
+매출총이익률 : 10.42
+배당수익률 : 1.92
+매출액 : 56539104.0
+자산 : 47666507.0
+유동자산 : 22823426.0
+부채 : 20995911.0
+유동부채 : 17385872.0
+monthPercentage:  2008-05-01 00:00:00 ~ 2008-05-31 00:00:00  #  1.4634
+monthTotal:  2008-05-01 00:00:00  #  10000000.0    2008-05-31 00:00:00  #  10146340.0
+lossPoint: 0.9354431882461215
+maxPoint: 1.014634
+minPoint: 0.95122
+altman 1536
+momentumSum 0.7142857142857143
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 11
+['오스템', '한솔인티큐브', '동양이엔피', '진양화학', '포스링크', '한진중공업홀딩스', '휴스틸', '광진윈텍', '유아이엘', '넥센타이어', '삼목에스폼']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 1
+['휴스틸']
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 1
+['휴스틸']
+BUY 휴스틸 445주
+휴스틸 0.9250030837547798
+2008-06-01 00:00:00 10146340.0 10146000.0 340.0 0 ∙ 0.0 0.0%
+2008-06-02 00:00:00 10413340.0 10413000.0 340.0 0 ▲ 267000.0 2.6314907641573217%
+2008-06-03 00:00:00 10680340.0 10680000.0 340.0 0 ▲ 267000.0 2.564018845058358%
+2008-06-04 00:00:00 10902840.0 10902500.0 340.0 0 ▲ 222500.0 2.0832670120988657%
+2008-06-05 00:00:00 10947340.0 10947000.0 340.0 0 ▲ 44500.0 0.4081505369243243%
+2008-06-06 00:00:00 10947340.0 10947000.0 340.0 0 ∙ 0.0 0.0%
+2008-06-07 00:00:00 10947340.0 10947000.0 340.0 0 ∙ 0.0 0.0%
+2008-06-08 00:00:00 10947340.0 10947000.0 340.0 0 ∙ 0.0 0.0%
+2008-06-09 00:00:00 10769340.0 10769000.0 340.0 0 ▼ -178000.0 -1.6259657597187993%
+2008-06-10 00:00:00 10502340.0 10502000.0 340.0 0 ▼ -267000.0 -2.479260567499958%
+2008-06-11 00:00:00 10502340.0 10502000.0 340.0 0 ∙ 0.0 0.0%
+2008-06-12 00:00:00 10413340.0 10413000.0 340.0 0 ▼ -89000.0 -0.8474301917477438%
+2008-06-13 00:00:00 10546840.0 10546500.0 340.0 0 ▲ 133500.0 1.282009422529179%
+2008-06-14 00:00:00 10546840.0 10546500.0 340.0 0 ∙ 0.0 0.0%
+2008-06-15 00:00:00 10546840.0 10546500.0 340.0 0 ∙ 0.0 0.0%
+2008-06-16 00:00:00 10480090.0 10479750.0 340.0 0 ▼ -66750.0 -0.6328909891493566%
+2008-06-17 00:00:00 10480090.0 10479750.0 340.0 0 ∙ 0.0 0.0%
+2008-06-18 00:00:00 10257590.0 10257250.0 340.0 0 ▼ -222500.0 -2.1230733705531155%
+2008-06-19 00:00:00 10190840.0 10190500.0 340.0 0 ▼ -66750.0 -0.6507376489019351%
+2008-06-20 00:00:00 10057340.0 10057000.0 340.0 0 ▼ -133500.0 -1.3099999607490649%
+2008-06-21 00:00:00 10057340.0 10057000.0 340.0 0 ∙ 0.0 0.0%
+2008-06-22 00:00:00 10057340.0 10057000.0 340.0 0 ∙ 0.0 0.0%
+2008-06-23 00:00:00 9879340.0 9879000.0 340.0 0 ▼ -178000.0 -1.7698516705212313%
+2008-06-24 00:00:00 9545590.0 9545250.0 340.0 0 ▼ -333750.0 -3.3782621106268227%
+2008-06-25 00:00:00 9923840.0 9923500.0 340.0 0 ▲ 378250.0 3.96256281696574%
+2008-06-26 00:00:00 10101840.0 10101500.0 340.0 0 ▲ 178000.0 1.7936605185089642%
+2008-06-27 00:00:00 10168590.0 10168250.0 340.0 0 ▲ 66750.0 0.6607707110783778%
+2008-06-28 00:00:00 10168590.0 10168250.0 340.0 0 ∙ 0.0 0.0%
+2008-06-29 00:00:00 10168590.0 10168250.0 340.0 0 ∙ 0.0 0.0%
+2008-06-30 00:00:00 10235340.0 10235000.0 340.0 0 ▲ 66750.0 0.6564331928025419%
+23000.0 22800.0 1 22800.0
+####################################
+휴스틸 1.0087719298245614
+####################################
+per : 7.6
+pcr : 4.66
+pbr : 0.51
+roe : 7.18
+당기순이익 : 16391223.0
+영업활동으로인한현금흐름 : 48559875.0
+투자활동으로인한현금흐름 : -26106879.0
+재무활동으로인한현금흐름 : -6688780.0
+psr : 0.3
+roic : 6.53
+eps : 2369.0
+ebit : 23681925.0
+ev_ebit : 8.44
+ev_sales : 0.48
+ev_ebitda : 5.88
+당기순이익률 : 3.97
+영업이익률 : 5.74
+매출총이익률 : 14.54
+배당수익률 : 5.56
+매출액 : 412753631.0
+자산 : 417958639.0
+유동자산 : 168451656.0
+부채 : 175189671.0
+유동부채 : 119322239.0
+monthPercentage:  2008-06-01 00:00:00 ~ 2008-06-30 00:00:00  #  0.8771635880524407
+monthTotal:  2008-06-01 00:00:00  #  10146340.0    2008-06-30 00:00:00  #  10235340.0
+lossPoint: 0.86501406193801
+maxPoint: 1.0789447229247195
+minPoint: 0.9407914578064602
+altman 1536
+momentumSum 0.7142857142857143
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 11
+['한일화학', '동성화인텍', '풀무원', '한솔인티큐브', '한진중공업홀딩스', '전파기지국', '휴스틸', '네패스', '넥센타이어', '한컴지엠디', '삼목에스폼']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 1
+['휴스틸']
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 1
+['휴스틸']
+BUY 휴스틸 445주
+휴스틸 0.9322164156163542
+2008-07-01 00:00:00 9990590.0 9990250.0 340.0 0 ▼ -244750.0 -2.3912249128998155%
+2008-07-02 00:00:00 9389840.0 9389500.0 340.0 0 ▼ -600750.0 -6.013158382037497%
+2008-07-03 00:00:00 9367590.0 9367250.0 340.0 0 ▼ -22250.0 -0.23695824422993364%
+episode: 65   score: 3   memory length: 3   epsilon: 1.0   global_step: 65   average_q: 0.0   average loss: 0.0
+2008-07-04 00:00:00 9345340.0 9345000.0 340.0 0 ▼ -22250.0 -0.23752106998705108%
+episode: 66   score: 3   memory length: 3   epsilon: 1.0   global_step: 66   average_q: 0.0   average loss: 0.0
+2008-07-05 00:00:00 9345340.0 9345000.0 340.0 0 ∙ 0.0 0.0%
+episode: 67   score: 3   memory length: 3   epsilon: 1.0   global_step: 67   average_q: 0.0   average loss: 0.0
+2008-07-06 00:00:00 9345340.0 9345000.0 340.0 0 ∙ 0.0 0.0%
+episode: 68   score: 3   memory length: 3   epsilon: 1.0   global_step: 68   average_q: 0.0   average loss: 0.0
+2008-07-07 00:00:00 9145090.0 9144750.0 340.0 0 ▼ -200250.0 -2.1427791819238253%
+episode: 69   score: 3   memory length: 3   epsilon: 1.0   global_step: 69   average_q: 0.0   average loss: 0.0
+2008-07-08 00:00:00 8722340.0 8722000.0 340.0 0 ▼ -422750.0 -4.62269917518581%
+episode: 70   score: 3   memory length: 3   epsilon: 1.0   global_step: 70   average_q: 0.0   average loss: 0.0
+2008-07-09 00:00:00 8677840.0 8677500.0 340.0 0 ▼ -44500.0 -0.5101841936911425%
+episode: 71   score: 3   memory length: 3   epsilon: 1.0   global_step: 71   average_q: 0.0   average loss: 0.0
+2008-07-10 00:00:00 9567840.0 9567500.0 340.0 0 ▲ 890000.0 10.256008407622174%
+episode: 72   score: 3   memory length: 3   epsilon: 1.0   global_step: 72   average_q: 0.0   average loss: 0.0
+2008-07-11 00:00:00 9857090.0 9856750.0 340.0 0 ▲ 289250.0 3.023148380407699%
+episode: 73   score: 3   memory length: 3   epsilon: 1.0   global_step: 73   average_q: 0.0   average loss: 0.0
+2008-07-12 00:00:00 9857090.0 9856750.0 340.0 0 ∙ 0.0 0.0%
+episode: 74   score: 3   memory length: 3   epsilon: 1.0   global_step: 74   average_q: 0.0   average loss: 0.0
+2008-07-13 00:00:00 9857090.0 9856750.0 340.0 0 ∙ 0.0 0.0%
+episode: 75   score: 3   memory length: 3   epsilon: 1.0   global_step: 75   average_q: 0.0   average loss: 0.0
+2008-07-14 00:00:00 10012840.0 10012500.0 340.0 0 ▲ 155750.0 1.580080936665892%
+episode: 76   score: 3   memory length: 3   epsilon: 1.0   global_step: 76   average_q: 0.0   average loss: 0.0
+2008-07-15 00:00:00 10012840.0 10012500.0 340.0 0 ∙ 0.0 0.0%
+episode: 77   score: 3   memory length: 3   epsilon: 1.0   global_step: 77   average_q: 0.0   average loss: 0.0
+2008-07-16 00:00:00 10101840.0 10101500.0 340.0 0 ▲ 89000.0 0.8888587054222378%
+episode: 78   score: 3   memory length: 3   epsilon: 1.0   global_step: 78   average_q: 0.0   average loss: 0.0
+2008-07-17 00:00:00 10413340.0 10413000.0 340.0 0 ▲ 311500.0 3.0835966516990965%
+episode: 79   score: 3   memory length: 3   epsilon: 1.0   global_step: 79   average_q: 0.0   average loss: 0.0
+2008-07-18 00:00:00 10124090.0 10123750.0 340.0 0 ▼ -289250.0 -2.7776870821465542%
+episode: 80   score: 3   memory length: 3   epsilon: 1.0   global_step: 80   average_q: 0.0   average loss: 0.0
+2008-07-19 00:00:00 10124090.0 10123750.0 340.0 0 ∙ 0.0 0.0%
+episode: 81   score: 3   memory length: 3   epsilon: 1.0   global_step: 81   average_q: 0.0   average loss: 0.0
+2008-07-20 00:00:00 10124090.0 10123750.0 340.0 0 ∙ 0.0 0.0%
+episode: 82   score: 3   memory length: 3   epsilon: 1.0   global_step: 82   average_q: 0.0   average loss: 0.0
+2008-07-21 00:00:00 10235340.0 10235000.0 340.0 0 ▲ 111250.0 1.0988641942139985%
+episode: 83   score: 3   memory length: 3   epsilon: 1.0   global_step: 83   average_q: 0.0   average loss: 0.0
+2008-07-22 00:00:00 10146340.0 10146000.0 340.0 0 ▼ -89000.0 -0.8695363319635694%
+episode: 84   score: 3   memory length: 3   epsilon: 1.0   global_step: 84   average_q: 0.0   average loss: 0.0
+2008-07-23 00:00:00 9990590.0 9990250.0 340.0 0 ▼ -155750.0 -1.535036279091771%
+episode: 85   score: 3   memory length: 3   epsilon: 1.0   global_step: 85   average_q: 0.0   average loss: 0.0
+2008-07-24 00:00:00 10257590.0 10257250.0 340.0 0 ▲ 267000.0 2.6725148364611098%
+episode: 86   score: 3   memory length: 3   epsilon: 1.0   global_step: 86   average_q: 0.0   average loss: 0.0
+2008-07-25 00:00:00 9968340.0 9968000.0 340.0 0 ▼ -289250.0 -2.8198631452417184%
+episode: 87   score: 3   memory length: 3   epsilon: 1.0   global_step: 87   average_q: 0.0   average loss: 0.0
+2008-07-26 00:00:00 9968340.0 9968000.0 340.0 0 ∙ 0.0 0.0%
+episode: 88   score: 3   memory length: 3   epsilon: 1.0   global_step: 88   average_q: 0.0   average loss: 0.0
+2008-07-27 00:00:00 9968340.0 9968000.0 340.0 0 ∙ 0.0 0.0%
+episode: 89   score: 3   memory length: 3   epsilon: 1.0   global_step: 89   average_q: 0.0   average loss: 0.0
+2008-07-28 00:00:00 10279840.0 10279500.0 340.0 0 ▲ 311500.0 3.1248934125441146%
+episode: 90   score: 3   memory length: 3   epsilon: 1.0   global_step: 90   average_q: 0.0   average loss: 0.0
+2008-07-29 00:00:00 10168590.0 10168250.0 340.0 0 ▼ -111250.0 -1.0822152873974693%
+episode: 91   score: 3   memory length: 3   epsilon: 1.0   global_step: 91   average_q: 0.0   average loss: 0.0
+2008-07-30 00:00:00 10368840.0 10368500.0 340.0 0 ▲ 200250.0 1.9692995784076257%
+episode: 92   score: 3   memory length: 3   epsilon: 1.0   global_step: 92   average_q: 0.0   average loss: 0.0
+2008-07-31 00:00:00 10435590.0 10435250.0 340.0 0 ▲ 66750.0 0.6437557142361151%
+23450.0 22450.0 1 22450.0
+####################################
+휴스틸 1.044543429844098
+####################################
+per : 7.6
+pcr : 4.66
+pbr : 0.51
+roe : 7.18
+당기순이익 : 16391223.0
+영업활동으로인한현금흐름 : 48559875.0
+투자활동으로인한현금흐름 : -26106879.0
+재무활동으로인한현금흐름 : -6688780.0
+psr : 0.3
+roic : 6.53
+eps : 2369.0
+ebit : 23681925.0
+ev_ebit : 8.44
+ev_sales : 0.48
+ev_ebitda : 5.88
+당기순이익률 : 3.97
+영업이익률 : 5.74
+매출총이익률 : 14.54
+배당수익률 : 5.56
+매출액 : 412753631.0
+자산 : 417958639.0
+유동자산 : 168451656.0
+부채 : 175189671.0
+유동부채 : 119322239.0
+monthPercentage:  2008-07-01 00:00:00 ~ 2008-07-31 00:00:00  #  4.4541913941018505
+monthTotal:  2008-07-01 00:00:00  #  9990590.0    2008-07-31 00:00:00  #  10435590.0
+lossPoint: 0.8214425507887769
+maxPoint: 1.0445419139410186
+minPoint: 0.8686013538739954
+altman 1536
+momentumSum 0.42857142857142855
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 10
+['동성화인텍', '청호컴넷', '신세계 I&C', '동양이엔피', '한진중공업홀딩스', '휴스틸', '네패스', '넥센타이어', '한컴지엠디', '삼목에스폼']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 1
+['휴스틸']
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 1
+['휴스틸']
+BUY 휴스틸 445주
+휴스틸 0.9107826770107041
+dqn손절: 1 dict_keys(['휴스틸'])
+episode: 93   score: 3   memory length: 4   epsilon: 1.0   global_step: 93   average_q: 0.0   average loss: 0.0
+2008-08-01 00:00:00 10324340.0 0.0 10324340.0 0 ▼ -111250.0 -1.0660633466818838%
+episode: 94   score: 3   memory length: 4   epsilon: 1.0   global_step: 94   average_q: 0.0   average loss: 0.0
+2008-08-02 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 95   score: 3   memory length: 4   epsilon: 1.0   global_step: 95   average_q: 0.0   average loss: 0.0
+2008-08-03 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 96   score: 3   memory length: 4   epsilon: 1.0   global_step: 96   average_q: 0.0   average loss: 0.0
+2008-08-04 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 97   score: 3   memory length: 4   epsilon: 1.0   global_step: 97   average_q: 0.0   average loss: 0.0
+2008-08-05 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 98   score: 3   memory length: 4   epsilon: 1.0   global_step: 98   average_q: 0.0   average loss: 0.0
+2008-08-06 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 99   score: 3   memory length: 4   epsilon: 1.0   global_step: 99   average_q: 0.0   average loss: 0.0
+2008-08-07 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 100   score: 3   memory length: 4   epsilon: 1.0   global_step: 100   average_q: 0.0   average loss: 0.0
+2008-08-08 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 101   score: 3   memory length: 4   epsilon: 1.0   global_step: 101   average_q: 0.0   average loss: 0.0
+2008-08-09 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 102   score: 3   memory length: 4   epsilon: 1.0   global_step: 102   average_q: 0.0   average loss: 0.0
+2008-08-10 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 103   score: 3   memory length: 4   epsilon: 1.0   global_step: 103   average_q: 0.0   average loss: 0.0
+2008-08-11 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 104   score: 3   memory length: 4   epsilon: 1.0   global_step: 104   average_q: 0.0   average loss: 0.0
+2008-08-12 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 105   score: 3   memory length: 4   epsilon: 1.0   global_step: 105   average_q: 0.0   average loss: 0.0
+2008-08-13 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 106   score: 3   memory length: 4   epsilon: 1.0   global_step: 106   average_q: 0.0   average loss: 0.0
+2008-08-14 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 107   score: 3   memory length: 4   epsilon: 1.0   global_step: 107   average_q: 0.0   average loss: 0.0
+2008-08-15 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 108   score: 3   memory length: 4   epsilon: 1.0   global_step: 108   average_q: 0.0   average loss: 0.0
+2008-08-16 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 109   score: 3   memory length: 4   epsilon: 1.0   global_step: 109   average_q: 0.0   average loss: 0.0
+2008-08-17 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 110   score: 3   memory length: 4   epsilon: 1.0   global_step: 110   average_q: 0.0   average loss: 0.0
+2008-08-18 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 111   score: 3   memory length: 4   epsilon: 1.0   global_step: 111   average_q: 0.0   average loss: 0.0
+2008-08-19 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 112   score: 3   memory length: 4   epsilon: 1.0   global_step: 112   average_q: 0.0   average loss: 0.0
+2008-08-20 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 113   score: 3   memory length: 4   epsilon: 1.0   global_step: 113   average_q: 0.0   average loss: 0.0
+2008-08-21 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 114   score: 3   memory length: 4   epsilon: 1.0   global_step: 114   average_q: 0.0   average loss: 0.0
+2008-08-22 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 115   score: 3   memory length: 4   epsilon: 1.0   global_step: 115   average_q: 0.0   average loss: 0.0
+2008-08-23 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 116   score: 3   memory length: 4   epsilon: 1.0   global_step: 116   average_q: 0.0   average loss: 0.0
+2008-08-24 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 117   score: 3   memory length: 4   epsilon: 1.0   global_step: 117   average_q: 0.0   average loss: 0.0
+2008-08-25 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 118   score: 3   memory length: 4   epsilon: 1.0   global_step: 118   average_q: 0.0   average loss: 0.0
+2008-08-26 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 119   score: 3   memory length: 4   epsilon: 1.0   global_step: 119   average_q: 0.0   average loss: 0.0
+2008-08-27 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 120   score: 3   memory length: 4   epsilon: 1.0   global_step: 120   average_q: 0.0   average loss: 0.0
+2008-08-28 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 121   score: 3   memory length: 4   epsilon: 1.0   global_step: 121   average_q: 0.0   average loss: 0.0
+2008-08-29 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 122   score: 3   memory length: 4   epsilon: 1.0   global_step: 122   average_q: 0.0   average loss: 0.0
+2008-08-30 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+episode: 123   score: 3   memory length: 4   epsilon: 1.0   global_step: 123   average_q: 0.0   average loss: 0.0
+2008-08-31 00:00:00 10324340.0 0.0 10324340.0 0 ∙ 0.0 0.0%
+23700.0 23200.0 1 23200.0
+####################################
+휴스틸 1.021551724137931
+####################################
+per : 7.6
+pcr : 4.66
+pbr : 0.51
+roe : 7.18
+당기순이익 : 16391223.0
+영업활동으로인한현금흐름 : 48559875.0
+투자활동으로인한현금흐름 : -26106879.0
+재무활동으로인한현금흐름 : -6688780.0
+psr : 0.3
+roic : 6.53
+eps : 2369.0
+ebit : 23681925.0
+ev_ebit : 8.44
+ev_sales : 0.48
+ev_ebitda : 5.88
+당기순이익률 : 3.97
+영업이익률 : 5.74
+매출총이익률 : 14.54
+배당수익률 : 5.56
+매출액 : 412753631.0
+자산 : 417958639.0
+유동자산 : 168451656.0
+부채 : 175189671.0
+유동부채 : 119322239.0
+monthPercentage:  2008-08-01 00:00:00 ~ 2008-08-31 00:00:00  #  0.0
+monthTotal:  2008-08-01 00:00:00  #  10324340.0    2008-08-31 00:00:00  #  10324340.0
+lossPoint: 1.0
+maxPoint: 1.0
+minPoint: 1.0
+altman 1536
+momentumSum -9.0
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 11
+['STX엔진', '동성화인텍', '풀무원', '청호컴넷', '한진중공업홀딩스', '심텍홀딩스', '네패스', '유아이엘', '넥센타이어', '체시스', '삼목에스폼']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 0
+[]
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 0
+[]
+episode: 124   score: 3   memory length: 4   epsilon: 1.0   global_step: 124   average_q: 0.0   average loss: 0.0
+2008-09-01 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 125   score: 3   memory length: 4   epsilon: 1.0   global_step: 125   average_q: 0.0   average loss: 0.0
+2008-09-02 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 126   score: 3   memory length: 4   epsilon: 1.0   global_step: 126   average_q: 0.0   average loss: 0.0
+2008-09-03 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 127   score: 3   memory length: 4   epsilon: 1.0   global_step: 127   average_q: 0.0   average loss: 0.0
+2008-09-04 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 128   score: 3   memory length: 4   epsilon: 1.0   global_step: 128   average_q: 0.0   average loss: 0.0
+2008-09-05 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 129   score: 3   memory length: 4   epsilon: 1.0   global_step: 129   average_q: 0.0   average loss: 0.0
+2008-09-06 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 130   score: 3   memory length: 4   epsilon: 1.0   global_step: 130   average_q: 0.0   average loss: 0.0
+2008-09-07 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 131   score: 3   memory length: 4   epsilon: 1.0   global_step: 131   average_q: 0.0   average loss: 0.0
+2008-09-08 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 132   score: 3   memory length: 4   epsilon: 1.0   global_step: 132   average_q: 0.0   average loss: 0.0
+2008-09-09 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 133   score: 3   memory length: 4   epsilon: 1.0   global_step: 133   average_q: 0.0   average loss: 0.0
+2008-09-10 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 134   score: 3   memory length: 4   epsilon: 1.0   global_step: 134   average_q: 0.0   average loss: 0.0
+2008-09-11 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 135   score: 3   memory length: 4   epsilon: 1.0   global_step: 135   average_q: 0.0   average loss: 0.0
+2008-09-12 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 136   score: 3   memory length: 4   epsilon: 1.0   global_step: 136   average_q: 0.0   average loss: 0.0
+2008-09-13 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 137   score: 3   memory length: 4   epsilon: 1.0   global_step: 137   average_q: 0.0   average loss: 0.0
+2008-09-14 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 138   score: 3   memory length: 4   epsilon: 1.0   global_step: 138   average_q: 0.0   average loss: 0.0
+2008-09-15 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 139   score: 3   memory length: 4   epsilon: 1.0   global_step: 139   average_q: 0.0   average loss: 0.0
+2008-09-16 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 140   score: 3   memory length: 4   epsilon: 1.0   global_step: 140   average_q: 0.0   average loss: 0.0
+2008-09-17 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 141   score: 3   memory length: 4   epsilon: 1.0   global_step: 141   average_q: 0.0   average loss: 0.0
+2008-09-18 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 142   score: 3   memory length: 4   epsilon: 1.0   global_step: 142   average_q: 0.0   average loss: 0.0
+2008-09-19 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 143   score: 3   memory length: 4   epsilon: 1.0   global_step: 143   average_q: 0.0   average loss: 0.0
+2008-09-20 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 144   score: 3   memory length: 4   epsilon: 1.0   global_step: 144   average_q: 0.0   average loss: 0.0
+2008-09-21 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 145   score: 3   memory length: 4   epsilon: 1.0   global_step: 145   average_q: 0.0   average loss: 0.0
+2008-09-22 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 146   score: 3   memory length: 4   epsilon: 1.0   global_step: 146   average_q: 0.0   average loss: 0.0
+2008-09-23 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 147   score: 3   memory length: 4   epsilon: 1.0   global_step: 147   average_q: 0.0   average loss: 0.0
+2008-09-24 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 148   score: 3   memory length: 4   epsilon: 1.0   global_step: 148   average_q: 0.0   average loss: 0.0
+2008-09-25 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 149   score: 3   memory length: 4   epsilon: 1.0   global_step: 149   average_q: 0.0   average loss: 0.0
+2008-09-26 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 150   score: 3   memory length: 4   epsilon: 1.0   global_step: 150   average_q: 0.0   average loss: 0.0
+2008-09-27 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 151   score: 3   memory length: 4   epsilon: 1.0   global_step: 151   average_q: 0.0   average loss: 0.0
+2008-09-28 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 152   score: 3   memory length: 4   epsilon: 1.0   global_step: 152   average_q: 0.0   average loss: 0.0
+2008-09-29 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 153   score: 3   memory length: 4   epsilon: 1.0   global_step: 153   average_q: 0.0   average loss: 0.0
+2008-09-30 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+monthPercentage:  2008-09-01 00:00:00 ~ 2008-09-30 00:00:00  #  0.0
+monthTotal:  2008-09-01 00:00:00  #  10324340.0    2008-09-30 00:00:00  #  10324340.0
+lossPoint: 1.0
+maxPoint: 1.0
+minPoint: 1.0
+altman 1536
+momentumSum -0.42857142857142855
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 13
+['동성화인텍', '오스템', '청호컴넷', '한진중공업홀딩스', '휴스틸', '예스코홀딩스', '신세계건설', '현대리바트', '심텍홀딩스', 'KJ프리텍', '네패스', '넥센타이어', '삼목에스폼']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 1
+['휴스틸']
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 0
+[]
+episode: 154   score: 3   memory length: 4   epsilon: 1.0   global_step: 154   average_q: 0.0   average loss: 0.0
+2008-10-01 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 155   score: 3   memory length: 4   epsilon: 1.0   global_step: 155   average_q: 0.0   average loss: 0.0
+2008-10-02 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 156   score: 3   memory length: 4   epsilon: 1.0   global_step: 156   average_q: 0.0   average loss: 0.0
+2008-10-03 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 157   score: 3   memory length: 4   epsilon: 1.0   global_step: 157   average_q: 0.0   average loss: 0.0
+2008-10-04 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 158   score: 3   memory length: 4   epsilon: 1.0   global_step: 158   average_q: 0.0   average loss: 0.0
+2008-10-05 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 159   score: 3   memory length: 4   epsilon: 1.0   global_step: 159   average_q: 0.0   average loss: 0.0
+2008-10-06 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 160   score: 3   memory length: 4   epsilon: 1.0   global_step: 160   average_q: 0.0   average loss: 0.0
+2008-10-07 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 161   score: 3   memory length: 4   epsilon: 1.0   global_step: 161   average_q: 0.0   average loss: 0.0
+2008-10-08 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 162   score: 3   memory length: 4   epsilon: 1.0   global_step: 162   average_q: 0.0   average loss: 0.0
+2008-10-09 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 163   score: 3   memory length: 4   epsilon: 1.0   global_step: 163   average_q: 0.0   average loss: 0.0
+2008-10-10 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 164   score: 3   memory length: 4   epsilon: 1.0   global_step: 164   average_q: 0.0   average loss: 0.0
+2008-10-11 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 165   score: 3   memory length: 4   epsilon: 1.0   global_step: 165   average_q: 0.0   average loss: 0.0
+2008-10-12 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 166   score: 3   memory length: 4   epsilon: 1.0   global_step: 166   average_q: 0.0   average loss: 0.0
+2008-10-13 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 167   score: 3   memory length: 4   epsilon: 1.0   global_step: 167   average_q: 0.0   average loss: 0.0
+2008-10-14 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 168   score: 3   memory length: 4   epsilon: 1.0   global_step: 168   average_q: 0.0   average loss: 0.0
+2008-10-15 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 169   score: 3   memory length: 4   epsilon: 1.0   global_step: 169   average_q: 0.0   average loss: 0.0
+2008-10-16 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 170   score: 3   memory length: 4   epsilon: 1.0   global_step: 170   average_q: 0.0   average loss: 0.0
+2008-10-17 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 171   score: 3   memory length: 4   epsilon: 1.0   global_step: 171   average_q: 0.0   average loss: 0.0
+2008-10-18 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 172   score: 3   memory length: 4   epsilon: 1.0   global_step: 172   average_q: 0.0   average loss: 0.0
+2008-10-19 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 173   score: 3   memory length: 4   epsilon: 1.0   global_step: 173   average_q: 0.0   average loss: 0.0
+2008-10-20 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 174   score: 3   memory length: 4   epsilon: 1.0   global_step: 174   average_q: 0.0   average loss: 0.0
+2008-10-21 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 175   score: 3   memory length: 4   epsilon: 1.0   global_step: 175   average_q: 0.0   average loss: 0.0
+2008-10-22 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 176   score: 3   memory length: 4   epsilon: 1.0   global_step: 176   average_q: 0.0   average loss: 0.0
+2008-10-23 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 177   score: 3   memory length: 4   epsilon: 1.0   global_step: 177   average_q: 0.0   average loss: 0.0
+2008-10-24 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 178   score: 3   memory length: 4   epsilon: 1.0   global_step: 178   average_q: 0.0   average loss: 0.0
+2008-10-25 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 179   score: 3   memory length: 4   epsilon: 1.0   global_step: 179   average_q: 0.0   average loss: 0.0
+2008-10-26 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 180   score: 3   memory length: 4   epsilon: 1.0   global_step: 180   average_q: 0.0   average loss: 0.0
+2008-10-27 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 181   score: 3   memory length: 4   epsilon: 1.0   global_step: 181   average_q: 0.0   average loss: 0.0
+2008-10-28 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 182   score: 3   memory length: 4   epsilon: 1.0   global_step: 182   average_q: 0.0   average loss: 0.0
+2008-10-29 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 183   score: 3   memory length: 4   epsilon: 1.0   global_step: 183   average_q: 0.0   average loss: 0.0
+2008-10-30 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 184   score: 3   memory length: 4   epsilon: 1.0   global_step: 184   average_q: 0.0   average loss: 0.0
+2008-10-31 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+monthPercentage:  2008-10-01 00:00:00 ~ 2008-10-31 00:00:00  #  0.0
+monthTotal:  2008-10-01 00:00:00  #  10324340.0    2008-10-31 00:00:00  #  10324340.0
+lossPoint: 1.0
+maxPoint: 1.0
+minPoint: 1.0
+altman 1536
+momentumSum -13.0
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 13
+['STX엔진', '하츠', '동성화인텍', '청호컴넷', '신세계 I&C', '한진중공업홀딩스', '휴스틸', '신세계건설', '심텍홀딩스', 'KJ프리텍', '네패스', '넥센타이어', '삼목에스폼']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 0
+[]
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 0
+[]
+episode: 185   score: 3   memory length: 4   epsilon: 1.0   global_step: 185   average_q: 0.0   average loss: 0.0
+2008-11-01 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 186   score: 3   memory length: 4   epsilon: 1.0   global_step: 186   average_q: 0.0   average loss: 0.0
+2008-11-02 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 187   score: 3   memory length: 4   epsilon: 1.0   global_step: 187   average_q: 0.0   average loss: 0.0
+2008-11-03 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 188   score: 3   memory length: 4   epsilon: 1.0   global_step: 188   average_q: 0.0   average loss: 0.0
+2008-11-04 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 189   score: 3   memory length: 4   epsilon: 1.0   global_step: 189   average_q: 0.0   average loss: 0.0
+2008-11-05 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 190   score: 3   memory length: 4   epsilon: 1.0   global_step: 190   average_q: 0.0   average loss: 0.0
+2008-11-06 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 191   score: 3   memory length: 4   epsilon: 1.0   global_step: 191   average_q: 0.0   average loss: 0.0
+2008-11-07 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 192   score: 3   memory length: 4   epsilon: 1.0   global_step: 192   average_q: 0.0   average loss: 0.0
+2008-11-08 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 193   score: 3   memory length: 4   epsilon: 1.0   global_step: 193   average_q: 0.0   average loss: 0.0
+2008-11-09 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 194   score: 3   memory length: 4   epsilon: 1.0   global_step: 194   average_q: 0.0   average loss: 0.0
+2008-11-10 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 195   score: 3   memory length: 4   epsilon: 1.0   global_step: 195   average_q: 0.0   average loss: 0.0
+2008-11-11 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 196   score: 3   memory length: 4   epsilon: 1.0   global_step: 196   average_q: 0.0   average loss: 0.0
+2008-11-12 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 197   score: 3   memory length: 4   epsilon: 1.0   global_step: 197   average_q: 0.0   average loss: 0.0
+2008-11-13 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 198   score: 3   memory length: 4   epsilon: 1.0   global_step: 198   average_q: 0.0   average loss: 0.0
+2008-11-14 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 199   score: 3   memory length: 4   epsilon: 1.0   global_step: 199   average_q: 0.0   average loss: 0.0
+2008-11-15 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 200   score: 3   memory length: 4   epsilon: 1.0   global_step: 200   average_q: 0.0   average loss: 0.0
+2008-11-16 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 201   score: 3   memory length: 4   epsilon: 1.0   global_step: 201   average_q: 0.0   average loss: 0.0
+2008-11-17 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 202   score: 3   memory length: 4   epsilon: 1.0   global_step: 202   average_q: 0.0   average loss: 0.0
+2008-11-18 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 203   score: 3   memory length: 4   epsilon: 1.0   global_step: 203   average_q: 0.0   average loss: 0.0
+2008-11-19 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 204   score: 3   memory length: 4   epsilon: 1.0   global_step: 204   average_q: 0.0   average loss: 0.0
+2008-11-20 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 205   score: 3   memory length: 4   epsilon: 1.0   global_step: 205   average_q: 0.0   average loss: 0.0
+2008-11-21 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 206   score: 3   memory length: 4   epsilon: 1.0   global_step: 206   average_q: 0.0   average loss: 0.0
+2008-11-22 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 207   score: 3   memory length: 4   epsilon: 1.0   global_step: 207   average_q: 0.0   average loss: 0.0
+2008-11-23 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 208   score: 3   memory length: 4   epsilon: 1.0   global_step: 208   average_q: 0.0   average loss: 0.0
+2008-11-24 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 209   score: 3   memory length: 4   epsilon: 1.0   global_step: 209   average_q: 0.0   average loss: 0.0
+2008-11-25 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 210   score: 3   memory length: 4   epsilon: 1.0   global_step: 210   average_q: 0.0   average loss: 0.0
+2008-11-26 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 211   score: 3   memory length: 4   epsilon: 1.0   global_step: 211   average_q: 0.0   average loss: 0.0
+2008-11-27 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 212   score: 3   memory length: 4   epsilon: 1.0   global_step: 212   average_q: 0.0   average loss: 0.0
+2008-11-28 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 213   score: 3   memory length: 4   epsilon: 1.0   global_step: 213   average_q: 0.0   average loss: 0.0
+2008-11-29 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 214   score: 3   memory length: 4   epsilon: 1.0   global_step: 214   average_q: 0.0   average loss: 0.0
+2008-11-30 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+monthPercentage:  2008-11-01 00:00:00 ~ 2008-11-30 00:00:00  #  0.0
+monthTotal:  2008-11-01 00:00:00  #  10324340.0    2008-11-30 00:00:00  #  10324340.0
+lossPoint: 1.0
+maxPoint: 1.0
+minPoint: 1.0
+altman 1536
+momentumSum -9.428571428571429
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 10
+['STX엔진', '동성화인텍', '청호컴넷', '한진중공업홀딩스', 'S&T모티브', 'KJ프리텍', '네패스', '넥센타이어', '보해양조', '삼목에스폼']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 0
+[]
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 0
+[]
+episode: 215   score: 3   memory length: 4   epsilon: 1.0   global_step: 215   average_q: 0.0   average loss: 0.0
+2008-12-01 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 216   score: 3   memory length: 4   epsilon: 1.0   global_step: 216   average_q: 0.0   average loss: 0.0
+2008-12-02 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 217   score: 3   memory length: 4   epsilon: 1.0   global_step: 217   average_q: 0.0   average loss: 0.0
+2008-12-03 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 218   score: 3   memory length: 4   epsilon: 1.0   global_step: 218   average_q: 0.0   average loss: 0.0
+2008-12-04 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 219   score: 3   memory length: 4   epsilon: 1.0   global_step: 219   average_q: 0.0   average loss: 0.0
+2008-12-05 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 220   score: 3   memory length: 4   epsilon: 1.0   global_step: 220   average_q: 0.0   average loss: 0.0
+2008-12-06 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 221   score: 3   memory length: 4   epsilon: 1.0   global_step: 221   average_q: 0.0   average loss: 0.0
+2008-12-07 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 222   score: 3   memory length: 4   epsilon: 1.0   global_step: 222   average_q: 0.0   average loss: 0.0
+2008-12-08 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 223   score: 3   memory length: 4   epsilon: 1.0   global_step: 223   average_q: 0.0   average loss: 0.0
+2008-12-09 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 224   score: 3   memory length: 4   epsilon: 1.0   global_step: 224   average_q: 0.0   average loss: 0.0
+2008-12-10 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 225   score: 3   memory length: 4   epsilon: 1.0   global_step: 225   average_q: 0.0   average loss: 0.0
+2008-12-11 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 226   score: 3   memory length: 4   epsilon: 1.0   global_step: 226   average_q: 0.0   average loss: 0.0
+2008-12-12 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 227   score: 3   memory length: 4   epsilon: 1.0   global_step: 227   average_q: 0.0   average loss: 0.0
+2008-12-13 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 228   score: 3   memory length: 4   epsilon: 1.0   global_step: 228   average_q: 0.0   average loss: 0.0
+2008-12-14 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 229   score: 3   memory length: 4   epsilon: 1.0   global_step: 229   average_q: 0.0   average loss: 0.0
+2008-12-15 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 230   score: 3   memory length: 4   epsilon: 1.0   global_step: 230   average_q: 0.0   average loss: 0.0
+2008-12-16 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 231   score: 3   memory length: 4   epsilon: 1.0   global_step: 231   average_q: 0.0   average loss: 0.0
+2008-12-17 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 232   score: 3   memory length: 4   epsilon: 1.0   global_step: 232   average_q: 0.0   average loss: 0.0
+2008-12-18 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 233   score: 3   memory length: 4   epsilon: 1.0   global_step: 233   average_q: 0.0   average loss: 0.0
+2008-12-19 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 234   score: 3   memory length: 4   epsilon: 1.0   global_step: 234   average_q: 0.0   average loss: 0.0
+2008-12-20 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 235   score: 3   memory length: 4   epsilon: 1.0   global_step: 235   average_q: 0.0   average loss: 0.0
+2008-12-21 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 236   score: 3   memory length: 4   epsilon: 1.0   global_step: 236   average_q: 0.0   average loss: 0.0
+2008-12-22 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 237   score: 3   memory length: 4   epsilon: 1.0   global_step: 237   average_q: 0.0   average loss: 0.0
+2008-12-23 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 238   score: 3   memory length: 4   epsilon: 1.0   global_step: 238   average_q: 0.0   average loss: 0.0
+2008-12-24 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 239   score: 3   memory length: 4   epsilon: 1.0   global_step: 239   average_q: 0.0   average loss: 0.0
+2008-12-25 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 240   score: 3   memory length: 4   epsilon: 1.0   global_step: 240   average_q: 0.0   average loss: 0.0
+2008-12-26 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 241   score: 3   memory length: 4   epsilon: 1.0   global_step: 241   average_q: 0.0   average loss: 0.0
+2008-12-27 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 242   score: 3   memory length: 4   epsilon: 1.0   global_step: 242   average_q: 0.0   average loss: 0.0
+2008-12-28 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 243   score: 3   memory length: 4   epsilon: 1.0   global_step: 243   average_q: 0.0   average loss: 0.0
+2008-12-29 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 244   score: 3   memory length: 4   epsilon: 1.0   global_step: 244   average_q: 0.0   average loss: 0.0
+2008-12-30 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 245   score: 3   memory length: 4   epsilon: 1.0   global_step: 245   average_q: 0.0   average loss: 0.0
+2008-12-31 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+monthPercentage:  2008-12-01 00:00:00 ~ 2008-12-31 00:00:00  #  0.0
+monthTotal:  2008-12-01 00:00:00  #  10324340.0    2008-12-31 00:00:00  #  10324340.0
+lossPoint: 1.0
+maxPoint: 1.0
+minPoint: 1.0
+altman 1536
+momentumSum -8.857142857142856
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 12
+['동성화인텍', '청호컴넷', '동양이엔피', '에이치엘비생명과학', '한진중공업홀딩스', '쏠리드', 'S&T모티브', '휴스틸', '신세계건설', '네패스', '넥센타이어', '보해양조']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 0
+[]
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 0
+[]
+episode: 246   score: 3   memory length: 4   epsilon: 1.0   global_step: 246   average_q: 0.0   average loss: 0.0
+2009-01-01 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 247   score: 3   memory length: 4   epsilon: 1.0   global_step: 247   average_q: 0.0   average loss: 0.0
+2009-01-02 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 248   score: 3   memory length: 4   epsilon: 1.0   global_step: 248   average_q: 0.0   average loss: 0.0
+2009-01-03 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 249   score: 3   memory length: 4   epsilon: 1.0   global_step: 249   average_q: 0.0   average loss: 0.0
+2009-01-04 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 250   score: 3   memory length: 4   epsilon: 1.0   global_step: 250   average_q: 0.0   average loss: 0.0
+2009-01-05 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 251   score: 3   memory length: 4   epsilon: 1.0   global_step: 251   average_q: 0.0   average loss: 0.0
+2009-01-06 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 252   score: 3   memory length: 4   epsilon: 1.0   global_step: 252   average_q: 0.0   average loss: 0.0
+2009-01-07 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 253   score: 3   memory length: 4   epsilon: 1.0   global_step: 253   average_q: 0.0   average loss: 0.0
+2009-01-08 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 254   score: 3   memory length: 4   epsilon: 1.0   global_step: 254   average_q: 0.0   average loss: 0.0
+2009-01-09 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 255   score: 3   memory length: 4   epsilon: 1.0   global_step: 255   average_q: 0.0   average loss: 0.0
+2009-01-10 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 256   score: 3   memory length: 4   epsilon: 1.0   global_step: 256   average_q: 0.0   average loss: 0.0
+2009-01-11 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 257   score: 3   memory length: 4   epsilon: 1.0   global_step: 257   average_q: 0.0   average loss: 0.0
+2009-01-12 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 258   score: 3   memory length: 4   epsilon: 1.0   global_step: 258   average_q: 0.0   average loss: 0.0
+2009-01-13 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 259   score: 3   memory length: 4   epsilon: 1.0   global_step: 259   average_q: 0.0   average loss: 0.0
+2009-01-14 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 260   score: 3   memory length: 4   epsilon: 1.0   global_step: 260   average_q: 0.0   average loss: 0.0
+2009-01-15 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 261   score: 3   memory length: 4   epsilon: 1.0   global_step: 261   average_q: 0.0   average loss: 0.0
+2009-01-16 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 262   score: 3   memory length: 4   epsilon: 1.0   global_step: 262   average_q: 0.0   average loss: 0.0
+2009-01-17 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 263   score: 3   memory length: 4   epsilon: 1.0   global_step: 263   average_q: 0.0   average loss: 0.0
+2009-01-18 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 264   score: 3   memory length: 4   epsilon: 1.0   global_step: 264   average_q: 0.0   average loss: 0.0
+2009-01-19 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 265   score: 3   memory length: 4   epsilon: 1.0   global_step: 265   average_q: 0.0   average loss: 0.0
+2009-01-20 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 266   score: 3   memory length: 4   epsilon: 1.0   global_step: 266   average_q: 0.0   average loss: 0.0
+2009-01-21 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 267   score: 3   memory length: 4   epsilon: 1.0   global_step: 267   average_q: 0.0   average loss: 0.0
+2009-01-22 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 268   score: 3   memory length: 4   epsilon: 1.0   global_step: 268   average_q: 0.0   average loss: 0.0
+2009-01-23 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 269   score: 3   memory length: 4   epsilon: 1.0   global_step: 269   average_q: 0.0   average loss: 0.0
+2009-01-24 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 270   score: 3   memory length: 4   epsilon: 1.0   global_step: 270   average_q: 0.0   average loss: 0.0
+2009-01-25 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 271   score: 3   memory length: 4   epsilon: 1.0   global_step: 271   average_q: 0.0   average loss: 0.0
+2009-01-26 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 272   score: 3   memory length: 4   epsilon: 1.0   global_step: 272   average_q: 0.0   average loss: 0.0
+2009-01-27 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 273   score: 3   memory length: 4   epsilon: 1.0   global_step: 273   average_q: 0.0   average loss: 0.0
+2009-01-28 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 274   score: 3   memory length: 4   epsilon: 1.0   global_step: 274   average_q: 0.0   average loss: 0.0
+2009-01-29 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 275   score: 3   memory length: 4   epsilon: 1.0   global_step: 275   average_q: 0.0   average loss: 0.0
+2009-01-30 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 276   score: 3   memory length: 4   epsilon: 1.0   global_step: 276   average_q: 0.0   average loss: 0.0
+2009-01-31 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+monthPercentage:  2009-01-01 00:00:00 ~ 2009-01-31 00:00:00  #  0.0
+monthTotal:  2009-01-01 00:00:00  #  10324340.0    2009-01-31 00:00:00  #  10324340.0
+lossPoint: 1.0
+maxPoint: 1.0
+minPoint: 1.0
+altman 1536
+momentumSum -2.9047619047619047
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 7
+['동성화인텍', '청호컴넷', '에이치엘비생명과학', '한진중공업홀딩스', '쏠리드', 'S&T모티브', '체시스']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 0
+[]
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 0
+[]
+episode: 277   score: 3   memory length: 4   epsilon: 1.0   global_step: 277   average_q: 0.0   average loss: 0.0
+2009-02-01 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 278   score: 3   memory length: 4   epsilon: 1.0   global_step: 278   average_q: 0.0   average loss: 0.0
+2009-02-02 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 279   score: 3   memory length: 4   epsilon: 1.0   global_step: 279   average_q: 0.0   average loss: 0.0
+2009-02-03 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 280   score: 3   memory length: 4   epsilon: 1.0   global_step: 280   average_q: 0.0   average loss: 0.0
+2009-02-04 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 281   score: 3   memory length: 4   epsilon: 1.0   global_step: 281   average_q: 0.0   average loss: 0.0
+2009-02-05 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 282   score: 3   memory length: 4   epsilon: 1.0   global_step: 282   average_q: 0.0   average loss: 0.0
+2009-02-06 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 283   score: 3   memory length: 4   epsilon: 1.0   global_step: 283   average_q: 0.0   average loss: 0.0
+2009-02-07 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 284   score: 3   memory length: 4   epsilon: 1.0   global_step: 284   average_q: 0.0   average loss: 0.0
+2009-02-08 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 285   score: 3   memory length: 4   epsilon: 1.0   global_step: 285   average_q: 0.0   average loss: 0.0
+2009-02-09 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 286   score: 3   memory length: 4   epsilon: 1.0   global_step: 286   average_q: 0.0   average loss: 0.0
+2009-02-10 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 287   score: 3   memory length: 4   epsilon: 1.0   global_step: 287   average_q: 0.0   average loss: 0.0
+2009-02-11 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 288   score: 3   memory length: 4   epsilon: 1.0   global_step: 288   average_q: 0.0   average loss: 0.0
+2009-02-12 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 289   score: 3   memory length: 4   epsilon: 1.0   global_step: 289   average_q: 0.0   average loss: 0.0
+2009-02-13 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 290   score: 3   memory length: 4   epsilon: 1.0   global_step: 290   average_q: 0.0   average loss: 0.0
+2009-02-14 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 291   score: 3   memory length: 4   epsilon: 1.0   global_step: 291   average_q: 0.0   average loss: 0.0
+2009-02-15 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 292   score: 3   memory length: 4   epsilon: 1.0   global_step: 292   average_q: 0.0   average loss: 0.0
+2009-02-16 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 293   score: 3   memory length: 4   epsilon: 1.0   global_step: 293   average_q: 0.0   average loss: 0.0
+2009-02-17 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 294   score: 3   memory length: 4   epsilon: 1.0   global_step: 294   average_q: 0.0   average loss: 0.0
+2009-02-18 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 295   score: 3   memory length: 4   epsilon: 1.0   global_step: 295   average_q: 0.0   average loss: 0.0
+2009-02-19 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 296   score: 3   memory length: 4   epsilon: 1.0   global_step: 296   average_q: 0.0   average loss: 0.0
+2009-02-20 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 297   score: 3   memory length: 4   epsilon: 1.0   global_step: 297   average_q: 0.0   average loss: 0.0
+2009-02-21 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 298   score: 3   memory length: 4   epsilon: 1.0   global_step: 298   average_q: 0.0   average loss: 0.0
+2009-02-22 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 299   score: 3   memory length: 4   epsilon: 1.0   global_step: 299   average_q: 0.0   average loss: 0.0
+2009-02-23 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 300   score: 3   memory length: 4   epsilon: 1.0   global_step: 300   average_q: 0.0   average loss: 0.0
+2009-02-24 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 301   score: 3   memory length: 4   epsilon: 1.0   global_step: 301   average_q: 0.0   average loss: 0.0
+2009-02-25 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 302   score: 3   memory length: 4   epsilon: 1.0   global_step: 302   average_q: 0.0   average loss: 0.0
+2009-02-26 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 303   score: 3   memory length: 4   epsilon: 1.0   global_step: 303   average_q: 0.0   average loss: 0.0
+2009-02-27 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+episode: 304   score: 3   memory length: 4   epsilon: 1.0   global_step: 304   average_q: 0.0   average loss: 0.0
+2009-02-28 00:00:00 10324340 0 10324340 0 ∙ 0.0 0.0%
+monthPercentage:  2009-02-01 00:00:00 ~ 2009-02-28 00:00:00  #  0.0
+monthTotal:  2009-02-01 00:00:00  #  10324340.0    2009-02-28 00:00:00  #  10324340.0
+lossPoint: 1.0
+maxPoint: 1.0
+minPoint: 1.0
+altman 1536
+momentumSum 0.3333333333333333
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 11
+['STX엔진', '동성화인텍', '청호컴넷', '동양이엔피', '한진중공업홀딩스', 'S&T모티브', '휴스틸', '대한유화', 'KJ프리텍', '체시스', '보해양조']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 1
+['KJ프리텍']
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 1
+['KJ프리텍']
+BUY KJ프리텍 4858주
+KJ프리텍 0.817200557103064
+episode: 305   score: 4   memory length: 5   epsilon: 1.0   global_step: 305   average_q: 0.0   average loss: 0.0
+2009-03-01 00:00:00 10324340.0 10323250.0 1090.0 0 ∙ 0.0 0.0%
+episode: 306   score: 4   memory length: 5   epsilon: 1.0   global_step: 306   average_q: 0.0   average loss: 0.0
+2009-03-02 00:00:00 9814250.0 9813160.0 1090.0 0 ▼ -510090.0 -4.940654802147159%
+episode: 307   score: 4   memory length: 5   epsilon: 1.0   global_step: 307   average_q: 0.0   average loss: 0.0
+2009-03-03 00:00:00 9911410.0 9910320.0 1090.0 0 ▲ 97160.0 0.9899890465394707%
+episode: 308   score: 4   memory length: 5   epsilon: 1.0   global_step: 308   average_q: 0.0   average loss: 0.0
+2009-03-04 00:00:00 10057150.0 10056060.0 1090.0 0 ▲ 145740.0 1.4704265084382546%
+episode: 309   score: 4   memory length: 5   epsilon: 1.0   global_step: 309   average_q: 0.0   average loss: 0.0
+2009-03-05 00:00:00 10081440.0 10080350.0 1090.0 0 ▲ 24290.0 0.241519714829748%
+episode: 310   score: 4   memory length: 5   epsilon: 1.0   global_step: 310   average_q: 0.0   average loss: 0.0
+2009-03-06 00:00:00 10105730.0 10104640.0 1090.0 0 ▲ 24290.0 0.2409378025361456%
+episode: 311   score: 4   memory length: 5   epsilon: 1.0   global_step: 311   average_q: 0.0   average loss: 0.0
+2009-03-07 00:00:00 10105730.0 10104640.0 1090.0 0 ∙ 0.0 0.0%
+episode: 312   score: 4   memory length: 5   epsilon: 1.0   global_step: 312   average_q: 0.0   average loss: 0.0
+2009-03-08 00:00:00 10105730.0 10104640.0 1090.0 0 ∙ 0.0 0.0%
+episode: 313   score: 4   memory length: 5   epsilon: 1.0   global_step: 313   average_q: 0.0   average loss: 0.0
+2009-03-09 00:00:00 10105730.0 10104640.0 1090.0 0 ∙ 0.0 0.0%
+episode: 314   score: 4   memory length: 5   epsilon: 1.0   global_step: 314   average_q: 0.0   average loss: 0.0
+2009-03-10 00:00:00 10883010.0 10881920.0 1090.0 0 ▲ 777280.0 7.691478003073504%
+episode: 315   score: 4   memory length: 5   epsilon: 1.0   global_step: 315   average_q: 0.0   average loss: 0.0
+2009-03-11 00:00:00 11223070.0 11221980.0 1090.0 0 ▲ 340060.0 3.1246870121409427%
+episode: 316   score: 4   memory length: 5   epsilon: 1.0   global_step: 316   average_q: 0.0   average loss: 0.0
+2009-03-12 00:00:00 11125910.0 11124820.0 1090.0 0 ▼ -97160.0 -0.8657167780295411%
+episode: 317   score: 4   memory length: 5   epsilon: 1.0   global_step: 317   average_q: 0.0   average loss: 0.0
+2009-03-13 00:00:00 11223070.0 11221980.0 1090.0 0 ▲ 97160.0 0.8732768825201714%
+episode: 318   score: 4   memory length: 5   epsilon: 1.0   global_step: 318   average_q: 0.0   average loss: 0.0
+2009-03-14 00:00:00 11223070.0 11221980.0 1090.0 0 ∙ 0.0 0.0%
+episode: 319   score: 4   memory length: 5   epsilon: 1.0   global_step: 319   average_q: 0.0   average loss: 0.0
+2009-03-15 00:00:00 11223070.0 11221980.0 1090.0 0 ∙ 0.0 0.0%
+episode: 320   score: 4   memory length: 5   epsilon: 1.0   global_step: 320   average_q: 0.0   average loss: 0.0
+2009-03-16 00:00:00 11757450.0 11756360.0 1090.0 0 ▲ 534380.0 4.761442279162475%
+episode: 321   score: 4   memory length: 5   epsilon: 1.0   global_step: 321   average_q: 0.0   average loss: 0.0
+2009-03-17 00:00:00 11854610.0 11853520.0 1090.0 0 ▲ 97160.0 0.8263696634899574%
+episode: 322   score: 4   memory length: 5   epsilon: 1.0   global_step: 322   average_q: 0.0   average loss: 0.0
+2009-03-18 00:00:00 11611710.0 11610620.0 1090.0 0 ▼ -242900.0 -2.048991911163674%
+episode: 323   score: 4   memory length: 5   epsilon: 1.0   global_step: 323   average_q: 0.0   average loss: 0.0
+2009-03-19 00:00:00 11465970.0 11464880.0 1090.0 0 ▼ -145740.0 -1.2551122961217598%
+episode: 324   score: 4   memory length: 5   epsilon: 1.0   global_step: 324   average_q: 0.0   average loss: 0.0
+2009-03-20 00:00:00 11393100.0 11392010.0 1090.0 0 ▼ -72870.0 -0.6355327983589701%
+episode: 325   score: 4   memory length: 5   epsilon: 1.0   global_step: 325   average_q: 0.0   average loss: 0.0
+2009-03-21 00:00:00 11393100.0 11392010.0 1090.0 0 ∙ 0.0 0.0%
+episode: 326   score: 4   memory length: 5   epsilon: 1.0   global_step: 326   average_q: 0.0   average loss: 0.0
+2009-03-22 00:00:00 11393100.0 11392010.0 1090.0 0 ∙ 0.0 0.0%
+episode: 327   score: 4   memory length: 5   epsilon: 1.0   global_step: 327   average_q: 0.0   average loss: 0.0
+2009-03-23 00:00:00 11781740.0 11780650.0 1090.0 0 ▲ 388640.0 3.411187473119695%
+episode: 328   score: 4   memory length: 5   epsilon: 1.0   global_step: 328   average_q: 0.0   average loss: 0.0
+2009-03-24 00:00:00 13530620.0 13529530.0 1090.0 0 ▲ 1748880.0 14.843987390657068%
+episode: 329   score: 4   memory length: 5   epsilon: 1.0   global_step: 329   average_q: 0.0   average loss: 0.0
+2009-03-25 00:00:00 15546690.0 15545600.0 1090.0 0 ▲ 2016070.0 14.900056316709803%
+episode: 330   score: 4   memory length: 5   epsilon: 1.0   global_step: 330   average_q: 0.0   average loss: 0.0
+2009-03-26 00:00:00 17878530.0 17877440.0 1090.0 0 ▲ 2331840.0 14.998948329194189%
+episode: 331   score: 4   memory length: 5   epsilon: 1.0   global_step: 331   average_q: 0.0   average loss: 0.0
+2009-03-27 00:00:00 18145720.0 18144630.0 1090.0 0 ▲ 267190.0 1.4944740982619937%
+episode: 332   score: 4   memory length: 5   epsilon: 1.0   global_step: 332   average_q: 0.0   average loss: 0.0
+2009-03-28 00:00:00 18145720.0 18144630.0 1090.0 0 ∙ 0.0 0.0%
+episode: 333   score: 4   memory length: 5   epsilon: 1.0   global_step: 333   average_q: 0.0   average loss: 0.0
+2009-03-29 00:00:00 18145720.0 18144630.0 1090.0 0 ∙ 0.0 0.0%
+episode: 334   score: 4   memory length: 5   epsilon: 1.0   global_step: 334   average_q: 0.0   average loss: 0.0
+2009-03-30 00:00:00 18461490.0 18460400.0 1090.0 0 ▲ 315770.0 1.740189973172737%
+episode: 335   score: 4   memory length: 5   epsilon: 1.0   global_step: 335   average_q: 0.0   average loss: 0.0
+2009-03-31 00:00:00 19093030.0 19091940.0 1090.0 0 ▲ 631540.0 3.420850646399613%
+3930.0 2125.0 1 2125.0
+####################################
+KJ프리텍 1.8494117647058823
+####################################
+per : nan
+pcr : nan
+pbr : nan
+roe : 22.62
+당기순이익 : 3207114.0
+영업활동으로인한현금흐름 : 6730142.0
+투자활동으로인한현금흐름 : -4356939.0
+재무활동으로인한현금흐름 : 3687408.0
+psr : nan
+roic : 21.45
+eps : 769.0
+ebit : 3511709.0
+ev_ebit : 1.43
+ev_sales : 0.09
+ev_ebitda : 0.89
+당기순이익률 : 5.76
+영업이익률 : 6.3
+매출총이익률 : 12.45
+배당수익률 : None
+매출액 : 55721590.0
+자산 : 38723292.0
+유동자산 : 20393425.0
+부채 : 21203114.0
+유동부채 : 14699185.0
+monthPercentage:  2009-03-01 00:00:00 ~ 2009-03-31 00:00:00  #  84.93220874167258
+monthTotal:  2009-03-01 00:00:00  #  10324340.0    2009-03-31 00:00:00  #  19093030.0
+lossPoint: 0.2607709044264772
+maxPoint: 1.8493220874167258
+minPoint: 0.9505934519785284
+altman 1536
+momentumSum -1.2857142857142856
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 7
+['동성화인텍', '청호컴넷', '동양이엔피', '한진중공업홀딩스', 'S&T모티브', '휴스틸', '체시스']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 0
+[]
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 1
+['KJ프리텍']
+BUY KJ프리텍 4858주
+KJ프리텍 0.6286559594251901
+episode: 336   score: 5   memory length: 6   epsilon: 1.0   global_step: 336   average_q: 0.0   average loss: 0.0
+2009-04-01 00:00:00 19117320.0 19116230.0 1090.0 0 ▲ 24290.0 0.12721919988603173%
+episode: 337   score: 5   memory length: 6   epsilon: 1.0   global_step: 337   average_q: 0.0   average loss: 0.0
+2009-04-02 00:00:00 18801550.0 18800460.0 1090.0 0 ▼ -315770.0 -1.6517482576009608%
+episode: 338   score: 5   memory length: 6   epsilon: 1.0   global_step: 338   average_q: 0.0   average loss: 0.0
+2009-04-03 00:00:00 19433090.0 19432000.0 1090.0 0 ▲ 631540.0 3.3589783821014754%
+episode: 339   score: 5   memory length: 6   epsilon: 1.0   global_step: 339   average_q: 0.0   average loss: 0.0
+2009-04-04 00:00:00 19433090.0 19432000.0 1090.0 0 ∙ 0.0 0.0%
+episode: 340   score: 5   memory length: 6   epsilon: 1.0   global_step: 340   average_q: 0.0   average loss: 0.0
+2009-04-05 00:00:00 19433090.0 19432000.0 1090.0 0 ∙ 0.0 0.0%
+episode: 341   score: 5   memory length: 6   epsilon: 1.0   global_step: 341   average_q: 0.0   average loss: 0.0
+2009-04-06 00:00:00 19287350.0 19286260.0 1090.0 0 ▼ -145740.0 -0.7499579325778865%
+episode: 342   score: 5   memory length: 6   epsilon: 1.0   global_step: 342   average_q: 0.0   average loss: 0.0
+2009-04-07 00:00:00 19578830.0 19577740.0 1090.0 0 ▲ 291480.0 1.5112496014226942%
+episode: 343   score: 5   memory length: 6   epsilon: 1.0   global_step: 343   average_q: 0.0   average loss: 0.0
+2009-04-08 00:00:00 20428980.0 20427890.0 1090.0 0 ▲ 850150.0 4.342190008289566%
+episode: 344   score: 5   memory length: 6   epsilon: 1.0   global_step: 344   average_q: 0.0   average loss: 0.0
+2009-04-09 00:00:00 20841910.0 20840820.0 1090.0 0 ▲ 412930.0 2.0212952384308958%
+episode: 345   score: 5   memory length: 6   epsilon: 1.0   global_step: 345   average_q: 0.0   average loss: 0.0
+2009-04-10 00:00:00 20744750.0 20743660.0 1090.0 0 ▼ -97160.0 -0.46617608462947974%
+episode: 346   score: 5   memory length: 6   epsilon: 1.0   global_step: 346   average_q: 0.0   average loss: 0.0
+2009-04-11 00:00:00 20744750.0 20743660.0 1090.0 0 ∙ 0.0 0.0%
+episode: 347   score: 5   memory length: 6   epsilon: 1.0   global_step: 347   average_q: 0.0   average loss: 0.0
+2009-04-12 00:00:00 20744750.0 20743660.0 1090.0 0 ∙ 0.0 0.0%
+episode: 348   score: 5   memory length: 6   epsilon: 1.0   global_step: 348   average_q: 0.0   average loss: 0.0
+2009-04-13 00:00:00 20890490.0 20889400.0 1090.0 0 ▲ 145740.0 0.7025391966642163%
+episode: 349   score: 5   memory length: 6   epsilon: 1.0   global_step: 349   average_q: 0.0   average loss: 0.0
+2009-04-14 00:00:00 20866200.0 20865110.0 1090.0 0 ▼ -24290.0 -0.11627300269165539%
+episode: 350   score: 5   memory length: 6   epsilon: 1.0   global_step: 350   average_q: 0.0   average loss: 0.0
+2009-04-15 00:00:00 20817620.0 20816530.0 1090.0 0 ▼ -48580.0 -0.23281670836088988%
+episode: 351   score: 5   memory length: 6   epsilon: 1.0   global_step: 351   average_q: 0.0   average loss: 0.0
+2009-04-16 00:00:00 20453270.0 20452180.0 1090.0 0 ▼ -364350.0 -1.7502000709014767%
+episode: 352   score: 5   memory length: 6   epsilon: 1.0   global_step: 352   average_q: 0.0   average loss: 0.0
+2009-04-17 00:00:00 21352000.0 21350910.0 1090.0 0 ▲ 898730.0 4.394065105481911%
+episode: 353   score: 5   memory length: 6   epsilon: 1.0   global_step: 353   average_q: 0.0   average loss: 0.0
+2009-04-18 00:00:00 21352000.0 21350910.0 1090.0 0 ∙ 0.0 0.0%
+episode: 354   score: 5   memory length: 6   epsilon: 1.0   global_step: 354   average_q: 0.0   average loss: 0.0
+2009-04-19 00:00:00 21352000.0 21350910.0 1090.0 0 ∙ 0.0 0.0%
+episode: 355   score: 5   memory length: 6   epsilon: 1.0   global_step: 355   average_q: 0.0   average loss: 0.0
+2009-04-20 00:00:00 22347890.0 22346800.0 1090.0 0 ▲ 995890.0 4.6641532409141995%
+episode: 356   score: 5   memory length: 6   epsilon: 1.0   global_step: 356   average_q: 0.0   average loss: 0.0
+2009-04-21 00:00:00 24048190.0 24047100.0 1090.0 0 ▲ 1700300.0 7.6083245442858365%
+episode: 357   score: 5   memory length: 6   epsilon: 1.0   global_step: 357   average_q: 0.0   average loss: 0.0
+2009-04-22 00:00:00 24291090.0 24290000.0 1090.0 0 ▲ 242900.0 1.0100552266095701%
+episode: 358   score: 5   memory length: 6   epsilon: 1.0   global_step: 358   average_q: 0.0   average loss: 0.0
+2009-04-23 00:00:00 25019790.0 25018700.0 1090.0 0 ▲ 728700.0 2.9998653827391033%
+episode: 359   score: 5   memory length: 6   epsilon: 1.0   global_step: 359   average_q: 0.0   average loss: 0.0
+2009-04-24 00:00:00 25068370.0 25067280.0 1090.0 0 ▲ 48580.0 0.19416629795853602%
+episode: 360   score: 5   memory length: 6   epsilon: 1.0   global_step: 360   average_q: 0.0   average loss: 0.0
+2009-04-25 00:00:00 25068370.0 25067280.0 1090.0 0 ∙ 0.0 0.0%
+episode: 361   score: 5   memory length: 6   epsilon: 1.0   global_step: 361   average_q: 0.0   average loss: 0.0
+2009-04-26 00:00:00 25068370.0 25067280.0 1090.0 0 ∙ 0.0 0.0%
+episode: 362   score: 5   memory length: 6   epsilon: 1.0   global_step: 362   average_q: 0.0   average loss: 0.0
+2009-04-27 00:00:00 25019790.0 25018700.0 1090.0 0 ▼ -48580.0 -0.1937900230449766%
+episode: 363   score: 5   memory length: 6   epsilon: 1.0   global_step: 363   average_q: 0.0   average loss: 0.0
+2009-04-28 00:00:00 24388250.0 24387160.0 1090.0 0 ▼ -631540.0 -2.5241618734609683%
+episode: 364   score: 5   memory length: 6   epsilon: 1.0   global_step: 364   average_q: 0.0   average loss: 0.0
+2009-04-29 00:00:00 25748490.0 25747400.0 1090.0 0 ▲ 1360240.0 5.57743995571638%
+episode: 365   score: 5   memory length: 6   epsilon: 1.0   global_step: 365   average_q: 0.0   average loss: 0.0
+2009-04-30 00:00:00 25699910.0 25698820.0 1090.0 0 ▼ -48580.0 -0.18867125800386741%
+5290.0 3935.0 1 3935.0
+####################################
+KJ프리텍 1.3443456162642948
+####################################
+per : 8.68
+pcr : 2.68
+pbr : 0.43
+roe : 4.85
+당기순이익 : 945938.0
+영업활동으로인한현금흐름 : 6254563.0
+투자활동으로인한현금흐름 : -9127992.0
+재무활동으로인한현금흐름 : 1632161.0
+psr : 0.1
+roic : 33.69
+eps : 181.0
+ebit : 6913269.0
+ev_ebit : 1.87
+ev_sales : 0.16
+ev_ebitda : 1.43
+당기순이익률 : 1.15
+영업이익률 : 8.39
+매출총이익률 : 17.59
+배당수익률 : None
+매출액 : 82401268.0
+자산 : 50011671.0
+유동자산 : 26788176.0
+부채 : 28557101.0
+유동부채 : 20805681.0
+monthPercentage:  2009-04-01 00:00:00 ~ 2009-04-30 00:00:00  #  34.432598293066185
+monthTotal:  2009-04-01 00:00:00  #  19117320.0    2009-04-30 00:00:00  #  25699910.0
+lossPoint: 0.6830011732601933
+maxPoint: 1.3468671340962017
+minPoint: 0.9834825174239904
+altman 1556
+momentumSum 6.5
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 13
+['서연', '세아제강지주', '에스코넥', '디에이피', '인지디스플레', '화승인더', 'S&T모티브', '유신', '홈캐스트', '인팩', '한라', '체시스', '일야']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 9
+['일야', '홈캐스트', '디에이피', '유신', '서연', '한라', '인지디스플레', '화승인더', '에스코넥']
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 10
+['에스코넥', '디에이피', '한라', '서연', '인지디스플레', 'KJ프리텍', '유신', '홈캐스트', '화승인더', '일야']
+BUY 에스코넥 1107주
+BUY 디에이피 1494주
+BUY 한라 103주
+BUY 서연 973주
+BUY 인지디스플레 1984주
+BUY KJ프리텍 485주
+BUY 유신 123주
+BUY 홈캐스트 601주
+BUY 화승인더 350주
+BUY 일야 1132주
+에스코넥 0.9106037151702786
+디에이피 0.7524543120374566
+한라 0.7954500494559842
+서연 0.7958077982058798
+인지디스플레 0.873040482342808
+KJ프리텍 0.8400040685551543
+유신 0.8374642516682554
+홈캐스트 0.8169217923740607
+화승인더 0.8264884708041758
+일야 0.8437869822485207
+dqn손절: 1 dict_keys(['디에이피'])
+dqn손절: 2 dict_keys(['디에이피', '화승인더'])
+episode: 366   score: 13   memory length: 16   epsilon: 1.0   global_step: 366   average_q: 0.0   average loss: 0.0
+2009-05-01 00:00:00 25699910.0 20520600.0 5179310.0 0 ∙ 0.0 0.0%
+episode: 367   score: 13   memory length: 16   epsilon: 1.0   global_step: 367   average_q: 0.0   average loss: 0.0
+2009-05-02 00:00:00 25699910.0 20520600.0 5179310.0 0 ∙ 0.0 0.0%
+episode: 368   score: 13   memory length: 16   epsilon: 1.0   global_step: 368   average_q: 0.0   average loss: 0.0
+2009-05-03 00:00:00 25699910.0 20520600.0 5179310.0 0 ∙ 0.0 0.0%
+episode: 369   score: 13   memory length: 16   epsilon: 1.0   global_step: 369   average_q: 0.0   average loss: 0.0
+2009-05-04 00:00:00 25902300.0 20722990.0 5179310.0 0 ▲ 202390.0 0.7875124854522837%
+episode: 370   score: 13   memory length: 16   epsilon: 1.0   global_step: 370   average_q: 0.0   average loss: 0.0
+2009-05-05 00:00:00 25902300.0 20722990.0 5179310.0 0 ∙ 0.0 0.0%
+episode: 371   score: 13   memory length: 16   epsilon: 1.0   global_step: 371   average_q: 0.0   average loss: 0.0
+2009-05-06 00:00:00 25733585.0 20554275.0 5179310.0 0 ▼ -168715.0 -0.6513514243908841%
+episode: 372   score: 13   memory length: 16   epsilon: 1.0   global_step: 372   average_q: 0.0   average loss: 0.0
+2009-05-07 00:00:00 25444370.0 20265060.0 5179310.0 0 ▼ -289215.0 -1.1238814957185328%
+episode: 373   score: 13   memory length: 16   epsilon: 1.0   global_step: 373   average_q: 0.0   average loss: 0.0
+2009-05-08 00:00:00 25673975.0 20494665.0 5179310.0 0 ▲ 229605.0 0.9023803694098144%
+episode: 374   score: 13   memory length: 16   epsilon: 1.0   global_step: 374   average_q: 0.0   average loss: 0.0
+2009-05-09 00:00:00 25673975.0 20494665.0 5179310.0 0 ∙ 0.0 0.0%
+episode: 375   score: 13   memory length: 16   epsilon: 1.0   global_step: 375   average_q: 0.0   average loss: 0.0
+2009-05-10 00:00:00 25673975.0 20494665.0 5179310.0 0 ∙ 0.0 0.0%
+episode: 376   score: 13   memory length: 16   epsilon: 1.0   global_step: 376   average_q: 0.0   average loss: 0.0
+2009-05-11 00:00:00 25399630.0 20220320.0 5179310.0 0 ▼ -274345.0 -1.0685723578059105%
+episode: 377   score: 13   memory length: 16   epsilon: 1.0   global_step: 377   average_q: 0.0   average loss: 0.0
+2009-05-12 00:00:00 25193855.0 20014545.0 5179310.0 0 ▼ -205775.0 -0.810149596667353%
+episode: 378   score: 13   memory length: 16   epsilon: 1.0   global_step: 378   average_q: 0.0   average loss: 0.0
+2009-05-13 00:00:00 25392650.0 20213340.0 5179310.0 0 ▲ 198795.0 0.7890614596297391%
+episode: 379   score: 13   memory length: 16   epsilon: 1.0   global_step: 379   average_q: 0.0   average loss: 0.0
+2009-05-14 00:00:00 25003960.0 19824650.0 5179310.0 0 ▼ -388690.0 -1.5307185346940946%
+episode: 380   score: 13   memory length: 16   epsilon: 1.0   global_step: 380   average_q: 0.0   average loss: 0.0
+2009-05-15 00:00:00 25478645.0 20299335.0 5179310.0 0 ▲ 474685.0 1.8984392872169047%
+episode: 381   score: 13   memory length: 16   epsilon: 1.0   global_step: 381   average_q: 0.0   average loss: 0.0
+2009-05-16 00:00:00 25478645.0 20299335.0 5179310.0 0 ∙ 0.0 0.0%
+episode: 382   score: 13   memory length: 16   epsilon: 1.0   global_step: 382   average_q: 0.0   average loss: 0.0
+2009-05-17 00:00:00 25478645.0 20299335.0 5179310.0 0 ∙ 0.0 0.0%
+episode: 383   score: 13   memory length: 16   epsilon: 1.0   global_step: 383   average_q: 0.0   average loss: 0.0
+2009-05-18 00:00:00 25685950.0 20506640.0 5179310.0 0 ▲ 207305.0 0.8136421697464681%
+episode: 384   score: 13   memory length: 16   epsilon: 1.0   global_step: 384   average_q: 0.0   average loss: 0.0
+2009-05-19 00:00:00 26583325.0 21404015.0 5179310.0 0 ▲ 897375.0 3.493641465470423%
+episode: 385   score: 13   memory length: 16   epsilon: 1.0   global_step: 385   average_q: 0.0   average loss: 0.0
+2009-05-20 00:00:00 27301270.0 22121960.0 5179310.0 0 ▲ 717945.0 2.7007343889449498%
+episode: 386   score: 13   memory length: 16   epsilon: 1.0   global_step: 386   average_q: 0.0   average loss: 0.0
+2009-05-21 00:00:00 27312670.0 22133360.0 5179310.0 0 ▲ 11400.0 0.04175629924908256%
+episode: 387   score: 13   memory length: 16   epsilon: 1.0   global_step: 387   average_q: 0.0   average loss: 0.0
+2009-05-22 00:00:00 27936645.0 22757335.0 5179310.0 0 ▲ 623975.0 2.2845624393367623%
+episode: 388   score: 13   memory length: 16   epsilon: 1.0   global_step: 388   average_q: 0.0   average loss: 0.0
+2009-05-23 00:00:00 27936645.0 22757335.0 5179310.0 0 ∙ 0.0 0.0%
+episode: 389   score: 13   memory length: 16   epsilon: 1.0   global_step: 389   average_q: 0.0   average loss: 0.0
+2009-05-24 00:00:00 27936645.0 22757335.0 5179310.0 0 ∙ 0.0 0.0%
+episode: 390   score: 13   memory length: 16   epsilon: 1.0   global_step: 390   average_q: 0.0   average loss: 0.0
+2009-05-25 00:00:00 27867505.0 22688195.0 5179310.0 0 ▼ -69140.0 -0.24748855848653264%
+episode: 391   score: 13   memory length: 16   epsilon: 1.0   global_step: 391   average_q: 0.0   average loss: 0.0
+2009-05-26 00:00:00 27353045.0 22173735.0 5179310.0 0 ▼ -514460.0 -1.8460927879980642%
+episode: 392   score: 13   memory length: 16   epsilon: 1.0   global_step: 392   average_q: 0.0   average loss: 0.0
+2009-05-27 00:00:00 27137860.0 21958550.0 5179310.0 0 ▼ -215185.0 -0.7866948634055185%
+episode: 393   score: 13   memory length: 16   epsilon: 1.0   global_step: 393   average_q: 0.0   average loss: 0.0
+2009-05-28 00:00:00 27121050.0 21941740.0 5179310.0 0 ▼ -16810.0 -0.0619429829765501%
+episode: 394   score: 13   memory length: 16   epsilon: 1.0   global_step: 394   average_q: 0.0   average loss: 0.0
+2009-05-29 00:00:00 27034800.0 21855490.0 5179310.0 0 ▼ -86250.0 -0.31801866078193874%
+episode: 395   score: 13   memory length: 16   epsilon: 1.0   global_step: 395   average_q: 0.0   average loss: 0.0
+2009-05-30 00:00:00 27034800.0 21855490.0 5179310.0 0 ∙ 0.0 0.0%
+episode: 396   score: 13   memory length: 16   epsilon: 1.0   global_step: 396   average_q: 0.0   average loss: 0.0
+2009-05-31 00:00:00 27034800.0 21855490.0 5179310.0 0 ∙ 0.0 0.0%
+3730.0 2320.0 1 2320.0
+####################################
+에스코넥 1.6077586206896552
+####################################
+per : 1.06
+pcr : 0.74
+pbr : 0.28
+roe : 33.45
+당기순이익 : 6109243.0
+영업활동으로인한현금흐름 : 5038239.0
+투자활동으로인한현금흐름 : -21593180.0
+재무활동으로인한현금흐름 : 19625192.0
+psr : 0.07
+roic : 29.54
+eps : 1276.0
+ebit : 9301631.0
+ev_ebit : 3.46
+ev_sales : 0.35
+ev_ebitda : 2.71
+당기순이익률 : 6.61
+영업이익률 : 10.07
+매출총이익률 : 17.37
+배당수익률 : nan
+매출액 : 92405510.0
+자산 : 79902183.0
+유동자산 : 38666632.0
+부채 : 57010803.0
+유동부채 : 40765307.0
+2200.0 1720.0 1 1720.0
+####################################
+디에이피 1.2790697674418605
+####################################
+per : 1.15
+pcr : 0.34
+pbr : 0.4
+roe : 42.98
+당기순이익 : 7202223.0
+영업활동으로인한현금흐름 : 23758936.0
+투자활동으로인한현금흐름 : -13791612.0
+재무활동으로인한현금흐름 : -8974808.0
+psr : 0.05
+roic : 20.43
+eps : 418.0
+ebit : 13161808.0
+ev_ebit : 4.53
+ev_sales : 0.34
+ev_ebitda : 1.96
+당기순이익률 : 4.13
+영업이익률 : 7.55
+매출총이익률 : 12.04
+배당수익률 : None
+매출액 : 174384445.0
+자산 : 104366678.0
+유동자산 : 30853641.0
+부채 : 84009543.0
+유동부채 : 60202344.0
+22500.0 24800.0 1 24800.0
+####################################
+한라 0.907258064516129
+####################################
+per : 1.89
+pcr : 1.78
+pbr : 0.22
+roe : 13.98
+당기순이익 : 44118515.0
+영업활동으로인한현금흐름 : 111782538.0
+투자활동으로인한현금흐름 : -181105120.0
+재무활동으로인한현금흐름 : 16832994.0
+psr : 0.06
+roic : 22.68
+eps : 4578.0
+ebit : 86205442.0
+ev_ebit : 5.68
+ev_sales : 0.36
+ev_ebitda : 5.51
+당기순이익률 : 3.23
+영업이익률 : 6.31
+매출총이익률 : 11.05
+배당수익률 : 5.78
+매출액 : 1366978219.0
+자산 : 1336160997.0
+유동자산 : 825311924.0
+부채 : 970122323.0
+유동부채 : 574170003.0
+2490.0 2640.0 1 2640.0
+####################################
+서연 0.9431818181818182
+####################################
+per : 1.31
+pcr : 1.01
+pbr : 0.31
+roe : 29.0
+당기순이익 : 38232626.0
+영업활동으로인한현금흐름 : 47829611.0
+투자활동으로인한현금흐름 : -19740636.0
+재무활동으로인한현금흐름 : -4506526.0
+psr : 0.1
+roic : 8.76
+eps : 979.0
+ebit : 8964716.0
+ev_ebit : 6.88
+ev_sales : 0.13
+ev_ebitda : 3.0
+당기순이익률 : 7.85
+영업이익률 : 1.84
+매출총이익률 : 5.89
+배당수익률 : 7.78
+매출액 : 486879351.0
+자산 : 345017704.0
+유동자산 : 162285354.0
+부채 : 187976754.0
+유동부채 : 165906828.0
+1305.0 1295.0 1 1295.0
+####################################
+인지디스플레 1.0077220077220077
+####################################
+per : 2.45
+pcr : 1.07
+pbr : 0.43
+roe : 20.37
+당기순이익 : 10525903.0
+영업활동으로인한현금흐름 : 18411172.0
+투자활동으로인한현금흐름 : -13610694.0
+재무활동으로인한현금흐름 : -2233066.0
+psr : 0.13
+roic : 2.72
+eps : 298.0
+ebit : 1863443.0
+ev_ebit : 23.28
+ev_sales : 0.23
+ev_ebitda : 2.81
+당기순이익률 : 5.46
+영업이익률 : 0.97
+매출총이익률 : 9.7
+배당수익률 : 6.85
+매출액 : 192766586.0
+자산 : 122624240.0
+유동자산 : 61961220.0
+부채 : 63792115.0
+유동부채 : 57165587.0
+3970.0 5290.0 1 5290.0
+####################################
+KJ프리텍 0.7504725897920604
+####################################
+per : 8.68
+pcr : 2.68
+pbr : 0.43
+roe : 4.85
+당기순이익 : 945938.0
+영업활동으로인한현금흐름 : 6254563.0
+투자활동으로인한현금흐름 : -9127992.0
+재무활동으로인한현금흐름 : 1632161.0
+psr : 0.1
+roic : 33.69
+eps : 181.0
+ebit : 6913269.0
+ev_ebit : 1.87
+ev_sales : 0.16
+ev_ebitda : 1.43
+당기순이익률 : 1.15
+영업이익률 : 8.39
+매출총이익률 : 17.59
+배당수익률 : None
+매출액 : 82401268.0
+자산 : 50011671.0
+유동자산 : 26788176.0
+부채 : 28557101.0
+유동부채 : 20805681.0
+24700.0 20800.0 1 20800.0
+####################################
+유신 1.1875
+####################################
+per : 9.7
+pcr : 8.83
+pbr : 0.75
+roe : 8.12
+당기순이익 : 6002479.0
+영업활동으로인한현금흐름 : 17266736.0
+투자활동으로인한현금흐름 : -15349004.0
+재무활동으로인한현금흐름 : -1445724.0
+psr : 0.3
+roic : 12.44
+eps : 2001.0
+ebit : 5219690.0
+ev_ebit : 11.15
+ev_sales : 0.3
+ev_ebitda : 10.02
+당기순이익률 : 3.06
+영업이익률 : 2.67
+매출총이익률 : 12.35
+배당수익률 : 2.58
+매출액 : 195842839.0
+자산 : 99872993.0
+유동자산 : 73302026.0
+부채 : 23514568.0
+유동부채 : 11409081.0
+4200.0 4270.0 1 4270.0
+####################################
+홈캐스트 0.9836065573770492
+####################################
+per : 2.31
+pcr : 1.77
+pbr : 0.42
+roe : 20.68
+당기순이익 : 8619371.0
+영업활동으로인한현금흐름 : 18916273.0
+투자활동으로인한현금흐름 : -5877571.0
+재무활동으로인한현금흐름 : 8694287.0
+psr : 0.12
+roic : 29.26
+eps : 754.0
+ebit : 13376400.0
+ev_ebit : 1.49
+ev_sales : 0.12
+ev_ebitda : 1.25
+당기순이익률 : 5.26
+영업이익률 : 8.16
+매출총이익률 : 19.52
+배당수익률 : 5.73
+매출액 : 163843613.0
+자산 : 81462549.0
+유동자산 : 56334393.0
+부채 : 36011380.0
+유동부채 : 20552544.0
+8220.0 7340.0 1 7340.0
+####################################
+화승인더 1.119891008174387
+####################################
+per : 1.78
+pcr : 1.29
+pbr : 0.19
+roe : 11.02
+당기순이익 : 8883943.0
+영업활동으로인한현금흐름 : 19309762.0
+투자활동으로인한현금흐름 : -10341927.0
+재무활동으로인한현금흐름 : 362982.0
+psr : 0.1
+roic : 9.5
+eps : 2961.0
+ebit : 12739188.0
+ev_ebit : 4.25
+ev_sales : 0.34
+ev_ebitda : 3.36
+당기순이익률 : 5.53
+영업이익률 : 7.93
+매출총이익률 : 18.67
+배당수익률 : 9.49
+매출액 : 160596015.0
+자산 : 163120572.0
+유동자산 : 92362787.0
+부채 : 79465696.0
+유동부채 : 58588565.0
+2570.0 2270.0 1 2270.0
+####################################
+일야 1.13215859030837
+####################################
+per : 2.41
+pcr : 1.85
+pbr : 0.6
+roe : 29.54
+당기순이익 : 4267475.0
+영업활동으로인한현금흐름 : 6223452.0
+투자활동으로인한현금흐름 : -5684826.0
+재무활동으로인한현금흐름 : -1849370.0
+psr : 0.12
+roic : 102.86
+eps : 436.0
+ebit : 7211608.0
+ev_ebit : 1.42
+ev_sales : 0.12
+ev_ebitda : 1.21
+당기순이익률 : 5.08
+영업이익률 : 8.58
+매출총이익률 : 16.47
+배당수익률 : 5.71
+매출액 : 84014569.0
+자산 : 25726324.0
+유동자산 : 15999869.0
+부채 : 9091223.0
+유동부채 : 6815845.0
+monthPercentage:  2009-05-01 00:00:00 ~ 2009-05-31 00:00:00  #  5.194142703223474
+monthTotal:  2009-05-01 00:00:00  #  25699910.0    2009-05-31 00:00:00  #  27034800.0
+lossPoint: 0.8885603983048692
+maxPoint: 1.0870327950564806
+minPoint: 0.9729201386308357
+altman 1556
+momentumSum 6.571428571428572
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 16
+['MPK', '서연', '세아제강지주', '에스코넥', '디에이피', '인지디스플레', '화승인더', 'S&T모티브', '나이스정보통신', '원익QnC', '동양에스텍', '홈캐스트', '신풍제약', '한라', '체시스', '라이트론']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 10
+['홈캐스트', '화승인더', '디에이피', '에스코넥', 'MPK', '신풍제약', '서연', '인지디스플레', '나이스정보통신', '한라']
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 6
+['나이스정보통신', '에스코넥', 'MPK', '디에이피', '홈캐스트', '화승인더']
+BUY 나이스정보통신 1455주
+BUY 에스코넥 1207주
+BUY MPK 697주
+BUY 디에이피 2048주
+BUY 홈캐스트 1072주
+BUY 화승인더 548주
+나이스정보통신 0.9115334207077326
+에스코넥 0.7192348739840735
+MPK 0.4505428226779252
+디에이피 0.6786779894422768
+홈캐스트 0.9259927797833936
+화승인더 0.8241190578685198
+dqn손절: 1 dict_keys(['디에이피'])
+dqn손절: 2 dict_keys(['디에이피', '홈캐스트'])
+episode: 397   score: 17   memory length: 22   epsilon: 1.0   global_step: 397   average_q: 0.0   average loss: 0.0
+2009-06-01 00:00:00 27847175.0 18074010.0 9773165.0 0 ▲ 812375.0 3.004923284063503%
+episode: 398   score: 17   memory length: 22   epsilon: 1.0   global_step: 398   average_q: 0.0   average loss: 0.0
+2009-06-02 00:00:00 27613520.0 17840355.0 9773165.0 0 ▼ -233655.0 -0.8390617719750746%
+episode: 399   score: 17   memory length: 22   epsilon: 1.0   global_step: 399   average_q: 0.0   average loss: 0.0
+2009-06-03 00:00:00 27582445.0 17809280.0 9773165.0 0 ▼ -31075.0 -0.11253545364734376%
+episode: 400   score: 17   memory length: 22   epsilon: 1.0   global_step: 400   average_q: 0.0   average loss: 0.0
+2009-06-04 00:00:00 27639480.0 17866315.0 9773165.0 0 ▲ 57035.0 0.20678007334012632%
+episode: 401   score: 17   memory length: 22   epsilon: 1.0   global_step: 401   average_q: 0.0   average loss: 0.0
+2009-06-05 00:00:00 27442995.0 17669830.0 9773165.0 0 ▼ -196485.0 -0.7108852988551159%
+episode: 402   score: 17   memory length: 22   epsilon: 1.0   global_step: 402   average_q: 0.0   average loss: 0.0
+2009-06-06 00:00:00 27442995.0 17669830.0 9773165.0 0 ∙ 0.0 0.0%
+episode: 403   score: 17   memory length: 22   epsilon: 1.0   global_step: 403   average_q: 0.0   average loss: 0.0
+2009-06-07 00:00:00 27442995.0 17669830.0 9773165.0 0 ∙ 0.0 0.0%
+episode: 404   score: 17   memory length: 22   epsilon: 1.0   global_step: 404   average_q: 0.0   average loss: 0.0
+2009-06-08 00:00:00 27739920.0 17966755.0 9773165.0 0 ▲ 296925.0 1.0819700983802971%
+episode: 405   score: 17   memory length: 22   epsilon: 1.0   global_step: 405   average_q: 0.0   average loss: 0.0
+2009-06-09 00:00:00 27361195.0 17588030.0 9773165.0 0 ▼ -378725.0 -1.3652707001317956%
+episode: 406   score: 17   memory length: 22   epsilon: 1.0   global_step: 406   average_q: 0.0   average loss: 0.0
+2009-06-10 00:00:00 27514935.0 17741770.0 9773165.0 0 ▲ 153740.0 0.5618906630357337%
+episode: 407   score: 17   memory length: 22   epsilon: 1.0   global_step: 407   average_q: 0.0   average loss: 0.0
+2009-06-11 00:00:00 28100820.0 18327655.0 9773165.0 0 ▲ 585885.0 2.129334486888666%
+episode: 408   score: 17   memory length: 22   epsilon: 1.0   global_step: 408   average_q: 0.0   average loss: 0.0
+2009-06-12 00:00:00 28063770.0 18290605.0 9773165.0 0 ▼ -37050.0 -0.131846686324456%
+episode: 409   score: 17   memory length: 22   epsilon: 1.0   global_step: 409   average_q: 0.0   average loss: 0.0
+2009-06-13 00:00:00 28063770.0 18290605.0 9773165.0 0 ∙ 0.0 0.0%
+episode: 410   score: 17   memory length: 22   epsilon: 1.0   global_step: 410   average_q: 0.0   average loss: 0.0
+2009-06-14 00:00:00 28063770.0 18290605.0 9773165.0 0 ∙ 0.0 0.0%
+episode: 411   score: 17   memory length: 22   epsilon: 1.0   global_step: 411   average_q: 0.0   average loss: 0.0
+2009-06-15 00:00:00 27724450.0 17951285.0 9773165.0 0 ▼ -339320.0 -1.2091034098412294%
+episode: 412   score: 17   memory length: 22   epsilon: 1.0   global_step: 412   average_q: 0.0   average loss: 0.0
+2009-06-16 00:00:00 27810160.0 18036995.0 9773165.0 0 ▲ 85710.0 0.30914950522012163%
+episode: 413   score: 17   memory length: 22   epsilon: 1.0   global_step: 413   average_q: 0.0   average loss: 0.0
+2009-06-17 00:00:00 28114600.0 18341435.0 9773165.0 0 ▲ 304440.0 1.0947078333961402%
+episode: 414   score: 17   memory length: 22   epsilon: 1.0   global_step: 414   average_q: 0.0   average loss: 0.0
+2009-06-18 00:00:00 29077030.0 19303865.0 9773165.0 0 ▲ 962430.0 3.4232391711068266%
+episode: 415   score: 17   memory length: 22   epsilon: 1.0   global_step: 415   average_q: 0.0   average loss: 0.0
+2009-06-19 00:00:00 29447435.0 19674270.0 9773165.0 0 ▲ 370405.0 1.273874945274672%
+episode: 416   score: 17   memory length: 22   epsilon: 1.0   global_step: 416   average_q: 0.0   average loss: 0.0
+2009-06-20 00:00:00 29447435.0 19674270.0 9773165.0 0 ∙ 0.0 0.0%
+episode: 417   score: 17   memory length: 22   epsilon: 1.0   global_step: 417   average_q: 0.0   average loss: 0.0
+2009-06-21 00:00:00 29447435.0 19674270.0 9773165.0 0 ∙ 0.0 0.0%
+episode: 418   score: 17   memory length: 22   epsilon: 1.0   global_step: 418   average_q: 0.0   average loss: 0.0
+2009-06-22 00:00:00 30190030.0 20416865.0 9773165.0 0 ▲ 742595.0 2.5217646290755034%
+episode: 419   score: 17   memory length: 22   epsilon: 1.0   global_step: 419   average_q: 0.0   average loss: 0.0
+2009-06-23 00:00:00 29756580.0 19983415.0 9773165.0 0 ▼ -433450.0 -1.4357388846582795%
+episode: 420   score: 17   memory length: 22   epsilon: 1.0   global_step: 420   average_q: 0.0   average loss: 0.0
+2009-06-24 00:00:00 29530530.0 19757365.0 9773165.0 0 ▼ -226050.0 -0.7596639129900009%
+episode: 421   score: 17   memory length: 22   epsilon: 1.0   global_step: 421   average_q: 0.0   average loss: 0.0
+2009-06-25 00:00:00 29449250.0 19676085.0 9773165.0 0 ▼ -81280.0 -0.27524057306116756%
+episode: 422   score: 17   memory length: 22   epsilon: 1.0   global_step: 422   average_q: 0.0   average loss: 0.0
+2009-06-26 00:00:00 29919275.0 20146110.0 9773165.0 0 ▲ 470025.0 1.59605083321307%
+episode: 423   score: 17   memory length: 22   epsilon: 1.0   global_step: 423   average_q: 0.0   average loss: 0.0
+2009-06-27 00:00:00 29919275.0 20146110.0 9773165.0 0 ∙ 0.0 0.0%
+episode: 424   score: 17   memory length: 22   epsilon: 1.0   global_step: 424   average_q: 0.0   average loss: 0.0
+2009-06-28 00:00:00 29919275.0 20146110.0 9773165.0 0 ∙ 0.0 0.0%
+episode: 425   score: 17   memory length: 22   epsilon: 1.0   global_step: 425   average_q: 0.0   average loss: 0.0
+2009-06-29 00:00:00 29710880.0 19937715.0 9773165.0 0 ▼ -208395.0 -0.6965242306172191%
+episode: 426   score: 17   memory length: 22   epsilon: 1.0   global_step: 426   average_q: 0.0   average loss: 0.0
+2009-06-30 00:00:00 29627330.0 19854165.0 9773165.0 0 ▼ -83550.0 -0.2812101156209443%
+3050.0 3105.0 1 3105.0
+####################################
+나이스정보통신 0.9822866344605475
+####################################
+per : 4.86
+pcr : 2.97
+pbr : 0.85
+roe : 18.88
+당기순이익 : 5019372.0
+영업활동으로인한현금흐름 : 9600855.0
+투자활동으로인한현금흐름 : -20489762.0
+재무활동으로인한현금흐름 : 14579002.0
+psr : 0.31
+roic : 34.34
+eps : 502.0
+ebit : 8004205.0
+ev_ebit : 3.87
+ev_sales : 0.4
+ev_ebitda : 2.76
+당기순이익률 : 6.41
+영업이익률 : 10.21
+매출총이익률 : 29.78
+배당수익률 : 6.15
+매출액 : 78362813.0
+자산 : 60252311.0
+유동자산 : 23016660.0
+부채 : 31908173.0
+유동부채 : 18041547.0
+4245.0 3935.0 1 3935.0
+####################################
+에스코넥 1.0787801778907242
+####################################
+per : 1.06
+pcr : 0.74
+pbr : 0.28
+roe : 33.45
+당기순이익 : 6109243.0
+영업활동으로인한현금흐름 : 5038239.0
+투자활동으로인한현금흐름 : -21593180.0
+재무활동으로인한현금흐름 : 19625192.0
+psr : 0.07
+roic : 29.54
+eps : 1276.0
+ebit : 9301631.0
+ev_ebit : 3.46
+ev_sales : 0.35
+ev_ebitda : 2.71
+당기순이익률 : 6.61
+영업이익률 : 10.07
+매출총이익률 : 17.37
+배당수익률 : nan
+매출액 : 92405510.0
+자산 : 79902183.0
+유동자산 : 38666632.0
+부채 : 57010803.0
+유동부채 : 40765307.0
+4900.0 5850.0 1 5850.0
+####################################
+MPK 0.8376068376068376
+####################################
+per : 1.48
+pcr : 1.28
+pbr : 0.68
+roe : 35.57
+당기순이익 : 6239626.0
+영업활동으로인한현금흐름 : 20073985.0
+투자활동으로인한현금흐름 : -12066799.0
+재무활동으로인한현금흐름 : 0.0
+psr : 0.07
+roic : 121.17
+eps : 1485.0
+ebit : 9164706.0
+ev_ebit : 1.01
+ev_sales : 0.07
+ev_ebitda : 0.91
+당기순이익률 : 5.03
+영업이익률 : 7.39
+매출총이익률 : 32.72
+배당수익률 : nan
+매출액 : 123990500.0
+자산 : 51029101.0
+유동자산 : 27327727.0
+부채 : 37401476.0
+유동부채 : 35134996.0
+2400.0 2530.0 1 2530.0
+####################################
+디에이피 0.9486166007905138
+####################################
+per : 1.15
+pcr : 0.34
+pbr : 0.4
+roe : 42.98
+당기순이익 : 7202223.0
+영업활동으로인한현금흐름 : 23758936.0
+투자활동으로인한현금흐름 : -13791612.0
+재무활동으로인한현금흐름 : -8974808.0
+psr : 0.05
+roic : 20.43
+eps : 418.0
+ebit : 13161808.0
+ev_ebit : 4.53
+ev_sales : 0.34
+ev_ebitda : 1.96
+당기순이익률 : 4.13
+영업이익률 : 7.55
+매출총이익률 : 12.04
+배당수익률 : None
+매출액 : 174384445.0
+자산 : 104366678.0
+유동자산 : 30853641.0
+부채 : 84009543.0
+유동부채 : 60202344.0
+4130.0 4270.0 1 4270.0
+####################################
+홈캐스트 0.9672131147540983
+####################################
+per : 2.31
+pcr : 1.77
+pbr : 0.42
+roe : 20.68
+당기순이익 : 8619371.0
+영업활동으로인한현금흐름 : 18916273.0
+투자활동으로인한현금흐름 : -5877571.0
+재무활동으로인한현금흐름 : 8694287.0
+psr : 0.12
+roic : 29.26
+eps : 754.0
+ebit : 13376400.0
+ev_ebit : 1.49
+ev_sales : 0.12
+ev_ebitda : 1.25
+당기순이익률 : 5.26
+영업이익률 : 8.16
+매출총이익률 : 19.52
+배당수익률 : 5.73
+매출액 : 163843613.0
+자산 : 81462549.0
+유동자산 : 56334393.0
+부채 : 36011380.0
+유동부채 : 20552544.0
+12550.0 8630.0 1 8630.0
+####################################
+화승인더 1.4542294322132097
+####################################
+per : 1.78
+pcr : 1.29
+pbr : 0.19
+roe : 11.02
+당기순이익 : 8883943.0
+영업활동으로인한현금흐름 : 19309762.0
+투자활동으로인한현금흐름 : -10341927.0
+재무활동으로인한현금흐름 : 362982.0
+psr : 0.1
+roic : 9.5
+eps : 2961.0
+ebit : 12739188.0
+ev_ebit : 4.25
+ev_sales : 0.34
+ev_ebitda : 3.36
+당기순이익률 : 5.53
+영업이익률 : 7.93
+매출총이익률 : 18.67
+배당수익률 : 9.49
+매출액 : 160596015.0
+자산 : 163120572.0
+유동자산 : 92362787.0
+부채 : 79465696.0
+유동부채 : 58588565.0
+monthPercentage:  2009-06-01 00:00:00 ~ 2009-06-30 00:00:00  #  6.392587398901325
+monthTotal:  2009-06-01 00:00:00  #  27847175.0    2009-06-30 00:00:00  #  29627330.0
+lossPoint: 0.90097551342865
+maxPoint: 1.0841325915465392
+minPoint: 0.9825483195333099
+altman 1556
+momentumSum 4.75
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 10
+['MPK', '서연', '세아제강지주', '신세계 I&C', '디에이피', 'S&T모티브', '홈캐스트', '신풍제약', '인팩', '한라']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 9
+['디에이피', '서연', 'MPK', '한라', '홈캐스트', '인팩', '신풍제약', '신세계 I&C', 'S&T모티브']
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 8
+['신세계 I&C', 'S&T모티브', 'MPK', '디에이피', '인팩', '한라', '서연', '화승인더']
+BUY 신세계 I&C 71주
+BUY S&T모티브 200주
+BUY MPK 755주
+BUY 디에이피 1543주
+BUY 인팩 1710주
+BUY 한라 159주
+BUY 서연 1452주
+BUY 화승인더 295주
+신세계 I&C 0.9379909141086061
+S&T모티브 0.9062460805217609
+MPK 0.8146826244924129
+디에이피 0.832799653829511
+인팩 0.858678955453149
+한라 0.9253176470588236
+서연 0.9252382224597026
+화승인더 0.7484913331906698
+episode: 427   score: 25   memory length: 30   epsilon: 1.0   global_step: 427   average_q: 0.0   average loss: 0.0
+2009-07-01 00:00:00 29742370.0 29720590.0 21780.0 0 ▲ 115040.0 0.38829013616819336%
+episode: 428   score: 25   memory length: 30   epsilon: 1.0   global_step: 428   average_q: 0.0   average loss: 0.0
+2009-07-02 00:00:00 30119350.0 30097570.0 21780.0 0 ▲ 376980.0 1.2674847364214754%
+episode: 429   score: 25   memory length: 30   epsilon: 1.0   global_step: 429   average_q: 0.0   average loss: 0.0
+2009-07-03 00:00:00 30220650.0 30198870.0 21780.0 0 ▲ 101300.0 0.3363286392302623%
+episode: 430   score: 25   memory length: 30   epsilon: 1.0   global_step: 430   average_q: 0.0   average loss: 0.0
+2009-07-04 00:00:00 30220650.0 30198870.0 21780.0 0 ∙ 0.0 0.0%
+episode: 431   score: 25   memory length: 30   epsilon: 1.0   global_step: 431   average_q: 0.0   average loss: 0.0
+2009-07-05 00:00:00 30220650.0 30198870.0 21780.0 0 ∙ 0.0 0.0%
+episode: 432   score: 25   memory length: 30   epsilon: 1.0   global_step: 432   average_q: 0.0   average loss: 0.0
+2009-07-06 00:00:00 30447965.0 30426185.0 21780.0 0 ▲ 227315.0 0.752184350766777%
+episode: 433   score: 25   memory length: 30   epsilon: 1.0   global_step: 433   average_q: 0.0   average loss: 0.0
+2009-07-07 00:00:00 30593540.0 30571760.0 21780.0 0 ▲ 145575.0 0.47811077029285864%
+episode: 434   score: 25   memory length: 30   epsilon: 1.0   global_step: 434   average_q: 0.0   average loss: 0.0
+2009-07-08 00:00:00 30312195.0 30290415.0 21780.0 0 ▼ -281345.0 -0.9196222470495405%
+episode: 435   score: 25   memory length: 30   epsilon: 1.0   global_step: 435   average_q: 0.0   average loss: 0.0
+2009-07-09 00:00:00 30538790.0 30517010.0 21780.0 0 ▲ 226595.0 0.7475374185208297%
+episode: 436   score: 25   memory length: 30   epsilon: 1.0   global_step: 436   average_q: 0.0   average loss: 0.0
+2009-07-10 00:00:00 30082200.0 30060420.0 21780.0 0 ▼ -456590.0 -1.495114901408995%
+episode: 437   score: 25   memory length: 30   epsilon: 1.0   global_step: 437   average_q: 0.0   average loss: 0.0
+2009-07-11 00:00:00 30082200.0 30060420.0 21780.0 0 ∙ 0.0 0.0%
+episode: 438   score: 25   memory length: 30   epsilon: 1.0   global_step: 438   average_q: 0.0   average loss: 0.0
+2009-07-12 00:00:00 30082200.0 30060420.0 21780.0 0 ∙ 0.0 0.0%
+episode: 439   score: 25   memory length: 30   epsilon: 1.0   global_step: 439   average_q: 0.0   average loss: 0.0
+2009-07-13 00:00:00 29479670.0 29457890.0 21780.0 0 ▼ -602530.0 -2.002945263311859%
+episode: 440   score: 25   memory length: 30   epsilon: 1.0   global_step: 440   average_q: 0.0   average loss: 0.0
+2009-07-14 00:00:00 29429590.0 29407810.0 21780.0 0 ▼ -50080.0 -0.1698797849501029%
+episode: 441   score: 25   memory length: 30   epsilon: 1.0   global_step: 441   average_q: 0.0   average loss: 0.0
+2009-07-15 00:00:00 29881320.0 29859540.0 21780.0 0 ▲ 451730.0 1.5349517271562398%
+episode: 442   score: 25   memory length: 30   epsilon: 1.0   global_step: 442   average_q: 0.0   average loss: 0.0
+2009-07-16 00:00:00 29594480.0 29572700.0 21780.0 0 ▼ -286840.0 -0.9599308196558921%
+episode: 443   score: 25   memory length: 30   epsilon: 1.0   global_step: 443   average_q: 0.0   average loss: 0.0
+2009-07-17 00:00:00 29410140.0 29388360.0 21780.0 0 ▼ -184340.0 -0.6228864301721132%
+episode: 444   score: 25   memory length: 30   epsilon: 1.0   global_step: 444   average_q: 0.0   average loss: 0.0
+2009-07-18 00:00:00 29410140.0 29388360.0 21780.0 0 ∙ 0.0 0.0%
+episode: 445   score: 25   memory length: 30   epsilon: 1.0   global_step: 445   average_q: 0.0   average loss: 0.0
+2009-07-19 00:00:00 29410140.0 29388360.0 21780.0 0 ∙ 0.0 0.0%
+episode: 446   score: 25   memory length: 30   epsilon: 1.0   global_step: 446   average_q: 0.0   average loss: 0.0
+2009-07-20 00:00:00 29246005.0 29224225.0 21780.0 0 ▼ -164135.0 -0.5580898288821474%
+episode: 447   score: 25   memory length: 30   epsilon: 1.0   global_step: 447   average_q: 0.0   average loss: 0.0
+2009-07-21 00:00:00 29333740.0 29311960.0 21780.0 0 ▲ 87735.0 0.29998969089966304%
+episode: 448   score: 25   memory length: 30   epsilon: 1.0   global_step: 448   average_q: 0.0   average loss: 0.0
+2009-07-22 00:00:00 29492110.0 29470330.0 21780.0 0 ▲ 158370.0 0.5398902424307299%
+episode: 449   score: 25   memory length: 30   epsilon: 1.0   global_step: 449   average_q: 0.0   average loss: 0.0
+2009-07-23 00:00:00 29747055.0 29725275.0 21780.0 0 ▲ 254945.0 0.8644515431415385%
+episode: 450   score: 25   memory length: 30   epsilon: 1.0   global_step: 450   average_q: 0.0   average loss: 0.0
+2009-07-24 00:00:00 29671015.0 29649235.0 21780.0 0 ▼ -76040.0 -0.2556219430797435%
+episode: 451   score: 25   memory length: 30   epsilon: 1.0   global_step: 451   average_q: 0.0   average loss: 0.0
+2009-07-25 00:00:00 29671015.0 29649235.0 21780.0 0 ∙ 0.0 0.0%
+episode: 452   score: 25   memory length: 30   epsilon: 1.0   global_step: 452   average_q: 0.0   average loss: 0.0
+2009-07-26 00:00:00 29671015.0 29649235.0 21780.0 0 ∙ 0.0 0.0%
+episode: 453   score: 25   memory length: 30   epsilon: 1.0   global_step: 453   average_q: 0.0   average loss: 0.0
+2009-07-27 00:00:00 30389780.0 30368000.0 21780.0 0 ▲ 718765.0 2.4224483051894246%
+episode: 454   score: 25   memory length: 30   epsilon: 1.0   global_step: 454   average_q: 0.0   average loss: 0.0
+2009-07-28 00:00:00 30165575.0 30143795.0 21780.0 0 ▼ -224205.0 -0.7377644721350402%
+episode: 455   score: 25   memory length: 30   epsilon: 1.0   global_step: 455   average_q: 0.0   average loss: 0.0
+2009-07-29 00:00:00 30186640.0 30164860.0 21780.0 0 ▲ 21065.0 0.0698312563244692%
+episode: 456   score: 25   memory length: 30   epsilon: 1.0   global_step: 456   average_q: 0.0   average loss: 0.0
+2009-07-30 00:00:00 30351590.0 30329810.0 21780.0 0 ▲ 164950.0 0.5464337866022849%
+episode: 457   score: 25   memory length: 30   epsilon: 1.0   global_step: 457   average_q: 0.0   average loss: 0.0
+2009-07-31 00:00:00 30673020.0 30651240.0 21780.0 0 ▲ 321430.0 1.0590219490972301%
+50300.0 51200.0 1 51200.0
+####################################
+신세계 I&C 0.982421875
+####################################
+per : 4.94
+pcr : 3.61
+pbr : 0.72
+roe : 15.69
+당기순이익 : 12057532.0
+영업활동으로인한현금흐름 : 27624560.0
+투자활동으로인한현금흐름 : -41523.0
+재무활동으로인한현금흐름 : -1254746.0
+psr : 0.22
+roic : 45.7
+eps : 7010.0
+ebit : 14243931.0
+ev_ebit : 4.18
+ev_sales : 0.22
+ev_ebitda : 3.19
+당기순이익률 : 4.51
+영업이익률 : 5.33
+매출총이익률 : 30.41
+배당수익률 : 2.17
+매출액 : 267306175.0
+자산 : 174741672.0
+유동자산 : 115031423.0
+부채 : 92369462.0
+유동부채 : 86657259.0
+22150.0 18600.0 1 18600.0
+####################################
+S&T모티브 1.1908602150537635
+####################################
+per : 3.37
+pcr : 2.44
+pbr : 0.35
+roe : 13.7
+당기순이익 : 38014360.0
+영업활동으로인한현금흐름 : 83734609.0
+투자활동으로인한현금흐름 : -51428576.0
+재무활동으로인한현금흐름 : 17374464.0
+psr : 0.23
+roic : 15.6
+eps : 2600.0
+ebit : 40427669.0
+ev_ebit : 2.52
+ev_sales : 0.18
+ev_ebitda : 1.86
+당기순이익률 : 6.9
+영업이익률 : 7.34
+매출총이익률 : 17.24
+배당수익률 : 0.0
+매출액 : 551137802.0
+자산 : 691925986.0
+유동자산 : 308237898.0
+부채 : 327255674.0
+유동부채 : 257591197.0
+5600.0 4950.0 1 4950.0
+####################################
+MPK 1.1313131313131313
+####################################
+per : 1.48
+pcr : 1.28
+pbr : 0.68
+roe : 35.57
+당기순이익 : 6239626.0
+영업활동으로인한현금흐름 : 20073985.0
+투자활동으로인한현금흐름 : -12066799.0
+재무활동으로인한현금흐름 : 0.0
+psr : 0.07
+roic : 121.17
+eps : 1485.0
+ebit : 9164706.0
+ev_ebit : 1.01
+ev_sales : 0.07
+ev_ebitda : 0.91
+당기순이익률 : 5.03
+영업이익률 : 7.39
+매출총이익률 : 32.72
+배당수익률 : nan
+매출액 : 123990500.0
+자산 : 51029101.0
+유동자산 : 27327727.0
+부채 : 37401476.0
+유동부채 : 35134996.0
+2540.0 2460.0 1 2460.0
+####################################
+디에이피 1.032520325203252
+####################################
+per : 1.15
+pcr : 0.34
+pbr : 0.4
+roe : 42.98
+당기순이익 : 7202223.0
+영업활동으로인한현금흐름 : 23758936.0
+투자활동으로인한현금흐름 : -13791612.0
+재무활동으로인한현금흐름 : -8974808.0
+psr : 0.05
+roic : 20.43
+eps : 418.0
+ebit : 13161808.0
+ev_ebit : 4.53
+ev_sales : 0.34
+ev_ebitda : 1.96
+당기순이익률 : 4.13
+영업이익률 : 7.55
+매출총이익률 : 12.04
+배당수익률 : None
+매출액 : 174384445.0
+자산 : 104366678.0
+유동자산 : 30853641.0
+부채 : 84009543.0
+유동부채 : 60202344.0
+1760.0 2200.0 1 2200.0
+####################################
+인팩 0.8
+####################################
+per : 3.43
+pcr : 2.26
+pbr : 0.48
+roe : 15.72
+당기순이익 : 4008220.0
+영업활동으로인한현금흐름 : 7909686.0
+투자활동으로인한현금흐름 : -8365457.0
+재무활동으로인한현금흐름 : 176000.0
+psr : 0.12
+roic : 21.19
+eps : 401.0
+ebit : 3328799.0
+ev_ebit : 4.13
+ev_sales : 0.12
+ev_ebitda : 2.55
+당기순이익률 : 3.43
+영업이익률 : 2.85
+매출총이익률 : 13.04
+배당수익률 : 4.36
+매출액 : 116814782.0
+자산 : 56789003.0
+유동자산 : 21323906.0
+부채 : 28276114.0
+유동부채 : 26015696.0
+25500.0 23400.0 1 23400.0
+####################################
+한라 1.0897435897435896
+####################################
+per : 1.89
+pcr : 1.78
+pbr : 0.22
+roe : 13.98
+당기순이익 : 44118515.0
+영업활동으로인한현금흐름 : 111782538.0
+투자활동으로인한현금흐름 : -181105120.0
+재무활동으로인한현금흐름 : 16832994.0
+psr : 0.06
+roic : 22.68
+eps : 4578.0
+ebit : 86205442.0
+ev_ebit : 5.68
+ev_sales : 0.36
+ev_ebitda : 5.51
+당기순이익률 : 3.23
+영업이익률 : 6.31
+매출총이익률 : 11.05
+배당수익률 : 5.78
+매출액 : 1366978219.0
+자산 : 1336160997.0
+유동자산 : 825311924.0
+부채 : 970122323.0
+유동부채 : 574170003.0
+2685.0 2380.0 1 2380.0
+####################################
+서연 1.1281512605042017
+####################################
+per : 1.31
+pcr : 1.01
+pbr : 0.31
+roe : 29.0
+당기순이익 : 38232626.0
+영업활동으로인한현금흐름 : 47829611.0
+투자활동으로인한현금흐름 : -19740636.0
+재무활동으로인한현금흐름 : -4506526.0
+psr : 0.1
+roic : 8.76
+eps : 979.0
+ebit : 8964716.0
+ev_ebit : 6.88
+ev_sales : 0.13
+ev_ebitda : 3.0
+당기순이익률 : 7.85
+영업이익률 : 1.84
+매출총이익률 : 5.89
+배당수익률 : 7.78
+매출액 : 486879351.0
+자산 : 345017704.0
+유동자산 : 162285354.0
+부채 : 187976754.0
+유동부채 : 165906828.0
+12000.0 13200.0 1 13200.0
+####################################
+화승인더 0.9090909090909091
+####################################
+per : 1.78
+pcr : 1.29
+pbr : 0.19
+roe : 11.02
+당기순이익 : 8883943.0
+영업활동으로인한현금흐름 : 19309762.0
+투자활동으로인한현금흐름 : -10341927.0
+재무활동으로인한현금흐름 : 362982.0
+psr : 0.1
+roic : 9.5
+eps : 2961.0
+ebit : 12739188.0
+ev_ebit : 4.25
+ev_sales : 0.34
+ev_ebitda : 3.36
+당기순이익률 : 5.53
+영업이익률 : 7.93
+매출총이익률 : 18.67
+배당수익률 : 9.49
+매출액 : 160596015.0
+자산 : 163120572.0
+유동자산 : 92362787.0
+부채 : 79465696.0
+유동부채 : 58588565.0
+monthPercentage:  2009-07-01 00:00:00 ~ 2009-07-31 00:00:00  #  3.129037800282896
+monthTotal:  2009-07-01 00:00:00  #  29742370.0    2009-07-31 00:00:00  #  30673020.0
+lossPoint: 0.9523239884864025
+maxPoint: 1.0312903780028289
+minPoint: 0.983311181993903
+altman 1556
+momentumSum 4.75
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 12
+['STX엔진', '서연', '세아제강지주', '디에이피', '화승인더', 'S&T모티브', '동양에스텍', '홈캐스트', '화신', '인팩', '한라', '체시스']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 9
+['한라', '홈캐스트', '디에이피', '서연', '화승인더', '화신', 'S&T모티브', 'STX엔진', '체시스']
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 9
+['S&T모티브', 'STX엔진', '화신', '디에이피', '한라', '서연', '체시스', '홈캐스트', '화승인더']
+BUY S&T모티브 153주
+BUY STX엔진 125주
+BUY 화신 1357주
+BUY 디에이피 1341주
+BUY 한라 133주
+BUY 서연 1269주
+BUY 체시스 3872주
+BUY 홈캐스트 743주
+BUY 화승인더 284주
+S&T모티브 0.9203963482520596
+STX엔진 0.885576923076923
+화신 0.8809172325558507
+디에이피 0.93809963099631
+한라 0.915451320457233
+서연 0.9199344918569738
+체시스 0.8578211553679768
+홈캐스트 0.9103555670905787
+화승인더 0.8865569024787407
+dqn손절: 1 dict_keys(['화신'])
+dqn손절: 2 dict_keys(['화신', '디에이피'])
+dqn손절: 3 dict_keys(['화신', '디에이피', '체시스'])
+dqn손절: 4 dict_keys(['화신', '디에이피', '체시스', '홈캐스트'])
+episode: 458   score: 30   memory length: 39   epsilon: 1.0   global_step: 458   average_q: 0.0   average loss: 0.0
+2009-08-01 00:00:00 30673020.0 16976965.0 13696055.0 0 ∙ 0.0 0.0%
+episode: 459   score: 30   memory length: 39   epsilon: 1.0   global_step: 459   average_q: 0.0   average loss: 0.0
+2009-08-02 00:00:00 30673020.0 16976965.0 13696055.0 0 ∙ 0.0 0.0%
+episode: 460   score: 30   memory length: 39   epsilon: 1.0   global_step: 460   average_q: 0.0   average loss: 0.0
+2009-08-03 00:00:00 30702135.0 17006080.0 13696055.0 0 ▲ 29115.0 0.0949205523290501%
+episode: 461   score: 30   memory length: 39   epsilon: 1.0   global_step: 461   average_q: 0.0   average loss: 0.0
+2009-08-04 00:00:00 30427195.0 16731140.0 13696055.0 0 ▼ -274940.0 -0.8955077554052837%
+episode: 462   score: 30   memory length: 39   epsilon: 1.0   global_step: 462   average_q: 0.0   average loss: 0.0
+2009-08-05 00:00:00 30432820.0 16736765.0 13696055.0 0 ▲ 5625.0 0.01848675173639897%
+episode: 463   score: 30   memory length: 39   epsilon: 1.0   global_step: 463   average_q: 0.0   average loss: 0.0
+2009-08-06 00:00:00 30747780.0 17051725.0 13696055.0 0 ▲ 314960.0 1.0349353099712744%
+episode: 464   score: 30   memory length: 39   epsilon: 1.0   global_step: 464   average_q: 0.0   average loss: 0.0
+2009-08-07 00:00:00 30999825.0 17303770.0 13696055.0 0 ▲ 252045.0 0.819717716205853%
+episode: 465   score: 30   memory length: 39   epsilon: 1.0   global_step: 465   average_q: 0.0   average loss: 0.0
+2009-08-08 00:00:00 30999825.0 17303770.0 13696055.0 0 ∙ 0.0 0.0%
+episode: 466   score: 30   memory length: 39   epsilon: 1.0   global_step: 466   average_q: 0.0   average loss: 0.0
+2009-08-09 00:00:00 30999825.0 17303770.0 13696055.0 0 ∙ 0.0 0.0%
+episode: 467   score: 30   memory length: 39   epsilon: 1.0   global_step: 467   average_q: 0.0   average loss: 0.0
+2009-08-10 00:00:00 31064790.0 17368735.0 13696055.0 0 ▲ 64965.0 0.20956569916120493%
+episode: 468   score: 30   memory length: 39   epsilon: 1.0   global_step: 468   average_q: 0.0   average loss: 0.0
+2009-08-11 00:00:00 31088465.0 17392410.0 13696055.0 0 ▲ 23675.0 0.07621168531961749%
+episode: 469   score: 30   memory length: 39   epsilon: 1.0   global_step: 469   average_q: 0.0   average loss: 0.0
+2009-08-12 00:00:00 30891175.0 17195120.0 13696055.0 0 ▼ -197290.0 -0.6346083668009984%
+episode: 470   score: 30   memory length: 39   epsilon: 1.0   global_step: 470   average_q: 0.0   average loss: 0.0
+2009-08-13 00:00:00 31218355.0 17522300.0 13696055.0 0 ▲ 327180.0 1.0591374397380482%
+episode: 471   score: 30   memory length: 39   epsilon: 1.0   global_step: 471   average_q: 0.0   average loss: 0.0
+2009-08-14 00:00:00 31214160.0 17518105.0 13696055.0 0 ▼ -4195.0 -0.013437607458817096%
+episode: 472   score: 30   memory length: 39   epsilon: 1.0   global_step: 472   average_q: 0.0   average loss: 0.0
+2009-08-15 00:00:00 31214160.0 17518105.0 13696055.0 0 ∙ 0.0 0.0%
+episode: 473   score: 30   memory length: 39   epsilon: 1.0   global_step: 473   average_q: 0.0   average loss: 0.0
+2009-08-16 00:00:00 31214160.0 17518105.0 13696055.0 0 ∙ 0.0 0.0%
+episode: 474   score: 30   memory length: 39   epsilon: 1.0   global_step: 474   average_q: 0.0   average loss: 0.0
+2009-08-17 00:00:00 30815270.0 17119215.0 13696055.0 0 ▼ -398890.0 -1.2779136135651257%
+episode: 475   score: 30   memory length: 39   epsilon: 1.0   global_step: 475   average_q: 0.0   average loss: 0.0
+2009-08-18 00:00:00 30846915.0 17150860.0 13696055.0 0 ▲ 31645.0 0.10269259363945213%
+episode: 476   score: 30   memory length: 39   epsilon: 1.0   global_step: 476   average_q: 0.0   average loss: 0.0
+2009-08-19 00:00:00 31286855.0 17590800.0 13696055.0 0 ▲ 439940.0 1.4262042087515072%
+episode: 477   score: 30   memory length: 39   epsilon: 1.0   global_step: 477   average_q: 0.0   average loss: 0.0
+2009-08-20 00:00:00 31837205.0 18141150.0 13696055.0 0 ▲ 550350.0 1.7590454521555456%
+episode: 478   score: 30   memory length: 39   epsilon: 1.0   global_step: 478   average_q: 0.0   average loss: 0.0
+2009-08-21 00:00:00 31610995.0 17914940.0 13696055.0 0 ▼ -226210.0 -0.7105209141317524%
+episode: 479   score: 30   memory length: 39   epsilon: 1.0   global_step: 479   average_q: 0.0   average loss: 0.0
+2009-08-22 00:00:00 31610995.0 17914940.0 13696055.0 0 ∙ 0.0 0.0%
+episode: 480   score: 30   memory length: 39   epsilon: 1.0   global_step: 480   average_q: 0.0   average loss: 0.0
+2009-08-23 00:00:00 31610995.0 17914940.0 13696055.0 0 ∙ 0.0 0.0%
+episode: 481   score: 30   memory length: 39   epsilon: 1.0   global_step: 481   average_q: 0.0   average loss: 0.0
+2009-08-24 00:00:00 32055535.0 18359480.0 13696055.0 0 ▲ 444540.0 1.4062828455731937%
+episode: 482   score: 30   memory length: 39   epsilon: 1.0   global_step: 482   average_q: 0.0   average loss: 0.0
+2009-08-25 00:00:00 32368110.0 18672055.0 13696055.0 0 ▲ 312575.0 0.9751046114189015%
+episode: 483   score: 30   memory length: 39   epsilon: 1.0   global_step: 483   average_q: 0.0   average loss: 0.0
+2009-08-26 00:00:00 32606105.0 18910050.0 13696055.0 0 ▲ 237995.0 0.7352761715157295%
+episode: 484   score: 30   memory length: 39   epsilon: 1.0   global_step: 484   average_q: 0.0   average loss: 0.0
+2009-08-27 00:00:00 32277110.0 18581055.0 13696055.0 0 ▼ -328995.0 -1.0089981615406072%
+episode: 485   score: 30   memory length: 39   epsilon: 1.0   global_step: 485   average_q: 0.0   average loss: 0.0
+2009-08-28 00:00:00 32506885.0 18810830.0 13696055.0 0 ▲ 229775.0 0.7118821976316964%
+episode: 486   score: 30   memory length: 39   epsilon: 1.0   global_step: 486   average_q: 0.0   average loss: 0.0
+2009-08-29 00:00:00 32506885.0 18810830.0 13696055.0 0 ∙ 0.0 0.0%
+episode: 487   score: 30   memory length: 39   epsilon: 1.0   global_step: 487   average_q: 0.0   average loss: 0.0
+2009-08-30 00:00:00 32506885.0 18810830.0 13696055.0 0 ∙ 0.0 0.0%
+episode: 488   score: 30   memory length: 39   epsilon: 1.0   global_step: 488   average_q: 0.0   average loss: 0.0
+2009-08-31 00:00:00 32382545.0 18686490.0 13696055.0 0 ▼ -124340.0 -0.38250358347162455%
+24200.0 22150.0 1 22150.0
+####################################
+S&T모티브 1.09255079006772
+####################################
+per : 3.37
+pcr : 2.44
+pbr : 0.35
+roe : 13.7
+당기순이익 : 38014360.0
+영업활동으로인한현금흐름 : 83734609.0
+투자활동으로인한현금흐름 : -51428576.0
+재무활동으로인한현금흐름 : 17374464.0
+psr : 0.23
+roic : 15.6
+eps : 2600.0
+ebit : 40427669.0
+ev_ebit : 2.52
+ev_sales : 0.18
+ev_ebitda : 1.86
+당기순이익률 : 6.9
+영업이익률 : 7.34
+매출총이익률 : 17.24
+배당수익률 : 0.0
+매출액 : 551137802.0
+자산 : 691925986.0
+유동자산 : 308237898.0
+부채 : 327255674.0
+유동부채 : 257591197.0
+24050.0 27050.0 1 27050.0
+####################################
+STX엔진 0.88909426987061
+####################################
+per : 4.73
+pcr : 4.0
+pbr : 0.83
+roe : 22.65
+당기순이익 : 96747090.0
+영업활동으로인한현금흐름 : 211368097.0
+투자활동으로인한현금흐름 : -259280860.0
+재무활동으로인한현금흐름 : 24088460.0
+psr : 0.31
+roic : 373.96
+eps : 3374.0
+ebit : 206105756.0
+ev_ebit : 2.22
+ev_sales : 0.31
+ev_ebitda : 2.04
+당기순이익률 : 6.48
+영업이익률 : 13.81
+매출총이익률 : 17.4
+배당수익률 : 1.88
+매출액 : 1492509513.0
+자산 : 1841695310.0
+유동자산 : 864693855.0
+부채 : 1287678105.0
+유동부채 : 810232490.0
+3200.0 2510.0 1 2510.0
+####################################
+화신 1.2749003984063745
+####################################
+per : 3.8
+pcr : 1.79
+pbr : 0.27
+roe : 7.42
+당기순이익 : 9840831.0
+영업활동으로인한현금흐름 : 19267992.0
+투자활동으로인한현금흐름 : -9557806.0
+재무활동으로인한현금흐름 : -1385026.0
+psr : 0.13
+roic : 5.98
+eps : 351.0
+ebit : 7035400.0
+ev_ebit : 5.31
+ev_sales : 0.13
+ev_ebitda : 2.06
+당기순이익률 : 3.32
+영업이익률 : 2.38
+매출총이익률 : 10.06
+배당수익률 : 5.62
+매출액 : 296206842.0
+자산 : 210211108.0
+유동자산 : 105649108.0
+부채 : 69194952.0
+유동부채 : 46791585.0
+2255.0 2540.0 1 2540.0
+####################################
+디에이피 0.8877952755905512
+####################################
+per : 1.15
+pcr : 0.34
+pbr : 0.4
+roe : 42.98
+당기순이익 : 7202223.0
+영업활동으로인한현금흐름 : 23758936.0
+투자활동으로인한현금흐름 : -13791612.0
+재무활동으로인한현금흐름 : -8974808.0
+psr : 0.05
+roic : 20.43
+eps : 418.0
+ebit : 13161808.0
+ev_ebit : 4.53
+ev_sales : 0.34
+ev_ebitda : 1.96
+당기순이익률 : 4.13
+영업이익률 : 7.55
+매출총이익률 : 12.04
+배당수익률 : None
+매출액 : 174384445.0
+자산 : 104366678.0
+유동자산 : 30853641.0
+부채 : 84009543.0
+유동부채 : 60202344.0
+30750.0 25500.0 1 25500.0
+####################################
+한라 1.2058823529411764
+####################################
+per : 1.89
+pcr : 1.78
+pbr : 0.22
+roe : 13.98
+당기순이익 : 44118515.0
+영업활동으로인한현금흐름 : 111782538.0
+투자활동으로인한현금흐름 : -181105120.0
+재무활동으로인한현금흐름 : 16832994.0
+psr : 0.06
+roic : 22.68
+eps : 4578.0
+ebit : 86205442.0
+ev_ebit : 5.68
+ev_sales : 0.36
+ev_ebitda : 5.51
+당기순이익률 : 3.23
+영업이익률 : 6.31
+매출총이익률 : 11.05
+배당수익률 : 5.78
+매출액 : 1366978219.0
+자산 : 1336160997.0
+유동자산 : 825311924.0
+부채 : 970122323.0
+유동부채 : 574170003.0
+3810.0 2685.0 1 2685.0
+####################################
+서연 1.4189944134078212
+####################################
+per : 1.31
+pcr : 1.01
+pbr : 0.31
+roe : 29.0
+당기순이익 : 38232626.0
+영업활동으로인한현금흐름 : 47829611.0
+투자활동으로인한현금흐름 : -19740636.0
+재무활동으로인한현금흐름 : -4506526.0
+psr : 0.1
+roic : 8.76
+eps : 979.0
+ebit : 8964716.0
+ev_ebit : 6.88
+ev_sales : 0.13
+ev_ebitda : 3.0
+당기순이익률 : 7.85
+영업이익률 : 1.84
+매출총이익률 : 5.89
+배당수익률 : 7.78
+매출액 : 486879351.0
+자산 : 345017704.0
+유동자산 : 162285354.0
+부채 : 187976754.0
+유동부채 : 165906828.0
+955.0 880.0 1 880.0
+####################################
+체시스 1.0852272727272727
+####################################
+per : 6.85
+pcr : 4.0
+pbr : 1.32
+roe : 21.05
+당기순이익 : 3825663.0
+영업활동으로인한현금흐름 : 6886120.0
+투자활동으로인한현금흐름 : -14713381.0
+재무활동으로인한현금흐름 : 7693207.0
+psr : 0.48
+roic : 7.53
+eps : 231.0
+ebit : 1696619.0
+ev_ebit : 22.93
+ev_sales : 0.71
+ev_ebitda : 8.78
+당기순이익률 : 7.0
+영업이익률 : 3.1
+매출총이익률 : 16.04
+배당수익률 : 3.8
+매출액 : 54679818.0
+자산 : 63394156.0
+유동자산 : 26021927.0
+부채 : 43478084.0
+유동부채 : 24094429.0
+4595.0 4585.0 1 4585.0
+####################################
+홈캐스트 1.0021810250817884
+####################################
+per : 2.31
+pcr : 1.77
+pbr : 0.42
+roe : 20.68
+당기순이익 : 8619371.0
+영업활동으로인한현금흐름 : 18916273.0
+투자활동으로인한현금흐름 : -5877571.0
+재무활동으로인한현금흐름 : 8694287.0
+psr : 0.12
+roic : 29.26
+eps : 754.0
+ebit : 13376400.0
+ev_ebit : 1.49
+ev_sales : 0.12
+ev_ebitda : 1.25
+당기순이익률 : 5.26
+영업이익률 : 8.16
+매출총이익률 : 19.52
+배당수익률 : 5.73
+매출액 : 163843613.0
+자산 : 81462549.0
+유동자산 : 56334393.0
+부채 : 36011380.0
+유동부채 : 20552544.0
+10750.0 12000.0 1 12000.0
+####################################
+화승인더 0.8958333333333334
+####################################
+per : 1.78
+pcr : 1.29
+pbr : 0.19
+roe : 11.02
+당기순이익 : 8883943.0
+영업활동으로인한현금흐름 : 19309762.0
+투자활동으로인한현금흐름 : -10341927.0
+재무활동으로인한현금흐름 : 362982.0
+psr : 0.1
+roic : 9.5
+eps : 2961.0
+ebit : 12739188.0
+ev_ebit : 4.25
+ev_sales : 0.34
+ev_ebitda : 3.36
+당기순이익률 : 5.53
+영업이익률 : 7.93
+매출총이익률 : 18.67
+배당수익률 : 9.49
+매출액 : 160596015.0
+자산 : 163120572.0
+유동자산 : 92362787.0
+부채 : 79465696.0
+유동부채 : 58588565.0
+monthPercentage:  2009-08-01 00:00:00 ~ 2009-08-31 00:00:00  #  5.5733833838337405
+monthTotal:  2009-08-01 00:00:00  #  30673020.0    2009-08-31 00:00:00  #  32382545.0
+lossPoint: 0.9306072488930439
+maxPoint: 1.0630223238533407
+minPoint: 0.9919856277601619
+altman 1556
+momentumSum 3.571428571428572
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 12
+['STX엔진', '세아제강지주', '파세코', '디에이피', '화승인더', 'S&T모티브', '태영건설', '홈캐스트', '인팩', '한라', '체시스', '일야']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 11
+['한라', '파세코', '체시스', '홈캐스트', 'S&T모티브', '화승인더', '일야', '디에이피', '인팩', '태영건설', 'STX엔진']
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 7
+['S&T모티브', '한라', '서연', '파세코', '체시스', '홈캐스트', '일야']
+BUY S&T모티브 191주
+BUY 한라 150주
+BUY 서연 1214주
+BUY 파세코 1888주
+BUY 체시스 4844주
+BUY 홈캐스트 1006주
+BUY 일야 1939주
+S&T모티브 0.899780081683946
+한라 0.8846670021808422
+서연 0.7979245547609031
+파세코 0.8679626088803909
+체시스 0.8648192771084338
+홈캐스트 0.872135330529698
+일야 0.930645777607948
+dqn손절: 1 dict_keys(['체시스'])
+episode: 489   score: 36   memory length: 46   epsilon: 1.0   global_step: 489   average_q: 0.0   average loss: 0.0
+2009-09-01 00:00:00 32444575.0 27867415.0 4577160.0 0 ▲ 62030.0 0.19155381394513618%
+episode: 490   score: 36   memory length: 46   epsilon: 1.0   global_step: 490   average_q: 0.0   average loss: 0.0
+2009-09-02 00:00:00 33074250.0 28497090.0 4577160.0 0 ▲ 629675.0 1.9407712999785018%
+episode: 491   score: 36   memory length: 46   epsilon: 1.0   global_step: 491   average_q: 0.0   average loss: 0.0
+2009-09-03 00:00:00 32869630.0 28292470.0 4577160.0 0 ▼ -204620.0 -0.6186686017067659%
+episode: 492   score: 36   memory length: 46   epsilon: 1.0   global_step: 492   average_q: 0.0   average loss: 0.0
+2009-09-04 00:00:00 32618705.0 28041545.0 4577160.0 0 ▼ -250925.0 -0.7633946594470337%
+episode: 493   score: 36   memory length: 46   epsilon: 1.0   global_step: 493   average_q: 0.0   average loss: 0.0
+2009-09-05 00:00:00 32618705.0 28041545.0 4577160.0 0 ∙ 0.0 0.0%
+episode: 494   score: 36   memory length: 46   epsilon: 1.0   global_step: 494   average_q: 0.0   average loss: 0.0
+2009-09-06 00:00:00 32618705.0 28041545.0 4577160.0 0 ∙ 0.0 0.0%
+episode: 495   score: 36   memory length: 46   epsilon: 1.0   global_step: 495   average_q: 0.0   average loss: 0.0
+2009-09-07 00:00:00 32762350.0 28185190.0 4577160.0 0 ▲ 143645.0 0.4403761584035908%
+episode: 496   score: 36   memory length: 46   epsilon: 1.0   global_step: 496   average_q: 0.0   average loss: 0.0
+2009-09-08 00:00:00 32519170.0 27942010.0 4577160.0 0 ▼ -243180.0 -0.74225444755947%
+episode: 497   score: 36   memory length: 46   epsilon: 1.0   global_step: 497   average_q: 0.0   average loss: 0.0
+2009-09-09 00:00:00 32236860.0 27659700.0 4577160.0 0 ▼ -282310.0 -0.8681340882931513%
+episode: 498   score: 36   memory length: 46   epsilon: 1.0   global_step: 498   average_q: 0.0   average loss: 0.0
+2009-09-10 00:00:00 32456555.0 27879395.0 4577160.0 0 ▲ 219695.0 0.6815024788394403%
+episode: 499   score: 36   memory length: 46   epsilon: 1.0   global_step: 499   average_q: 0.0   average loss: 0.0
+2009-09-11 00:00:00 32993435.0 28416275.0 4577160.0 0 ▲ 536880.0 1.6541496779310063%
+episode: 500   score: 36   memory length: 46   epsilon: 1.0   global_step: 500   average_q: 0.0   average loss: 0.0
+2009-09-12 00:00:00 32993435.0 28416275.0 4577160.0 0 ∙ 0.0 0.0%
+episode: 501   score: 36   memory length: 46   epsilon: 1.0   global_step: 501   average_q: 0.0   average loss: 0.0
+2009-09-13 00:00:00 32993435.0 28416275.0 4577160.0 0 ∙ 0.0 0.0%
+episode: 502   score: 36   memory length: 46   epsilon: 1.0   global_step: 502   average_q: 0.0   average loss: 0.0
+2009-09-14 00:00:00 33077700.0 28500540.0 4577160.0 0 ▲ 84265.0 0.2553992938292118%
+episode: 503   score: 36   memory length: 46   epsilon: 1.0   global_step: 503   average_q: 0.0   average loss: 0.0
+2009-09-15 00:00:00 34232890.0 29655730.0 4577160.0 0 ▲ 1155190.0 3.4923528540376143%
+episode: 504   score: 36   memory length: 46   epsilon: 1.0   global_step: 504   average_q: 0.0   average loss: 0.0
+2009-09-16 00:00:00 33314000.0 28736840.0 4577160.0 0 ▼ -918890.0 -2.6842314510986363%
+episode: 505   score: 36   memory length: 46   epsilon: 1.0   global_step: 505   average_q: 0.0   average loss: 0.0
+2009-09-17 00:00:00 32440835.0 27863675.0 4577160.0 0 ▼ -873165.0 -2.6210151888095097%
+episode: 506   score: 36   memory length: 46   epsilon: 1.0   global_step: 506   average_q: 0.0   average loss: 0.0
+2009-09-18 00:00:00 32766620.0 28189460.0 4577160.0 0 ▲ 325785.0 1.004243571412388%
+episode: 507   score: 36   memory length: 46   epsilon: 1.0   global_step: 507   average_q: 0.0   average loss: 0.0
+2009-09-19 00:00:00 32766620.0 28189460.0 4577160.0 0 ∙ 0.0 0.0%
+episode: 508   score: 36   memory length: 46   epsilon: 1.0   global_step: 508   average_q: 0.0   average loss: 0.0
+2009-09-20 00:00:00 32766620.0 28189460.0 4577160.0 0 ∙ 0.0 0.0%
+episode: 509   score: 36   memory length: 46   epsilon: 1.0   global_step: 509   average_q: 0.0   average loss: 0.0
+2009-09-21 00:00:00 32651205.0 28074045.0 4577160.0 0 ▼ -115415.0 -0.3522334619805155%
+episode: 510   score: 36   memory length: 46   epsilon: 1.0   global_step: 510   average_q: 0.0   average loss: 0.0
+2009-09-22 00:00:00 32928020.0 28350860.0 4577160.0 0 ▲ 276815.0 0.8477941319470446%
+episode: 511   score: 36   memory length: 46   epsilon: 1.0   global_step: 511   average_q: 0.0   average loss: 0.0
+2009-09-23 00:00:00 32508260.0 27931100.0 4577160.0 0 ▼ -419760.0 -1.2747805668242427%
+episode: 512   score: 36   memory length: 46   epsilon: 1.0   global_step: 512   average_q: 0.0   average loss: 0.0
+2009-09-24 00:00:00 32089760.0 27512600.0 4577160.0 0 ▼ -418500.0 -1.287365118895936%
+episode: 513   score: 36   memory length: 46   epsilon: 1.0   global_step: 513   average_q: 0.0   average loss: 0.0
+2009-09-25 00:00:00 32779205.0 28202045.0 4577160.0 0 ▲ 689445.0 2.1484891130379284%
+episode: 514   score: 36   memory length: 46   epsilon: 1.0   global_step: 514   average_q: 0.0   average loss: 0.0
+2009-09-26 00:00:00 32779205.0 28202045.0 4577160.0 0 ∙ 0.0 0.0%
+episode: 515   score: 36   memory length: 46   epsilon: 1.0   global_step: 515   average_q: 0.0   average loss: 0.0
+2009-09-27 00:00:00 32779205.0 28202045.0 4577160.0 0 ∙ 0.0 0.0%
+episode: 516   score: 36   memory length: 46   epsilon: 1.0   global_step: 516   average_q: 0.0   average loss: 0.0
+2009-09-28 00:00:00 33076650.0 28499490.0 4577160.0 0 ▲ 297445.0 0.9074198108221356%
+episode: 517   score: 36   memory length: 46   epsilon: 1.0   global_step: 517   average_q: 0.0   average loss: 0.0
+2009-09-29 00:00:00 33406750.0 28829590.0 4577160.0 0 ▲ 330100.0 0.9979849833643976%
+episode: 518   score: 36   memory length: 46   epsilon: 1.0   global_step: 518   average_q: 0.0   average loss: 0.0
+2009-09-30 00:00:00 33261340.0 28684180.0 4577160.0 0 ▼ -145410.0 -0.43527131492886917%
+26300.0 23750.0 1 23750.0
+####################################
+S&T모티브 1.1073684210526316
+####################################
+per : 3.37
+pcr : 2.44
+pbr : 0.35
+roe : 13.7
+당기순이익 : 38014360.0
+영업활동으로인한현금흐름 : 83734609.0
+투자활동으로인한현금흐름 : -51428576.0
+재무활동으로인한현금흐름 : 17374464.0
+psr : 0.23
+roic : 15.6
+eps : 2600.0
+ebit : 40427669.0
+ev_ebit : 2.52
+ev_sales : 0.18
+ev_ebitda : 1.86
+당기순이익률 : 6.9
+영업이익률 : 7.34
+매출총이익률 : 17.24
+배당수익률 : 0.0
+매출액 : 551137802.0
+자산 : 691925986.0
+유동자산 : 308237898.0
+부채 : 327255674.0
+유동부채 : 257591197.0
+29500.0 30800.0 1 30800.0
+####################################
+한라 0.9577922077922078
+####################################
+per : 1.89
+pcr : 1.78
+pbr : 0.22
+roe : 13.98
+당기순이익 : 44118515.0
+영업활동으로인한현금흐름 : 111782538.0
+투자활동으로인한현금흐름 : -181105120.0
+재무활동으로인한현금흐름 : 16832994.0
+psr : 0.06
+roic : 22.68
+eps : 4578.0
+ebit : 86205442.0
+ev_ebit : 5.68
+ev_sales : 0.36
+ev_ebitda : 5.51
+당기순이익률 : 3.23
+영업이익률 : 6.31
+매출총이익률 : 11.05
+배당수익률 : 5.78
+매출액 : 1366978219.0
+자산 : 1336160997.0
+유동자산 : 825311924.0
+부채 : 970122323.0
+유동부채 : 574170003.0
+3600.0 3985.0 1 3985.0
+####################################
+서연 0.903387703889586
+####################################
+per : 1.31
+pcr : 1.01
+pbr : 0.31
+roe : 29.0
+당기순이익 : 38232626.0
+영업활동으로인한현금흐름 : 47829611.0
+투자활동으로인한현금흐름 : -19740636.0
+재무활동으로인한현금흐름 : -4506526.0
+psr : 0.1
+roic : 8.76
+eps : 979.0
+ebit : 8964716.0
+ev_ebit : 6.88
+ev_sales : 0.13
+ev_ebitda : 3.0
+당기순이익률 : 7.85
+영업이익률 : 1.84
+매출총이익률 : 5.89
+배당수익률 : 7.78
+매출액 : 486879351.0
+자산 : 345017704.0
+유동자산 : 162285354.0
+부채 : 187976754.0
+유동부채 : 165906828.0
+3200.0 2485.0 1 2485.0
+####################################
+파세코 1.2877263581488934
+####################################
+per : 3.87
+pcr : 1.78
+pbr : 0.29
+roe : 10.49
+당기순이익 : 3361919.0
+영업활동으로인한현금흐름 : 9141663.0
+투자활동으로인한현금흐름 : -2854799.0
+재무활동으로인한현금흐름 : -3971032.0
+psr : 0.14
+roic : 10.59
+eps : 255.0
+ebit : 7325622.0
+ev_ebit : 5.64
+ev_sales : 0.46
+ev_ebitda : 3.67
+당기순이익률 : 3.73
+영업이익률 : 8.14
+매출총이익률 : 21.7
+배당수익률 : 10.15
+매출액 : 90045848.0
+자산 : 83823608.0
+유동자산 : 27520918.0
+부채 : 43022757.0
+유동부채 : 23011428.0
+990.0 940.0 1 940.0
+####################################
+체시스 1.053191489361702
+####################################
+per : 6.85
+pcr : 4.0
+pbr : 1.32
+roe : 21.05
+당기순이익 : 3825663.0
+영업활동으로인한현금흐름 : 6886120.0
+투자활동으로인한현금흐름 : -14713381.0
+재무활동으로인한현금흐름 : 7693207.0
+psr : 0.48
+roic : 7.53
+eps : 231.0
+ebit : 1696619.0
+ev_ebit : 22.93
+ev_sales : 0.71
+ev_ebitda : 8.78
+당기순이익률 : 7.0
+영업이익률 : 3.1
+매출총이익률 : 16.04
+배당수익률 : 3.8
+매출액 : 54679818.0
+자산 : 63394156.0
+유동자산 : 26021927.0
+부채 : 43478084.0
+유동부채 : 24094429.0
+3625.0 4530.0 1 4530.0
+####################################
+홈캐스트 0.8002207505518764
+####################################
+per : 2.31
+pcr : 1.77
+pbr : 0.42
+roe : 20.68
+당기순이익 : 8619371.0
+영업활동으로인한현금흐름 : 18916273.0
+투자활동으로인한현금흐름 : -5877571.0
+재무활동으로인한현금흐름 : 8694287.0
+psr : 0.12
+roic : 29.26
+eps : 754.0
+ebit : 13376400.0
+ev_ebit : 1.49
+ev_sales : 0.12
+ev_ebitda : 1.25
+당기순이익률 : 5.26
+영업이익률 : 8.16
+매출총이익률 : 19.52
+배당수익률 : 5.73
+매출액 : 163843613.0
+자산 : 81462549.0
+유동자산 : 56334393.0
+부채 : 36011380.0
+유동부채 : 20552544.0
+2670.0 2385.0 1 2385.0
+####################################
+일야 1.119496855345912
+####################################
+per : 2.41
+pcr : 1.85
+pbr : 0.6
+roe : 29.54
+당기순이익 : 4267475.0
+영업활동으로인한현금흐름 : 6223452.0
+투자활동으로인한현금흐름 : -5684826.0
+재무활동으로인한현금흐름 : -1849370.0
+psr : 0.12
+roic : 102.86
+eps : 436.0
+ebit : 7211608.0
+ev_ebit : 1.42
+ev_sales : 0.12
+ev_ebitda : 1.21
+당기순이익률 : 5.08
+영업이익률 : 8.58
+매출총이익률 : 16.47
+배당수익률 : 5.71
+매출액 : 84014569.0
+자산 : 25726324.0
+유동자산 : 15999869.0
+부채 : 9091223.0
+유동부채 : 6815845.0
+monthPercentage:  2009-09-01 00:00:00 ~ 2009-09-30 00:00:00  #  2.5174162398490347
+monthTotal:  2009-09-01 00:00:00  #  32444575.0    2009-09-30 00:00:00  #  33261340.0
+lossPoint: 0.9347153860718328
+maxPoint: 1.055119076147553
+minPoint: 0.9890639652391809
+altman 1556
+momentumSum 4.857142857142858
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 14
+['STX엔진', '서연', '세아제강지주', '디에이피', '형지엘리트', '화승인더', 'S&T모티브', '원익QnC', '태영건설', '홈캐스트', '신풍제약', '인팩', '한라', '체시스']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 8
+['한라', 'S&T모티브', '체시스', '인팩', '서연', '원익QnC', '화승인더', '디에이피']
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 7
+['S&T모티브', '인팩', '한라', '서연', '원익QnC', '체시스', '화승인더']
+BUY S&T모티브 180주
+BUY 인팩 2312주
+BUY 한라 161주
+BUY 서연 1319주
+BUY 원익QnC 1740주
+BUY 체시스 4799주
+BUY 화승인더 409주
+S&T모티브 0.8944171380877307
+인팩 0.8866876310272537
+한라 0.9336902800658978
+서연 0.8813397390402359
+원익QnC 0.8825198637911464
+체시스 0.8365384615384616
+화승인더 0.9060494067302082
+dqn손절: 1 dict_keys(['한라'])
+dqn손절: 2 dict_keys(['한라', '화승인더'])
+episode: 519   score: 41   memory length: 53   epsilon: 1.0   global_step: 519   average_q: 0.0   average loss: 0.0
+2009-10-01 00:00:00 32592350.0 23198930.0 9393420.0 0 ▼ -668990.0 -2.0113140360550714%
+episode: 520   score: 41   memory length: 53   epsilon: 1.0   global_step: 520   average_q: 0.0   average loss: 0.0
+2009-10-02 00:00:00 32592350.0 23198930.0 9393420.0 0 ∙ 0.0 0.0%
+episode: 521   score: 41   memory length: 53   epsilon: 1.0   global_step: 521   average_q: 0.0   average loss: 0.0
+2009-10-03 00:00:00 32592350.0 23198930.0 9393420.0 0 ∙ 0.0 0.0%
+episode: 522   score: 41   memory length: 53   epsilon: 1.0   global_step: 522   average_q: 0.0   average loss: 0.0
+2009-10-04 00:00:00 32592350.0 23198930.0 9393420.0 0 ∙ 0.0 0.0%
+episode: 523   score: 41   memory length: 53   epsilon: 1.0   global_step: 523   average_q: 0.0   average loss: 0.0
+2009-10-05 00:00:00 32455955.0 23062535.0 9393420.0 0 ▼ -136395.0 -0.4184877739714994%
+episode: 524   score: 41   memory length: 53   epsilon: 1.0   global_step: 524   average_q: 0.0   average loss: 0.0
+2009-10-06 00:00:00 32328415.0 22934995.0 9393420.0 0 ▼ -127540.0 -0.392963325220287%
+episode: 525   score: 41   memory length: 53   epsilon: 1.0   global_step: 525   average_q: 0.0   average loss: 0.0
+2009-10-07 00:00:00 32088565.0 22695145.0 9393420.0 0 ▼ -239850.0 -0.7419169792270979%
+episode: 526   score: 41   memory length: 53   epsilon: 1.0   global_step: 526   average_q: 0.0   average loss: 0.0
+2009-10-08 00:00:00 32308020.0 22914600.0 9393420.0 0 ▲ 219455.0 0.6839040636438557%
+episode: 527   score: 41   memory length: 53   epsilon: 1.0   global_step: 527   average_q: 0.0   average loss: 0.0
+2009-10-09 00:00:00 32624450.0 23231030.0 9393420.0 0 ▲ 316430.0 0.9794162563970186%
+episode: 528   score: 41   memory length: 53   epsilon: 1.0   global_step: 528   average_q: 0.0   average loss: 0.0
+2009-10-10 00:00:00 32624450.0 23231030.0 9393420.0 0 ∙ 0.0 0.0%
+episode: 529   score: 41   memory length: 53   epsilon: 1.0   global_step: 529   average_q: 0.0   average loss: 0.0
+2009-10-11 00:00:00 32624450.0 23231030.0 9393420.0 0 ∙ 0.0 0.0%
+episode: 530   score: 41   memory length: 53   epsilon: 1.0   global_step: 530   average_q: 0.0   average loss: 0.0
+2009-10-12 00:00:00 32799945.0 23406525.0 9393420.0 0 ▲ 175495.0 0.5379247772759388%
+episode: 531   score: 41   memory length: 53   epsilon: 1.0   global_step: 531   average_q: 0.0   average loss: 0.0
+2009-10-13 00:00:00 32785650.0 23392230.0 9393420.0 0 ▼ -14295.0 -0.04358239015339812%
+episode: 532   score: 41   memory length: 53   epsilon: 1.0   global_step: 532   average_q: 0.0   average loss: 0.0
+2009-10-14 00:00:00 33516185.0 24122765.0 9393420.0 0 ▲ 730535.0 2.2282156980264234%
+episode: 533   score: 41   memory length: 53   epsilon: 1.0   global_step: 533   average_q: 0.0   average loss: 0.0
+2009-10-15 00:00:00 33337135.0 23943715.0 9393420.0 0 ▼ -179050.0 -0.5342195121550976%
+episode: 534   score: 41   memory length: 53   epsilon: 1.0   global_step: 534   average_q: 0.0   average loss: 0.0
+2009-10-16 00:00:00 32832020.0 23438600.0 9393420.0 0 ▼ -505115.0 -1.5151721946112047%
+episode: 535   score: 41   memory length: 53   epsilon: 1.0   global_step: 535   average_q: 0.0   average loss: 0.0
+2009-10-17 00:00:00 32832020.0 23438600.0 9393420.0 0 ∙ 0.0 0.0%
+episode: 536   score: 41   memory length: 53   epsilon: 1.0   global_step: 536   average_q: 0.0   average loss: 0.0
+2009-10-18 00:00:00 32832020.0 23438600.0 9393420.0 0 ∙ 0.0 0.0%
+episode: 537   score: 41   memory length: 53   epsilon: 1.0   global_step: 537   average_q: 0.0   average loss: 0.0
+2009-10-19 00:00:00 32887770.0 23494350.0 9393420.0 0 ▲ 55750.0 0.1698037464645794%
+episode: 538   score: 41   memory length: 53   epsilon: 1.0   global_step: 538   average_q: 0.0   average loss: 0.0
+2009-10-20 00:00:00 32967740.0 23574320.0 9393420.0 0 ▲ 79970.0 0.24316029940613182%
+episode: 539   score: 41   memory length: 53   epsilon: 1.0   global_step: 539   average_q: 0.0   average loss: 0.0
+2009-10-21 00:00:00 33286125.0 23892705.0 9393420.0 0 ▲ 318385.0 0.965747121276739%
+episode: 540   score: 41   memory length: 53   epsilon: 1.0   global_step: 540   average_q: 0.0   average loss: 0.0
+2009-10-22 00:00:00 33233040.0 23839620.0 9393420.0 0 ▼ -53085.0 -0.15948086477473722%
+episode: 541   score: 41   memory length: 53   epsilon: 1.0   global_step: 541   average_q: 0.0   average loss: 0.0
+2009-10-23 00:00:00 33960295.0 24566875.0 9393420.0 0 ▲ 727255.0 2.1883493053900573%
+episode: 542   score: 41   memory length: 53   epsilon: 1.0   global_step: 542   average_q: 0.0   average loss: 0.0
+2009-10-24 00:00:00 33960295.0 24566875.0 9393420.0 0 ∙ 0.0 0.0%
+episode: 543   score: 41   memory length: 53   epsilon: 1.0   global_step: 543   average_q: 0.0   average loss: 0.0
+2009-10-25 00:00:00 33960295.0 24566875.0 9393420.0 0 ∙ 0.0 0.0%
+episode: 544   score: 41   memory length: 53   epsilon: 1.0   global_step: 544   average_q: 0.0   average loss: 0.0
+2009-10-26 00:00:00 33939245.0 24545825.0 9393420.0 0 ▼ -21050.0 -0.061984149430975195%
+episode: 545   score: 41   memory length: 53   epsilon: 1.0   global_step: 545   average_q: 0.0   average loss: 0.0
+2009-10-27 00:00:00 33880055.0 24486635.0 9393420.0 0 ▼ -59190.0 -0.1743998724780118%
+episode: 546   score: 41   memory length: 53   epsilon: 1.0   global_step: 546   average_q: 0.0   average loss: 0.0
+2009-10-28 00:00:00 33152245.0 23758825.0 9393420.0 0 ▼ -727810.0 -2.148196040413748%
+episode: 547   score: 41   memory length: 53   epsilon: 1.0   global_step: 547   average_q: 0.0   average loss: 0.0
+2009-10-29 00:00:00 32491370.0 23097950.0 9393420.0 0 ▼ -660875.0 -1.9934547419036024%
+episode: 548   score: 41   memory length: 53   epsilon: 1.0   global_step: 548   average_q: 0.0   average loss: 0.0
+2009-10-30 00:00:00 32615720.0 23222300.0 9393420.0 0 ▲ 124350.0 0.3827170107016109%
+episode: 549   score: 41   memory length: 53   epsilon: 1.0   global_step: 549   average_q: 0.0   average loss: 0.0
+2009-10-31 00:00:00 32615720.0 23222300.0 9393420.0 0 ∙ 0.0 0.0%
+26200.0 24200.0 1 24200.0
+####################################
+S&T모티브 1.0826446280991735
+####################################
+per : 3.37
+pcr : 2.44
+pbr : 0.35
+roe : 13.7
+당기순이익 : 38014360.0
+영업활동으로인한현금흐름 : 83734609.0
+투자활동으로인한현금흐름 : -51428576.0
+재무활동으로인한현금흐름 : 17374464.0
+psr : 0.23
+roic : 15.6
+eps : 2600.0
+ebit : 40427669.0
+ev_ebit : 2.52
+ev_sales : 0.18
+ev_ebitda : 1.86
+당기순이익률 : 6.9
+영업이익률 : 7.34
+매출총이익률 : 17.24
+배당수익률 : 0.0
+매출액 : 551137802.0
+자산 : 691925986.0
+유동자산 : 308237898.0
+부채 : 327255674.0
+유동부채 : 257591197.0
+1665.0 2070.0 1 2070.0
+####################################
+인팩 0.8043478260869565
+####################################
+per : 3.43
+pcr : 2.26
+pbr : 0.48
+roe : 15.72
+당기순이익 : 4008220.0
+영업활동으로인한현금흐름 : 7909686.0
+투자활동으로인한현금흐름 : -8365457.0
+재무활동으로인한현금흐름 : 176000.0
+psr : 0.12
+roic : 21.19
+eps : 401.0
+ebit : 3328799.0
+ev_ebit : 4.13
+ev_sales : 0.12
+ev_ebitda : 2.55
+당기순이익률 : 3.43
+영업이익률 : 2.85
+매출총이익률 : 13.04
+배당수익률 : 4.36
+매출액 : 116814782.0
+자산 : 56789003.0
+유동자산 : 21323906.0
+부채 : 28276114.0
+유동부채 : 26015696.0
+27600.0 28800.0 1 28800.0
+####################################
+한라 0.9583333333333334
+####################################
+per : 1.89
+pcr : 1.78
+pbr : 0.22
+roe : 13.98
+당기순이익 : 44118515.0
+영업활동으로인한현금흐름 : 111782538.0
+투자활동으로인한현금흐름 : -181105120.0
+재무활동으로인한현금흐름 : 16832994.0
+psr : 0.06
+roic : 22.68
+eps : 4578.0
+ebit : 86205442.0
+ev_ebit : 5.68
+ev_sales : 0.36
+ev_ebitda : 5.51
+당기순이익률 : 3.23
+영업이익률 : 6.31
+매출총이익률 : 11.05
+배당수익률 : 5.78
+매출액 : 1366978219.0
+자산 : 1336160997.0
+유동자산 : 825311924.0
+부채 : 970122323.0
+유동부채 : 574170003.0
+3730.0 3530.0 1 3530.0
+####################################
+서연 1.0566572237960339
+####################################
+per : 1.31
+pcr : 1.01
+pbr : 0.31
+roe : 29.0
+당기순이익 : 38232626.0
+영업활동으로인한현금흐름 : 47829611.0
+투자활동으로인한현금흐름 : -19740636.0
+재무활동으로인한현금흐름 : -4506526.0
+psr : 0.1
+roic : 8.76
+eps : 979.0
+ebit : 8964716.0
+ev_ebit : 6.88
+ev_sales : 0.13
+ev_ebitda : 3.0
+당기순이익률 : 7.85
+영업이익률 : 1.84
+매출총이익률 : 5.89
+배당수익률 : 7.78
+매출액 : 486879351.0
+자산 : 345017704.0
+유동자산 : 162285354.0
+부채 : 187976754.0
+유동부채 : 165906828.0
+2700.0 2700.0 1 2700.0
+####################################
+원익QnC 1.0
+####################################
+per : 7.48
+pcr : 4.9
+pbr : 0.4
+roe : 5.79
+당기순이익 : 3396876.0
+영업활동으로인한현금흐름 : 9856477.0
+투자활동으로인한현금흐름 : -9119097.0
+재무활동으로인한현금흐름 : -438150.0
+psr : 0.55
+roic : 15.46
+eps : 268.0
+ebit : 7896943.0
+ev_ebit : 5.25
+ev_sales : 0.9
+ev_ebitda : 4.28
+당기순이익률 : 7.38
+영업이익률 : 17.16
+매출총이익률 : 31.21
+배당수익률 : 1.5
+매출액 : 46013420.0
+자산 : 87089428.0
+유동자산 : 17598023.0
+부채 : 23708977.0
+유동부채 : 22204355.0
+1050.0 980.0 1 980.0
+####################################
+체시스 1.0714285714285714
+####################################
+per : 6.85
+pcr : 4.0
+pbr : 1.32
+roe : 21.05
+당기순이익 : 3825663.0
+영업활동으로인한현금흐름 : 6886120.0
+투자활동으로인한현금흐름 : -14713381.0
+재무활동으로인한현금흐름 : 7693207.0
+psr : 0.48
+roic : 7.53
+eps : 231.0
+ebit : 1696619.0
+ev_ebit : 22.93
+ev_sales : 0.71
+ev_ebitda : 8.78
+당기순이익률 : 7.0
+영업이익률 : 3.1
+매출총이익률 : 16.04
+배당수익률 : 3.8
+매출액 : 54679818.0
+자산 : 63394156.0
+유동자산 : 26021927.0
+부채 : 43478084.0
+유동부채 : 24094429.0
+10900.0 11550.0 1 11550.0
+####################################
+화승인더 0.9437229437229437
+####################################
+per : 1.78
+pcr : 1.29
+pbr : 0.19
+roe : 11.02
+당기순이익 : 8883943.0
+영업활동으로인한현금흐름 : 19309762.0
+투자활동으로인한현금흐름 : -10341927.0
+재무활동으로인한현금흐름 : 362982.0
+psr : 0.1
+roic : 9.5
+eps : 2961.0
+ebit : 12739188.0
+ev_ebit : 4.25
+ev_sales : 0.34
+ev_ebitda : 3.36
+당기순이익률 : 5.53
+영업이익률 : 7.93
+매출총이익률 : 18.67
+배당수익률 : 9.49
+매출액 : 160596015.0
+자산 : 163120572.0
+유동자산 : 92362787.0
+부채 : 79465696.0
+유동부채 : 58588565.0
+monthPercentage:  2009-10-01 00:00:00 ~ 2009-10-31 00:00:00  #  0.0717039427963924
+monthTotal:  2009-10-01 00:00:00  #  32592350.0    2009-10-31 00:00:00  #  32615720.0
+lossPoint: 0.9431869757250011
+maxPoint: 1.0419713521731326
+minPoint: 0.984542845176859
+altman 1556
+momentumSum 1.7142857142857142
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 14
+['STX엔진', '서연', '세아제강지주', '경동인베스트', '인지디스플레', '형지엘리트', '화승인더', '전파기지국', '태영건설', '피델릭스', '유니크', '홈캐스트', '한라', '체시스']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 8
+['전파기지국', '인지디스플레', '유니크', '체시스', '한라', '서연', '화승인더', '경동인베스트']
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 4
+['인지디스플레', '유니크', '전파기지국', '경동인베스트']
+BUY 인지디스플레 5908주
+BUY 유니크 6794주
+BUY 전파기지국 1192주
+BUY 경동인베스트 166주
+인지디스플레 0.766120218579235
+유니크 0.8405379442843419
+전파기지국 0.8992500568138777
+경동인베스트 0.9814270236805448
+episode: 550   score: 45   memory length: 57   epsilon: 1.0   global_step: 550   average_q: 0.0   average loss: 0.0
+2009-11-01 00:00:00 32615720.0 32593120.0 22600.0 0 ∙ 0.0 0.0%
+episode: 551   score: 45   memory length: 57   epsilon: 1.0   global_step: 551   average_q: 0.0   average loss: 0.0
+2009-11-02 00:00:00 32138300.0 32115700.0 22600.0 0 ▼ -477420.0 -1.4637726838469303%
+episode: 552   score: 45   memory length: 57   epsilon: 1.0   global_step: 552   average_q: 0.0   average loss: 0.0
+2009-11-03 00:00:00 33571610.0 33549010.0 22600.0 0 ▲ 1433310.0 4.459818969889509%
+episode: 553   score: 45   memory length: 57   epsilon: 1.0   global_step: 553   average_q: 0.0   average loss: 0.0
+2009-11-04 00:00:00 32589080.0 32566480.0 22600.0 0 ▼ -982530.0 -2.9266692899149014%
+episode: 554   score: 45   memory length: 57   epsilon: 1.0   global_step: 554   average_q: 0.0   average loss: 0.0
+2009-11-05 00:00:00 32182810.0 32160210.0 22600.0 0 ▼ -406270.0 -1.2466445815592218%
+episode: 555   score: 45   memory length: 57   epsilon: 1.0   global_step: 555   average_q: 0.0   average loss: 0.0
+2009-11-06 00:00:00 32895650.0 32873050.0 22600.0 0 ▲ 712840.0 2.2149712843595695%
+episode: 556   score: 45   memory length: 57   epsilon: 1.0   global_step: 556   average_q: 0.0   average loss: 0.0
+2009-11-07 00:00:00 32895650.0 32873050.0 22600.0 0 ∙ 0.0 0.0%
+episode: 557   score: 45   memory length: 57   epsilon: 1.0   global_step: 557   average_q: 0.0   average loss: 0.0
+2009-11-08 00:00:00 32895650.0 32873050.0 22600.0 0 ∙ 0.0 0.0%
+episode: 558   score: 45   memory length: 57   epsilon: 1.0   global_step: 558   average_q: 0.0   average loss: 0.0
+2009-11-09 00:00:00 32516960.0 32494360.0 22600.0 0 ▼ -378690.0 -1.151185643086548%
+episode: 559   score: 45   memory length: 57   epsilon: 1.0   global_step: 559   average_q: 0.0   average loss: 0.0
+2009-11-10 00:00:00 33097430.0 33074830.0 22600.0 0 ▲ 580470.0 1.7851299752498389%
+episode: 560   score: 45   memory length: 57   epsilon: 1.0   global_step: 560   average_q: 0.0   average loss: 0.0
+2009-11-11 00:00:00 33031650.0 33009050.0 22600.0 0 ▼ -65780.0 -0.19874654920336715%
+episode: 561   score: 45   memory length: 57   epsilon: 1.0   global_step: 561   average_q: 0.0   average loss: 0.0
+2009-11-12 00:00:00 34959660.0 34937060.0 22600.0 0 ▲ 1928010.0 5.836856469477001%
+episode: 562   score: 45   memory length: 57   epsilon: 1.0   global_step: 562   average_q: 0.0   average loss: 0.0
+2009-11-13 00:00:00 33379710.0 33357110.0 22600.0 0 ▼ -1579950.0 -4.519351732825777%
+episode: 563   score: 45   memory length: 57   epsilon: 1.0   global_step: 563   average_q: 0.0   average loss: 0.0
+2009-11-14 00:00:00 33379710.0 33357110.0 22600.0 0 ∙ 0.0 0.0%
+episode: 564   score: 45   memory length: 57   epsilon: 1.0   global_step: 564   average_q: 0.0   average loss: 0.0
+2009-11-15 00:00:00 33379710.0 33357110.0 22600.0 0 ∙ 0.0 0.0%
+episode: 565   score: 45   memory length: 57   epsilon: 1.0   global_step: 565   average_q: 0.0   average loss: 0.0
+2009-11-16 00:00:00 34397520.0 34374920.0 22600.0 0 ▲ 1017810.0 3.049187665201405%
+episode: 566   score: 45   memory length: 57   epsilon: 1.0   global_step: 566   average_q: 0.0   average loss: 0.0
+2009-11-17 00:00:00 33670410.0 33647810.0 22600.0 0 ▼ -727110.0 -2.1138442538880713%
+episode: 567   score: 45   memory length: 57   epsilon: 1.0   global_step: 567   average_q: 0.0   average loss: 0.0
+2009-11-18 00:00:00 33554390.0 33531790.0 22600.0 0 ▼ -116020.0 -0.3445755486790924%
+episode: 568   score: 45   memory length: 57   epsilon: 1.0   global_step: 568   average_q: 0.0   average loss: 0.0
+2009-11-19 00:00:00 32616970.0 32594370.0 22600.0 0 ▼ -937420.0 -2.7937328021758105%
+episode: 569   score: 45   memory length: 57   epsilon: 1.0   global_step: 569   average_q: 0.0   average loss: 0.0
+2009-11-20 00:00:00 33386180.0 33363580.0 22600.0 0 ▲ 769210.0 2.358312252793561%
+episode: 570   score: 45   memory length: 57   epsilon: 1.0   global_step: 570   average_q: 0.0   average loss: 0.0
+2009-11-21 00:00:00 33386180.0 33363580.0 22600.0 0 ∙ 0.0 0.0%
+episode: 571   score: 45   memory length: 57   epsilon: 1.0   global_step: 571   average_q: 0.0   average loss: 0.0
+2009-11-22 00:00:00 33386180.0 33363580.0 22600.0 0 ∙ 0.0 0.0%
+episode: 572   score: 45   memory length: 57   epsilon: 1.0   global_step: 572   average_q: 0.0   average loss: 0.0
+2009-11-23 00:00:00 34001180.0 33978580.0 22600.0 0 ▲ 615000.0 1.842079567054392%
+episode: 573   score: 45   memory length: 57   epsilon: 1.0   global_step: 573   average_q: 0.0   average loss: 0.0
+2009-11-24 00:00:00 34067600.0 34045000.0 22600.0 0 ▲ 66420.0 0.19534616151557094%
+episode: 574   score: 45   memory length: 57   epsilon: 1.0   global_step: 574   average_q: 0.0   average loss: 0.0
+2009-11-25 00:00:00 33464640.0 33442040.0 22600.0 0 ▼ -602960.0 -1.769892801371391%
+episode: 575   score: 45   memory length: 57   epsilon: 1.0   global_step: 575   average_q: 0.0   average loss: 0.0
+2009-11-26 00:00:00 33768190.0 33745590.0 22600.0 0 ▲ 303550.0 0.9070768429004465%
+episode: 576   score: 45   memory length: 57   epsilon: 1.0   global_step: 576   average_q: 0.0   average loss: 0.0
+2009-11-27 00:00:00 32680710.0 32658110.0 22600.0 0 ▼ -1087480.0 -3.2204272719384726%
+episode: 577   score: 45   memory length: 57   epsilon: 1.0   global_step: 577   average_q: 0.0   average loss: 0.0
+2009-11-28 00:00:00 32680710.0 32658110.0 22600.0 0 ∙ 0.0 0.0%
+episode: 578   score: 45   memory length: 57   epsilon: 1.0   global_step: 578   average_q: 0.0   average loss: 0.0
+2009-11-29 00:00:00 32680710.0 32658110.0 22600.0 0 ∙ 0.0 0.0%
+episode: 579   score: 45   memory length: 57   epsilon: 1.0   global_step: 579   average_q: 0.0   average loss: 0.0
+2009-11-30 00:00:00 33328810.0 33306210.0 22600.0 0 ▲ 648100.0 1.9831270495653246%
+1340.0 1380.0 1 1380.0
+####################################
+인지디스플레 0.9710144927536232
+####################################
+per : 2.45
+pcr : 1.07
+pbr : 0.43
+roe : 20.37
+당기순이익 : 10525903.0
+영업활동으로인한현금흐름 : 18411172.0
+투자활동으로인한현금흐름 : -13610694.0
+재무활동으로인한현금흐름 : -2233066.0
+psr : 0.13
+roic : 2.72
+eps : 298.0
+ebit : 1863443.0
+ev_ebit : 23.28
+ev_sales : 0.23
+ev_ebitda : 2.81
+당기순이익률 : 5.46
+영업이익률 : 0.97
+매출총이익률 : 9.7
+배당수익률 : 6.85
+매출액 : 192766586.0
+자산 : 122624240.0
+유동자산 : 61961220.0
+부채 : 63792115.0
+유동부채 : 57165587.0
+1355.0 1200.0 1 1200.0
+####################################
+유니크 1.1291666666666667
+####################################
+per : 8.24
+pcr : 3.39
+pbr : 0.74
+roe : 9.63
+당기순이익 : 2184930.0
+영업활동으로인한현금흐름 : 8855865.0
+투자활동으로인한현금흐름 : -12033458.0
+재무활동으로인한현금흐름 : 3110973.0
+psr : 0.25
+roic : 9.51
+eps : 129.0
+ebit : 1987302.0
+ev_ebit : 20.03
+ev_sales : 0.56
+ev_ebitda : 7.78
+당기순이익률 : 3.05
+영업이익률 : 2.77
+매출총이익률 : 19.7
+배당수익률 : 1.42
+매출액 : 71673035.0
+자산 : 65821339.0
+유동자산 : 18482142.0
+부채 : 41339950.0
+유동부채 : 32715592.0
+6760.0 6840.0 1 6840.0
+####################################
+전파기지국 0.9883040935672515
+####################################
+per : 5.97
+pcr : 1.64
+pbr : 0.58
+roe : 9.23
+당기순이익 : 4152590.0
+영업활동으로인한현금흐름 : 15166816.0
+투자활동으로인한현금흐름 : -33767532.0
+재무활동으로인한현금흐름 : 857000.0
+psr : 0.38
+roic : 14.05
+eps : 786.0
+ebit : 4746898.0
+ev_ebit : 5.63
+ev_sales : 0.41
+ev_ebitda : 1.7
+당기순이익률 : 6.36
+영업이익률 : 7.27
+매출총이익률 : 11.49
+배당수익률 : 10.66
+매출액 : 65298344.0
+자산 : 99338049.0
+유동자산 : 21613081.0
+부채 : 56533626.0
+유동부채 : 17974071.0
+48950.0 49000.0 1 49000.0
+####################################
+경동인베스트 0.9989795918367347
+####################################
+per : 5.77
+pcr : 3.27
+pbr : 0.68
+roe : 12.46
+당기순이익 : 27820671.0
+영업활동으로인한현금흐름 : 70207633.0
+투자활동으로인한현금흐름 : -55202799.0
+재무활동으로인한현금흐름 : -4709340.0
+psr : 0.18
+roic : 22.08
+eps : 8782.0
+ebit : 34309321.0
+ev_ebit : 4.68
+ev_sales : 0.18
+ev_ebitda : 2.89
+당기순이익률 : 3.12
+영업이익률 : 3.85
+매출총이익률 : 10.17
+배당수익률 : 1.97
+매출액 : 890353583.0
+자산 : 452001225.0
+유동자산 : 231422317.0
+부채 : 216477421.0
+유동부채 : 189739978.0
+monthPercentage:  2009-11-01 00:00:00 ~ 2009-11-30 00:00:00  #  2.1863383668979255
+monthTotal:  2009-11-01 00:00:00  #  32615720.0    2009-11-30 00:00:00  #  33328810.0
+lossPoint: 0.9150704122240938
+maxPoint: 1.0718653459129523
+minPoint: 0.9853622731615307
+altman 1556
+momentumSum 1.8571428571428572
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 13
+['STX엔진', '세아제강지주', '인지디스플레', '형지엘리트', '화승인더', 'S&T모티브', '동양에스텍', '태영건설', '유니크', '홈캐스트', '한라', '체시스', '일야']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 5
+['유니크', 'S&T모티브', '인지디스플레', '체시스', '한라']
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 2
+['인지디스플레', '유니크']
+BUY 인지디스플레 12436주
+BUY 유니크 12298주
+인지디스플레 0.8692999357739242
+유니크 0.9309045226130653
+episode: 580   score: 47   memory length: 59   epsilon: 1.0   global_step: 580   average_q: 0.0   average loss: 0.0
+2009-12-01 00:00:00 36410210.0 36409430.0 780.0 0 ▲ 3081400.0 9.245454608190332%
+episode: 581   score: 47   memory length: 59   epsilon: 1.0   global_step: 581   average_q: 0.0   average loss: 0.0
+2009-12-02 00:00:00 39611830.0 39611050.0 780.0 0 ▲ 3201620.0 8.793192898365595%
+episode: 582   score: 47   memory length: 59   epsilon: 1.0   global_step: 582   average_q: 0.0   average loss: 0.0
+2009-12-03 00:00:00 41956040.0 41955260.0 780.0 0 ▲ 2344210.0 5.917954308094324%
+episode: 583   score: 47   memory length: 59   epsilon: 1.0   global_step: 583   average_q: 0.0   average loss: 0.0
+2009-12-04 00:00:00 37704950.0 37704170.0 780.0 0 ▼ -4251090.0 -10.132247943323536%
+episode: 584   score: 47   memory length: 59   epsilon: 1.0   global_step: 584   average_q: 0.0   average loss: 0.0
+2009-12-05 00:00:00 37704950.0 37704170.0 780.0 0 ∙ 0.0 0.0%
+episode: 585   score: 47   memory length: 59   epsilon: 1.0   global_step: 585   average_q: 0.0   average loss: 0.0
+2009-12-06 00:00:00 37704950.0 37704170.0 780.0 0 ∙ 0.0 0.0%
+episode: 586   score: 47   memory length: 59   epsilon: 1.0   global_step: 586   average_q: 0.0   average loss: 0.0
+2009-12-07 00:00:00 37020970.0 37020190.0 780.0 0 ▼ -683980.0 -1.8140323750595082%
+episode: 587   score: 47   memory length: 59   epsilon: 1.0   global_step: 587   average_q: 0.0   average loss: 0.0
+2009-12-08 00:00:00 37649670.0 37648890.0 780.0 0 ▲ 628700.0 1.6982267077280795%
+episode: 588   score: 47   memory length: 59   epsilon: 1.0   global_step: 588   average_q: 0.0   average loss: 0.0
+2009-12-09 00:00:00 37280040.0 37279260.0 780.0 0 ▼ -369630.0 -0.9817615931295015%
+episode: 589   score: 47   memory length: 59   epsilon: 1.0   global_step: 589   average_q: 0.0   average loss: 0.0
+2009-12-10 00:00:00 37838280.0 37837500.0 780.0 0 ▲ 558240.0 1.4974232860265173%
+episode: 590   score: 47   memory length: 59   epsilon: 1.0   global_step: 590   average_q: 0.0   average loss: 0.0
+2009-12-11 00:00:00 37285560.0 37284780.0 780.0 0 ▼ -552720.0 -1.460742930175473%
+episode: 591   score: 47   memory length: 59   epsilon: 1.0   global_step: 591   average_q: 0.0   average loss: 0.0
+2009-12-12 00:00:00 37285560.0 37284780.0 780.0 0 ∙ 0.0 0.0%
+episode: 592   score: 47   memory length: 59   epsilon: 1.0   global_step: 592   average_q: 0.0   average loss: 0.0
+2009-12-13 00:00:00 37285560.0 37284780.0 780.0 0 ∙ 0.0 0.0%
+episode: 593   score: 47   memory length: 59   epsilon: 1.0   global_step: 593   average_q: 0.0   average loss: 0.0
+2009-12-14 00:00:00 37784380.0 37783600.0 780.0 0 ▲ 498820.0 1.3378369535015702%
+episode: 594   score: 47   memory length: 59   epsilon: 1.0   global_step: 594   average_q: 0.0   average loss: 0.0
+2009-12-15 00:00:00 36791570.0 36790790.0 780.0 0 ▼ -992810.0 -2.627567264568057%
+episode: 595   score: 47   memory length: 59   epsilon: 1.0   global_step: 595   average_q: 0.0   average loss: 0.0
+2009-12-16 00:00:00 37224070.0 37223290.0 780.0 0 ▲ 432500.0 1.1755410274690643%
+episode: 596   score: 47   memory length: 59   epsilon: 1.0   global_step: 596   average_q: 0.0   average loss: 0.0
+2009-12-17 00:00:00 37778170.0 37777390.0 780.0 0 ▲ 554100.0 1.4885529712360845%
+episode: 597   score: 47   memory length: 59   epsilon: 1.0   global_step: 597   average_q: 0.0   average loss: 0.0
+2009-12-18 00:00:00 38701900.0 38701120.0 780.0 0 ▲ 923730.0 2.4451422607288813%
+episode: 598   score: 47   memory length: 59   epsilon: 1.0   global_step: 598   average_q: 0.0   average loss: 0.0
+2009-12-19 00:00:00 38701900.0 38701120.0 780.0 0 ∙ 0.0 0.0%
+episode: 599   score: 47   memory length: 59   epsilon: 1.0   global_step: 599   average_q: 0.0   average loss: 0.0
+2009-12-20 00:00:00 38701900.0 38701120.0 780.0 0 ∙ 0.0 0.0%
+episode: 600   score: 47   memory length: 59   epsilon: 1.0   global_step: 600   average_q: 0.0   average loss: 0.0
+2009-12-21 00:00:00 41254040.0 41253260.0 780.0 0 ▲ 2552140.0 6.594353248806906%
+episode: 601   score: 47   memory length: 59   epsilon: 1.0   global_step: 601   average_q: 0.0   average loss: 0.0
+2009-12-22 00:00:00 39338880.0 39338100.0 780.0 0 ▼ -1915160.0 -4.642357451536867%
+episode: 602   score: 47   memory length: 59   epsilon: 1.0   global_step: 602   average_q: 0.0   average loss: 0.0
+2009-12-23 00:00:00 39529560.0 39528780.0 780.0 0 ▲ 190680.0 0.4847113085070038%
+episode: 603   score: 47   memory length: 59   epsilon: 1.0   global_step: 603   average_q: 0.0   average loss: 0.0
+2009-12-24 00:00:00 38036550.0 38035770.0 780.0 0 ▼ -1493010.0 -3.7769456578823544%
+episode: 604   score: 47   memory length: 59   epsilon: 1.0   global_step: 604   average_q: 0.0   average loss: 0.0
+2009-12-25 00:00:00 38036550.0 38035770.0 780.0 0 ∙ 0.0 0.0%
+episode: 605   score: 47   memory length: 59   epsilon: 1.0   global_step: 605   average_q: 0.0   average loss: 0.0
+2009-12-26 00:00:00 38036550.0 38035770.0 780.0 0 ∙ 0.0 0.0%
+episode: 606   score: 47   memory length: 59   epsilon: 1.0   global_step: 606   average_q: 0.0   average loss: 0.0
+2009-12-27 00:00:00 38036550.0 38035770.0 780.0 0 ∙ 0.0 0.0%
+episode: 607   score: 47   memory length: 59   epsilon: 1.0   global_step: 607   average_q: 0.0   average loss: 0.0
+2009-12-28 00:00:00 38165740.0 38164960.0 780.0 0 ▲ 129190.0 0.3396469974274744%
+episode: 608   score: 47   memory length: 59   epsilon: 1.0   global_step: 608   average_q: 0.0   average loss: 0.0
+2009-12-29 00:00:00 39215210.0 39214430.0 780.0 0 ▲ 1049470.0 2.7497698197388547%
+episode: 609   score: 47   memory length: 59   epsilon: 1.0   global_step: 609   average_q: 0.0   average loss: 0.0
+2009-12-30 00:00:00 41446100.0 41445320.0 780.0 0 ▲ 2230890.0 5.6888385909446875%
+episode: 610   score: 47   memory length: 59   epsilon: 1.0   global_step: 610   average_q: 0.0   average loss: 0.0
+2009-12-31 00:00:00 41446100.0 41445320.0 780.0 0 ∙ 0.0 0.0%
+1790.0 1390.0 1 1390.0
+####################################
+인지디스플레 1.2877697841726619
+####################################
+per : 2.45
+pcr : 1.07
+pbr : 0.43
+roe : 20.37
+당기순이익 : 10525903.0
+영업활동으로인한현금흐름 : 18411172.0
+투자활동으로인한현금흐름 : -13610694.0
+재무활동으로인한현금흐름 : -2233066.0
+psr : 0.13
+roic : 2.72
+eps : 298.0
+ebit : 1863443.0
+ev_ebit : 23.28
+ev_sales : 0.23
+ev_ebitda : 2.81
+당기순이익률 : 5.46
+영업이익률 : 0.97
+매출총이익률 : 9.7
+배당수익률 : 6.85
+매출액 : 192766586.0
+자산 : 122624240.0
+유동자산 : 61961220.0
+부채 : 63792115.0
+유동부채 : 57165587.0
+1560.0 1555.0 1 1555.0
+####################################
+유니크 1.0032154340836013
+####################################
+per : 8.24
+pcr : 3.39
+pbr : 0.74
+roe : 9.63
+당기순이익 : 2184930.0
+영업활동으로인한현금흐름 : 8855865.0
+투자활동으로인한현금흐름 : -12033458.0
+재무활동으로인한현금흐름 : 3110973.0
+psr : 0.25
+roic : 9.51
+eps : 129.0
+ebit : 1987302.0
+ev_ebit : 20.03
+ev_sales : 0.56
+ev_ebitda : 7.78
+당기순이익률 : 3.05
+영업이익률 : 2.77
+매출총이익률 : 19.7
+배당수익률 : 1.42
+매출액 : 71673035.0
+자산 : 65821339.0
+유동자산 : 18482142.0
+부채 : 41339950.0
+유동부채 : 32715592.0
+monthPercentage:  2009-12-01 00:00:00 ~ 2009-12-31 00:00:00  #  13.830983122591164
+monthTotal:  2009-12-01 00:00:00  #  36410210.0    2009-12-31 00:00:00  #  41446100.0
+lossPoint: 0.8556457725529285
+maxPoint: 1.152315243444078
+minPoint: 1.0
+altman 1556
+momentumSum 4.142857142857142
+NOT_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum1: 16
+['STX엔진', '세보엠이씨', '세아제강지주', '디에이피', '인지디스플레', '형지엘리트', '화승인더', '원익QnC', '동양에스텍', '태영건설', '유니크', '홈캐스트', '인팩', '한라', '체시스', '일야']
+12_MOMENTUM_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum2: 9
+['인팩', '인지디스플레', '세보엠이씨', '유니크', '한라', '체시스', '동양에스텍', '원익QnC', '일야']
+INVEST_TARGET@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+investNum3: 8
+['인팩', '세보엠이씨', '한라', '원익QnC', '인지디스플레', '동양에스텍', '유니크', '일야']
+BUY 인팩 2302주
+BUY 세보엠이씨 1370주
+BUY 한라 180주
+BUY 원익QnC 1811주
+BUY 인지디스플레 2894주
+BUY 동양에스텍 1709주
+BUY 유니크 3321주
+BUY 일야 2136주
+인팩 0.818077144502015
+세보엠이씨 0.856439127375088
+한라 0.926573101589367
+원익QnC 0.9369974301583354
+인지디스플레 0.8770491803278688
+동양에스텍 0.9377799900447984
+유니크 0.8507462686567164
+일야 0.9180327868852459
+dqn손절: 1 dict_keys(['인팩'])
+dqn손절: 2 dict_keys(['인팩', '동양에스텍'])
+dqn손절: 3 dict_keys(['인팩', '동양에스텍', '유니크'])

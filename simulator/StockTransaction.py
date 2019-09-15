@@ -7,6 +7,9 @@ class StockTransaction:
         st.topdf = topdf
         return st
     
+    def setAmountdf(self, amountdf):
+        self.amountdf = amountdf
+    
     # def buy(self, order, startDate, endDate):
     #     stockValue = self.topdf.iloc[self.topdf.index.get_loc(startDate, method='ffill')][order.code]
     #     startValue = stockValue * order.quantity
@@ -155,7 +158,9 @@ class StockTransaction:
     
     def getValue(self, current, code):
         return self.topdf.iloc[self.topdf.index.get_loc(current, method='ffill')][code]
-        
+    
+    def getAmount(self, current, code):
+        return self.amountdf.iloc[self.amountdf.index.get_loc(current, method='ffill')][code]
         
 
        
