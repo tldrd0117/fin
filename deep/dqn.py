@@ -140,7 +140,9 @@ class DQNAgent:
                 target[i] = reward[i] + self.discount_factor * \
                                         np.amax(target_value[i])
 
-        loss = self.optimizer([history, action, target])
+        self.model.fit(states, target, batch_size=self.batch_size,
+                       epochs=1, verbose=0)
+        # loss = self.optimizer([history, action, target])
         self.avg_loss += loss[0]
 
     # 각 에피소드 당 학습 정보를 기록

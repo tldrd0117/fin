@@ -13,7 +13,7 @@ import os
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
-logging.basicConfig(handlers=[logging.FileHandler('simulation15.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
+logging.basicConfig(handlers=[logging.FileHandler('simulation18.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
 pd.set_option('display.float_format', None)
 np.set_printoptions(suppress=True)
 def printG(*msg):
@@ -110,7 +110,7 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-09-15', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-09-25', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -654,20 +654,20 @@ target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로�
 target = ss.getAmountLimitList(current, topdf[target], amountdf[target], limit=200000000)
 
 notMomentumTarget = target
-if len(target) > 0:
-    target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=12, mUnit='M', limit=30, minVal=0.00000001)
-only12MomentumTarget = target
-if len(target) > 0:
-    target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
-only2MomentumTarget = []
-if len(target) > 0:
-    only2MomentumTarget, momentumSum = ss.getMomentumList(current, topdf[notMomentumTarget], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
+# if len(target) > 0:
+#     target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=12, mUnit='M', limit=30, minVal=0.00000001)
+# only12MomentumTarget = target
+# if len(target) > 0:
+#     target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
+# only2MomentumTarget = []
+# if len(target) > 0:
+#     only2MomentumTarget, momentumSum = ss.getMomentumList(current, topdf[notMomentumTarget], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
 
 
-printG('notMomentumTarget', notMomentumTarget)
-printG('only12MomentumTarget', only12MomentumTarget)
-printG('only2MomentumTarget', only2MomentumTarget)
-printG('lastTarget1', target)
+# printG('notMomentumTarget', notMomentumTarget)
+# printG('only12MomentumTarget', only12MomentumTarget)
+# printG('only2MomentumTarget', only2MomentumTarget)
+# printG('lastTarget1', target)
 
 #getMomentumListMonthCurrent
 printG('#####getMomentumListMonthCurrent')
