@@ -109,12 +109,13 @@ class StockLoader:
         
         return topdf, topcap, allCodes, allNames
     
-    def loadTopcapDf(self):
+    def loadTopcapDf(self, maxMarketCap=700000000000, minMarketCap=0):
         pd.options.display.float_format = '{:.2f}'.format
         topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
         #5천억 500000000000
         #300억 30000000000
-        topcap = topcap[topcap['Marcap']<=700000000000]
+        topcap = topcap[topcap['Marcap']<=maxMarketCap]
+        topcap = topcap[topcap['Marcap']>=minMarketCap]
         allCodes = {}
         allNames = {}
         for index, row  in topcap.iterrows():

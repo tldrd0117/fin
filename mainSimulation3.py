@@ -13,7 +13,7 @@ import os
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
-logging.basicConfig(handlers=[logging.FileHandler('simulation18.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
+logging.basicConfig(handlers=[logging.FileHandler('simulation20.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
 pd.set_option('display.float_format', None)
 np.set_printoptions(suppress=True)
 def printG(*msg):
@@ -25,7 +25,7 @@ def printG(*msg):
 #StockLoader 시간에따른 주식 가격을 가져온다
 
 sl = StockLoader.create()
-topcap, sCode, sName = sl.loadTopcapDf()
+topcap, sCode, sName = sl.loadTopcapDf(minMarketCap=100000000000, maxMarketCap=float('inf'))
 topdfItems = []
 amountdfItems = []
 for fileName in os.listdir('h5data'):
@@ -236,9 +236,9 @@ while endDate >= current:
 
         # else:
         # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
-        target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
-        target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
-        # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '매출액', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
+        # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
+        # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
+        target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '매출액', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
         beforebeforeTarget = target
         
         target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
@@ -263,9 +263,9 @@ while endDate >= current:
         if len(target) > 0:
             target, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[target], month=12, limit=30, minVal=0.00000001)
         only12MomentumTarget = target
-        if len(target) > 0:
-            target, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[target], month=2, limit=30, minVal=0)
-        printG('momentumSum', momentumSum)
+        # if len(target) > 0:
+        #     target, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[target], month=2, limit=30, minVal=0)
+        # printG('momentumSum', momentumSum)
         
 
         target = list(set(target + highShare))
@@ -360,23 +360,23 @@ while endDate >= current:
             loss = st.calculateLosscutRate(stock['code'], current)
             printG(stock['code'], loss)
     #최대값 비율 손절 내일 아침에 팔기로 할 때
-    for name in maxValues:
-        if name in target:
-            curVal = st.getValue(current, name)
-            if maxValues[name]['max'] > curVal:
-                curgap = curVal - maxValues[name]['buy']
-                maxgap = maxValues[name]['max'] - maxValues[name]['buy']
-                gapPercent = curgap / maxgap * 100
-                topPercent = maxgap / maxValues[name]['buy'] * 100
-                if gapPercent <= 50 and topPercent >= 30 and name not in maxalreadyCut:
-                    maxalreadyCut.append(name)
-                    printG('최대값 비율 손절: ', name, str(gapPercent) + '%', maxValues[name]['max'], maxValues[name]['buy'])
-                    lossStock = wallet.getStock(name)
-                    stockQuantity = lossStock['quantity']
-                    sellMoney = st.getValue(current, name)
-                    isSold = wallet.sell(name, stockQuantity, sellMoney)
-                    if isSold:
-                        restMoney += sellMoney * stockQuantity
+    # for name in maxValues:
+    #     if name in target:
+    #         curVal = st.getValue(current, name)
+    #         if maxValues[name]['max'] > curVal:
+    #             curgap = curVal - maxValues[name]['buy']
+    #             maxgap = maxValues[name]['max'] - maxValues[name]['buy']
+    #             gapPercent = curgap / maxgap * 100
+    #             topPercent = maxgap / maxValues[name]['buy'] * 100
+    #             if gapPercent <= 50 and topPercent >= 30 and name not in maxalreadyCut:
+    #                 maxalreadyCut.append(name)
+    #                 printG('최대값 비율 손절: ', name, str(gapPercent) + '%', maxValues[name]['max'], maxValues[name]['buy'])
+    #                 lossStock = wallet.getStock(name)
+    #                 stockQuantity = lossStock['quantity']
+    #                 sellMoney = st.getValue(current, name)
+    #                 isSold = wallet.sell(name, stockQuantity, sellMoney)
+    #                 if isSold:
+    #                     restMoney += sellMoney * stockQuantity
 
     # #blacklist
     # for stock in wallet.getAllStock():
@@ -452,26 +452,26 @@ while endDate >= current:
                     printG('손절갯수:', len(cutList.keys()), cutList.keys())
                     restMoney += sellMoney * stockQuantity
     #     #손절
-    for stock in wallet.getAllStock():   
-        cut1 = st.getLosscutScalar(stock['code'], current, current + pd.Timedelta(-1, 'D'))
-        cut2 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-1, 'D'), current + pd.Timedelta(-2, 'D'))
-        cut3 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-2, 'D'), current + pd.Timedelta(-3, 'D'))
-        cut4 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-3, 'D'), current + pd.Timedelta(-4, 'D'))
-        cut5 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-4, 'D'), current + pd.Timedelta(-5, 'D'))
-        if current > priceLimitDate:
-            limitPercent = -0.2
-        else:
-            limitPercent = -0.1
-        isUnder10Per = cut1 + cut2 + cut3 + cut4 + cut5 - 5 <= limitPercent
-        if isUnder10Per and stock['code'] not in cutList.keys():
-            lossStock = wallet.getStock(stock['code'])
-            stockQuantity = lossStock['quantity']
-            sellMoney = st.getValue(current, stock['code'])
-            isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
-            if isSold:
-                cutList[stock['code']] = {'value':st.getValue(current, stock['code']), 'money':sellMoney * stockQuantity}
-                printG('종목마다손절갯수:', len(cutList.keys()), cutList.keys())
-                restMoney += sellMoney * stockQuantity
+    # for stock in wallet.getAllStock():   
+    #     cut1 = st.getLosscutScalar(stock['code'], current, current + pd.Timedelta(-1, 'D'))
+    #     cut2 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-1, 'D'), current + pd.Timedelta(-2, 'D'))
+    #     cut3 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-2, 'D'), current + pd.Timedelta(-3, 'D'))
+    #     cut4 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-3, 'D'), current + pd.Timedelta(-4, 'D'))
+    #     cut5 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-4, 'D'), current + pd.Timedelta(-5, 'D'))
+    #     if current > priceLimitDate:
+    #         limitPercent = -0.2
+    #     else:
+    #         limitPercent = -0.1
+    #     isUnder10Per = cut1 + cut2 + cut3 + cut4 + cut5 - 5 <= limitPercent
+    #     if isUnder10Per and stock['code'] not in cutList.keys():
+    #         lossStock = wallet.getStock(stock['code'])
+    #         stockQuantity = lossStock['quantity']
+    #         sellMoney = st.getValue(current, stock['code'])
+    #         isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+    #         if isSold:
+    #             cutList[stock['code']] = {'value':st.getValue(current, stock['code']), 'money':sellMoney * stockQuantity}
+    #             printG('종목마다손절갯수:', len(cutList.keys()), cutList.keys())
+    #             restMoney += sellMoney * stockQuantity
     #다시 들어가기
     # delList = []
     # for code in cutList:
@@ -629,72 +629,72 @@ while endDate >= current:
     printG(current, money, stockMoney, restMoney, rebalaceMoney, upDown)
     current = nextDay
 # In[3]:
-current = endDate
-target = list(topdf.columns)
-if len(blackList) > 0:
-    target = list(filter(lambda x : x not in blackList, target ))
-target = ss.filterAltmanZScore(current, topdf[target], factordf, topcap, sName, sCode )
-printG('altman', len(target))
-inter = list(set(topdf.columns) & set(target))
-target = ss.getFactorList(current, topdf[inter], factordf, 'roe', sName, sCode, False, 3000, minVal=0.00000001)
-# target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', sName, sCode, False, 3000, minVal=0)
-target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
-target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
+# current = endDate
+# target = list(topdf.columns)
+# if len(blackList) > 0:
+#     target = list(filter(lambda x : x not in blackList, target ))
+# target = ss.filterAltmanZScore(current, topdf[target], factordf, topcap, sName, sCode )
+# printG('altman', len(target))
+# inter = list(set(topdf.columns) & set(target))
+# target = ss.getFactorList(current, topdf[inter], factordf, 'roe', sName, sCode, False, 3000, minVal=0.00000001)
+# # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', sName, sCode, False, 3000, minVal=0)
+# target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
+# target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
+# # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
 # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
-target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
-target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
-# target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
-beforebeforeTarget = target
-target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
-target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, False, 30, minVal=0.00000001)
-target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
-# target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
-# target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
-# target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)
-target = ss.getAmountLimitList(current, topdf[target], amountdf[target], limit=200000000)
+# target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
+# # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
+# beforebeforeTarget = target
+# target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
+# target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, False, 30, minVal=0.00000001)
+# target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
+# # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
+# # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
+# # target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)
+# target = ss.getAmountLimitList(current, topdf[target], amountdf[target], limit=200000000)
 
-notMomentumTarget = target
-# if len(target) > 0:
-#     target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=12, mUnit='M', limit=30, minVal=0.00000001)
+# notMomentumTarget = target
+# # if len(target) > 0:
+# #     target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=12, mUnit='M', limit=30, minVal=0.00000001)
+# # only12MomentumTarget = target
+# # if len(target) > 0:
+# #     target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
+# # only2MomentumTarget = []
+# # if len(target) > 0:
+# #     only2MomentumTarget, momentumSum = ss.getMomentumList(current, topdf[notMomentumTarget], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
+
+
+# # printG('notMomentumTarget', notMomentumTarget)
+# # printG('only12MomentumTarget', only12MomentumTarget)
+# # printG('only2MomentumTarget', only2MomentumTarget)
+# # printG('lastTarget1', target)
+
+# #getMomentumListMonthCurrent
+# printG('#####getMomentumListMonthCurrent')
+# if len(notMomentumTarget) > 0:
+#     target, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[notMomentumTarget], month=12, limit=30, minVal=0.00000001)
 # only12MomentumTarget = target
 # if len(target) > 0:
-#     target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
+#     target, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[target], month=2, limit=30, minVal=0.00000001)
 # only2MomentumTarget = []
 # if len(target) > 0:
-#     only2MomentumTarget, momentumSum = ss.getMomentumList(current, topdf[notMomentumTarget], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
-
+#     only2MomentumTarget, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[notMomentumTarget], month=2, limit=30, minVal=0.00000001)
 
 # printG('notMomentumTarget', notMomentumTarget)
 # printG('only12MomentumTarget', only12MomentumTarget)
 # printG('only2MomentumTarget', only2MomentumTarget)
-# printG('lastTarget1', target)
+# printG('lastTarget2', target)
 
-#getMomentumListMonthCurrent
-printG('#####getMomentumListMonthCurrent')
-if len(notMomentumTarget) > 0:
-    target, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[notMomentumTarget], month=12, limit=30, minVal=0.00000001)
-only12MomentumTarget = target
-if len(target) > 0:
-    target, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[target], month=2, limit=30, minVal=0.00000001)
-only2MomentumTarget = []
-if len(target) > 0:
-    only2MomentumTarget, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[notMomentumTarget], month=2, limit=30, minVal=0.00000001)
-
-printG('notMomentumTarget', notMomentumTarget)
-printG('only12MomentumTarget', only12MomentumTarget)
-printG('only2MomentumTarget', only2MomentumTarget)
-printG('lastTarget2', target)
-
-for name in maxValues:
-    if name in target:
-        curVal = st.getValue(current, name)
-        if maxValues[name]['max'] > curVal:
-            curgap = curVal - maxValues[name]['buy']
-            maxgap = maxValues[name]['max'] - maxValues[name]['buy']
-            gapPercent = curgap / maxgap * 100
-            topPercent = maxgap / maxValues[name]['buy'] * 100
-            if gapPercent <= 50 and topPercent >= 30 and name not in alreadyCut:
-                printG('최대값 비율 손절: ', name, str(gapPercent) + '%', maxValues[name]['max'], maxValues[name]['buy'])
+# for name in maxValues:
+#     if name in target:
+#         curVal = st.getValue(current, name)
+#         if maxValues[name]['max'] > curVal:
+#             curgap = curVal - maxValues[name]['buy']
+#             maxgap = maxValues[name]['max'] - maxValues[name]['buy']
+#             gapPercent = curgap / maxgap * 100
+#             topPercent = maxgap / maxValues[name]['buy'] * 100
+#             if gapPercent <= 50 and topPercent >= 30 and name not in alreadyCut:
+#                 printG('최대값 비율 손절: ', name, str(gapPercent) + '%', maxValues[name]['max'], maxValues[name]['buy'])
     
 
 # In[4]: look
