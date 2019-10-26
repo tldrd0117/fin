@@ -12,10 +12,10 @@ sl = StockLoader.create()
 alreadyIn = []#stockDb.distinct('종목코드')
 print(alreadyIn)
 
-startDate = '2019-10-12'
-endDate = '2019-10-21'
+startDate = '2019-10-22'
+endDate = '2019-10-26'
 
-topcap, allCodes, allNames = sl.loadTopcapDf()
+topcap, allCodes, allNames = sl.loadTopcapDf(maxMarketCap=float('inf'))
 
 sCode = {row['Code'] : row['Name'] for index, row  in topcap.iterrows()}
 codes = list(set(topcap['Code']))
@@ -38,7 +38,7 @@ msc = MongoStockCollection.create()
 stockDb = msc.get()
 topdf = pd.DataFrame()
 amountdf = pd.DataFrame()
-topcap, allCodes, allNames = sl.loadTopcapDf()
+topcap, allCodes, allNames = sl.loadTopcapDf(maxMarketCap=float('inf'))
 share = ''
 startDateTime = dt.datetime.strptime(startDate, '%Y-%m-%d')
 endDateTime = dt.datetime.strptime(endDate, '%Y-%m-%d')

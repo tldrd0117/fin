@@ -13,7 +13,7 @@ import os
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
-logging.basicConfig(handlers=[logging.FileHandler('simulation18.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
+logging.basicConfig(handlers=[logging.FileHandler('simulation21.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
 pd.set_option('display.float_format', None)
 np.set_printoptions(suppress=True)
 def printG(*msg):
@@ -248,7 +248,6 @@ while endDate >= current:
         # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
         # target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)
         target = ss.getAmountLimitList(current, topdf[target], amountdf[target], limit=200000000)
-        target = ss.getRaiseAmountList(current, topdf[target], amountdf[target])
 
         # beforeTarget = target
         # notMomentumTarget = target
@@ -267,7 +266,6 @@ while endDate >= current:
         if len(target) > 0:
             target, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[target], month=2, limit=30, minVal=0)
         printG('momentumSum', momentumSum)
-        
         
 
         target = list(set(target + highShare))

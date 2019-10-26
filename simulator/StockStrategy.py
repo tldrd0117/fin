@@ -197,6 +197,7 @@ class StockStrategy:
         unemployedMean = sum(unemployedNum)/len(unemployedNum)
         return unemployedNum[idx] > unemployedMean
 
+    #거래대금
     def getAmountLimitList(self, current, targetdf, amountdf, limit):
         beforebeforeOneMonth = current + pd.Timedelta(-1, unit='M') + pd.Timedelta(-1, unit='D')
         beforebeforeOneDay = current + pd.Timedelta(-2, unit='D')
@@ -204,6 +205,14 @@ class StockStrategy:
         termAmountdf = amountdf.loc[beforebeforeOneMonth:beforebeforeOneDay]
         amount = (termTargetdf * termAmountdf).mean()
         return list(amount[amount>=limit].index)
+    
+    def getRaiseAmountList(self, current, targetdf, amountdf):
+        beforebeforeOneMonth = current + pd.Timedelta(-1, unit='W') + pd.Timedelta(-1, unit='D')
+        beforebeforeOneDay = current + pd.Timedelta(-2, unit='D')
+        # termTargetdf = targetdf.loc[beforebeforeOneMonth:beforebeforeOneDay]
+        termAmountdf = amountdf.loc[beforebeforeOneMonth:beforebeforeOneDay]
+        amount = (amountdf.iloc[-1] - (termAmountdf).mean())
+        return list(amount[amount>0].index)
 
     
     def getAmount(self, current, targetdf, target, sName, sCode, limit):
@@ -466,6 +475,62 @@ class StockStrategy:
                 yearDf.at[index] = value * stockNum.at[index] / (yearDf.at[index] * factorUnit) 
             else:
                 yearDf.at[index] = value * stockNum.at[index][0] / (yearDf.at[index] * factorUnit)
+        # if len(deleteList) > 0:
+        yearDf = yearDf.drop(deleteList, axis=0)
+        yearDf = yearDf[yearDf >= minVal]
+        yearDf = yearDf[yearDf <= maxVal]
+        shcodes = list(map(lambda x : sCode[x], list(yearDf.sort_values(ascending=ascending).head(num).index)))
+        # nameList = list(factordf[factor].loc[shcodes].index)
+        intersect = list(set(targetdf.columns) & set(shcodes))
+        return intersect
+
+    def getMinusFactorPerCap(self, current, targetdf, factordf, factor, factor2, marcapdf, sCode, sName, factorUnit, ascending, num, minVal=float('-inf'), maxVal=float('inf') ):
+        # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
+        # yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
+        codeList = list(map(lambda x: sName[x], targetdf.columns))
+        yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
+        yearDf2 = factordf[factor2][factordf[factor2].index.isin(codeList)]
+        # print(factordf[factor])
+        if current.month > 4:
+            yearDf = yearDf[current.year - 1]
+            yearDf2 = yearDf2[current.year - 1]
+        else:
+            yearDf = yearDf[current.year - 2]
+            yearDf2 = yearDf2[current.year - 2]
+        yearDf = yearDf.dropna()
+        yearDf2 = yearDf2.dropna()
+        # intersect = list(set(yearDf.columns) & set(nameList))
+        
+        if marcapdf.index[0] > current:
+            initDate = marcapdf.index[0]
+            marcapdf2 = marcapdf[str(initDate.year)+'-'+str(initDate.month)]
+        elif marcapdf.index[-1] > current:
+            marcapdf2 = marcapdf[str(current.year)+'-'+str(current.month)]
+        else:
+            lastDate = marcapdf.index[-1]
+            marcapdf2 = marcapdf[str(lastDate.year)+'-'+str(lastDate.month)]
+        inter = list(set(sCode.keys()) & set(marcapdf2['Code'].values))
+        marcapdf2 = marcapdf2[marcapdf2['Code'].isin(inter)]
+
+        # indexes = list(map(lambda x : sCode[x], marcapdf2['Code'].values))
+        indexes = list(marcapdf2['Code'].values)
+        values = list(marcapdf2['Stocks'].values)
+        print(len(indexes), len(values))
+        stockNum = pd.Series(values, index=indexes)
+        print()
+        inter = list(set(yearDf.index) & set(indexes) & set(yearDf2.index))
+        deleteList = []
+        before = current + pd.Timedelta(-1, 'D')
+        for index in yearDf.index:
+            if index not in stockNum.index or index not in yearDf2.index:
+                deleteList.append(index)
+                continue
+
+            value = targetdf.iloc[targetdf.index.get_loc(before, method='ffill')][sCode[index]]
+            if type(stockNum.at[index]) is np.float64:
+                yearDf.at[index] = ((yearDf.at[index] - yearDf2[index]) * factorUnit) / value * stockNum.at[index]
+            else:
+                yearDf.at[index] = ((yearDf.at[index] - yearDf2[index]) * factorUnit) / value * stockNum.at[index][0]
         # if len(deleteList) > 0:
         yearDf = yearDf.drop(deleteList, axis=0)
         yearDf = yearDf[yearDf >= minVal]
