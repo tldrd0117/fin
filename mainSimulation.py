@@ -248,7 +248,6 @@ while endDate >= current:
         # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
         # target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)
         target = ss.getAmountLimitList(current, topdf[target], amountdf[target], limit=200000000)
-        target = ss.getRaiseAmountList(current, topdf[target], amountdf[target])
 
         # beforeTarget = target
         # notMomentumTarget = target
