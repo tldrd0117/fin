@@ -214,6 +214,75 @@ class StockStrategy:
         amount = (amountdf.iloc[-1] - (termAmountdf).mean())
         return list(amount[amount>0].index)
 
+    def getVPCI(self, current, targetdf, amountdf):
+        #장기 50일 단기 10일
+        #vwma 종가 * (거래량/산출기간의 총 거래량) + 종가 * (거래량/산출기간의 총 거래량) + ...
+        #sma 이동평균
+        #vpc= vwma(c,l) - sma(c,l)
+        #vpr= vwma(c,a) - sma(c,s)
+        #mv = sma(v,s) / sma (v,l)
+        #vpci = vpc * vpr * vm
+
+        longTerm = current + pd.Timedelta(-51, unit='D')
+        shortTerm = current + pd.Timedelta(-11, unit='D')
+        lately = current + pd.Timedelta(-1, unit='D')
+        longAmount = amountdf.loc[longTerm:lately]
+        shortAmount = amountdf.loc[shortTerm:lately]
+        longEachAmount = longAmount/longAmount.sum()
+        shortEachAmount = shortAmount/shortAmount.sum()
+
+        longVWMA = (targetdf.loc[longTerm:lately] * longEachAmount).sum()
+        longSMA = targetdf.loc[longTerm:lately].mean()
+        shortVWMA = (targetdf.loc[shortTerm:lately] * shortEachAmount).sum()
+        shortSMA = targetdf.loc[shortTerm:lately].mean()
+        vpc = longVWMA - longSMA
+        vpr = shortVWMA / shortSMA
+        mv = shortAmount.mean()/longAmount.mean()
+        vpci = vpc*vpr*mv
+
+        return vpci
+
+    def getVPCIUpList(self, current, targetdf, amountdf):
+        li = self.getVPCI(current, targetdf, amountdf)
+        return list(li[li>0].index)
+
+    def getVPCIDownList(self, current, targetdf, amountdf):
+        li = self.getVPCI(current, targetdf, amountdf)
+        return list(li[li<0].index)
+    
+
+    def getVPCIUpListLimit(self, current, targetdf, amountdf,limit):
+        li = self.getVPCI(current, targetdf, amountdf)
+        li = li.sort_values(ascending=False).head(limit)
+        return list(li[li>0].index)
+    
+    def getUpList(self, current, targetdf, amountdf):
+        before2 = current + pd.Timedelta(-51, unit='D')
+        before = current + pd.Timedelta(-11, unit='D')
+        lately = current + pd.Timedelta(-1)
+        t = targetdf.loc[before:lately].mean() - targetdf.loc[before2:lately].mean()
+
+        li2 = self.getVPCI(before, targetdf, amountdf)
+        li = self.getVPCI(current, targetdf, amountdf)
+        t2 = li - li2
+        print(t, t2)
+        return list(set(t[t>0].index)&set(t2[t2>0].index))
+    
+    def getUpListLimit(self, current, targetdf, amountdf,limit):
+        before2 = current + pd.Timedelta(-51, unit='D')
+        before = current + pd.Timedelta(-11, unit='D')
+        lately = current + pd.Timedelta(-1)
+        t = targetdf.loc[before:lately].mean() - targetdf.loc[before2:lately].mean()
+
+        li2 = self.getVPCI(before, targetdf, amountdf)
+        li = self.getVPCI(current, targetdf, amountdf)
+        t2 = li - li2
+        t2 = t2.sort_values(ascending=False).head(limit)
+        print(t2)
+        return list(set(t[t>0].index)&set(t2[t2>0].index))
+    
+    
+
     
     def getAmount(self, current, targetdf, target, sName, sCode, limit):
         targetCode = list(map(lambda x : sName[x], target))

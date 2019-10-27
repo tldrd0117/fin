@@ -110,7 +110,7 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-10-11', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-10-26', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -473,6 +473,7 @@ while endDate >= current:
                 cutList[stock['code']] = {'value':st.getValue(current, stock['code']), 'money':sellMoney * stockQuantity}
                 printG('종목마다손절갯수:', len(cutList.keys()), cutList.keys())
                 restMoney += sellMoney * stockQuantity
+    
     #다시 들어가기
     # delList = []
     # for code in cutList:
