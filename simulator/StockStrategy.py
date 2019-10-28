@@ -256,6 +256,57 @@ class StockStrategy:
         li = li.sort_values(ascending=False).head(limit)
         return list(li[li>0].index)
     
+    def getVPCIUpListWeek(self, current, targetdf, amountdf,limit):
+        li1 = self.getVPCI(current+ pd.Timedelta(-6, unit='D'), targetdf, amountdf)
+        li2 = self.getVPCI(current+ pd.Timedelta(-5, unit='D'), targetdf, amountdf)
+        li3 = self.getVPCI(current+ pd.Timedelta(-4, unit='D'), targetdf, amountdf)
+        li4 = self.getVPCI(current+ pd.Timedelta(-3, unit='D'), targetdf, amountdf)
+        li5 = self.getVPCI(current+ pd.Timedelta(-2, unit='D'), targetdf, amountdf)
+        li6 = self.getVPCI(current+ pd.Timedelta(-1, unit='D'), targetdf, amountdf)
+        li7 = self.getVPCI(current, targetdf, amountdf)
+        t1 = li7-li6
+        t2 = li6-li5
+        t3 = li5-li4
+        t4 = li4-li3
+        t5 = li3-li2
+        t6 = li2-li1
+        t1 = t1[t1>=0].index.to_numpy()
+        t2 = t2[t2>=0].index.to_numpy()
+        t3 = t3[t3>=0].index.to_numpy()
+        t4 = t4[t4>=0].index.to_numpy()
+        t5 = t5[t5>=0].index.to_numpy()
+        t6 = t6[t6>=0].index.to_numpy()
+        arr = np.concatenate((t1, t2, t3, t4, t5, t6))
+        print('up',arr)
+        unique, counts= np.unique(arr, return_counts=True)
+        return list(unique[np.where(counts>=5)[0]])
+    
+    def getVPCIDownListWeek(self, current, targetdf, amountdf):
+        li1 = self.getVPCI(current + pd.Timedelta(-6, unit='D'), targetdf, amountdf)
+        li2 = self.getVPCI(current + pd.Timedelta(-5, unit='D'), targetdf, amountdf)
+        li3 = self.getVPCI(current + pd.Timedelta(-4, unit='D'), targetdf, amountdf)
+        li4 = self.getVPCI(current + pd.Timedelta(-3, unit='D'), targetdf, amountdf)
+        li5 = self.getVPCI(current + pd.Timedelta(-2, unit='D'), targetdf, amountdf)
+        li6 = self.getVPCI(current + pd.Timedelta(-1, unit='D'), targetdf, amountdf)
+        li7 = self.getVPCI(current, targetdf, amountdf)
+        t1 = li7-li6
+        t2 = li6-li5
+        t3 = li5-li4
+        t4 = li4-li3
+        t5 = li3-li2
+        t6 = li2-li1
+        t1 = t1[t1<0].index.to_numpy()
+        t2 = t2[t2<0].index.to_numpy()
+        t3 = t3[t3<0].index.to_numpy()
+        t4 = t4[t4<0].index.to_numpy()
+        t5 = t5[t5<0].index.to_numpy()
+        t6 = t6[t6<0].index.to_numpy()
+        arr = np.concatenate((t1, t2, t3, t4, t5, t6))
+        print('down',arr)
+        unique, counts = np.unique(arr, return_counts=True)
+        return list(unique[np.where(counts>=2)[0]])
+
+    
     def getUpList(self, current, targetdf, amountdf):
         before2 = current + pd.Timedelta(-51, unit='D')
         before = current + pd.Timedelta(-11, unit='D')
