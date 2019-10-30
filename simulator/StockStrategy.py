@@ -190,6 +190,30 @@ class StockStrategy:
         sixMonthMomentumScore = self.getMinusMomentumScore(current, targetdf, 6, 'M')
         return list(momentumScore.sort_values(ascending=False).head(limit).index), sixMonthMomentumScore.sum()
     
+    def getMovingAvarage_20_big_5(self, current, targetdf):
+        longTerm = current + pd.Timedelta(-21, unit='D')
+        shortTerm = current + pd.Timedelta(-6, unit='D')
+        lately = current + pd.Timedelta(-1, unit='D')
+        term_20 = targetdf.loc[longTerm:lately].mean()
+        term_5 = targetdf.loc[shortTerm:lately].mean()
+        return list(term_5[term_20<=term_5].index)
+    
+    def getMovingAvarage_20_5_Break(self, current, targetdf):
+        beforelongTerm = current + pd.Timedelta(-22, unit='D')
+        beforeshortTerm = current + pd.Timedelta(-7, unit='D')
+
+        longTerm = current + pd.Timedelta(-21, unit='D')
+        shortTerm = current + pd.Timedelta(-6, unit='D')
+        lately = current + pd.Timedelta(-1, unit='D')
+
+        beforeTerm_20 = targetdf.loc[beforelongTerm:lately].mean()
+        beforeTerm_5 = targetdf.loc[beforeshortTerm:lately].mean()
+
+        term_20 = targetdf.loc[longTerm:lately].mean()
+        term_5 = targetdf.loc[shortTerm:lately].mean()
+
+        return list(term_5[(beforeTerm_20>beforeTerm_5)&(term_20<=term_5)].index)
+
 
     def isUnemployedYear(self, year):
         unemployedNum = [77.6, 89.4, 92.4, 86.3, 82.6, 80.8, 93.9, 97.6, 100.9, 102.3, 107.3, 122.4]
@@ -199,6 +223,14 @@ class StockStrategy:
 
     #거래대금
     def getAmountLimitList(self, current, targetdf, amountdf, limit):
+        beforebeforeOneMonth = current + pd.Timedelta(-1, unit='M') + pd.Timedelta(-1, unit='D')
+        beforebeforeOneDay = current + pd.Timedelta(-2, unit='D')
+        termTargetdf = targetdf.loc[beforebeforeOneMonth:beforebeforeOneDay]
+        termAmountdf = amountdf.loc[beforebeforeOneMonth:beforebeforeOneDay]
+        amount = (termTargetdf * termAmountdf).mean()
+        return list(amount[amount>=limit].index)
+
+    def getAmountPerMarcapLimitList(self, current, targetdf, amountdf, limit):
         beforebeforeOneMonth = current + pd.Timedelta(-1, unit='M') + pd.Timedelta(-1, unit='D')
         beforebeforeOneDay = current + pd.Timedelta(-2, unit='D')
         termTargetdf = targetdf.loc[beforebeforeOneMonth:beforebeforeOneDay]

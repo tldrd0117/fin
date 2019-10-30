@@ -289,8 +289,8 @@ class StockLoader:
                     '저가': result.low, \
                     '거래량': result.volume \
                 }
-                stockdb.update({'날짜':priceDate,'종목명':target['Name']}, resultDict, upsert=True, multi=False)
-                # stockdb.insert(resultDict)
+                # stockdb.update({'날짜':priceDate,'종목명':target['Name']}, resultDict, upsert=True, multi=False)
+                stockdb.insert(resultDict)
             progress+=1
         print('complete')
         # return list(stockdb.find())
