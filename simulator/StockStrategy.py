@@ -274,9 +274,52 @@ class StockStrategy:
 
         return vpci
 
+    def getVPCIShort(self, current, targetdf, amountdf):
+        #장기 50일 단기 10일
+        #vwma 종가 * (거래량/산출기간의 총 거래량) + 종가 * (거래량/산출기간의 총 거래량) + ...
+        #sma 이동평균
+        #vpc= vwma(c,l) - sma(c,l)
+        #vpr= vwma(c,a) - sma(c,s)
+        #mv = sma(v,s) / sma (v,l)
+        #vpci = vpc * vpr * vm
+
+        longTerm = current + pd.Timedelta(-21, unit='D')
+        shortTerm = current + pd.Timedelta(-6, unit='D')
+        lately = current + pd.Timedelta(-1, unit='D')
+        longAmount = amountdf.loc[longTerm:lately]
+        shortAmount = amountdf.loc[shortTerm:lately]
+        longEachAmount = longAmount/longAmount.sum()
+        shortEachAmount = shortAmount/shortAmount.sum()
+
+        longVWMA = (targetdf.loc[longTerm:lately] * longEachAmount).sum()
+        longSMA = targetdf.loc[longTerm:lately].mean()
+        shortVWMA = (targetdf.loc[shortTerm:lately] * shortEachAmount).sum()
+        shortSMA = targetdf.loc[shortTerm:lately].mean()
+        vpc = longVWMA - longSMA
+        vpr = shortVWMA / shortSMA
+        mv = shortAmount.mean()/longAmount.mean()
+        vpci = vpc*vpr*mv
+
+        return vpci
+
     def getVPCIUpList(self, current, targetdf, amountdf):
         li = self.getVPCI(current, targetdf, amountdf)
         return list(li[li>0].index)
+    
+
+    def getVPCIShortUpList(self, current, targetdf, amountdf):
+        li = self.getVPCIShort(current, targetdf, amountdf)
+        return list(li[li>0].index), li
+
+    def getShortMomentumAmount(self, current, targetdf, amountdf):
+        before = current + pd.Timedelta(-11, unit='D')
+        shortTerm = current + pd.Timedelta(-6, unit='D')
+        lately = current + pd.Timedelta(-1, unit='D')
+        
+        a =  targetdf.loc[shortTerm:lately].mean() - targetdf.loc[before:shortTerm].mean()
+        b = (amountdf.iloc[amountdf.index.get_loc(lately, method='ffill')] - amountdf.iloc[amountdf.index.get_loc(shortTerm, method='ffill')])
+        c = a*b
+        return list(c[c>0].index), c
 
     def getVPCIDownList(self, current, targetdf, amountdf):
         li = self.getVPCI(current, targetdf, amountdf)

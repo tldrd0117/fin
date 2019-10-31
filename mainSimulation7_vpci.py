@@ -13,7 +13,7 @@ import os
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
-logging.basicConfig(handlers=[logging.FileHandler('simulation18.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
+logging.basicConfig(handlers=[logging.FileHandler('simulation24.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
 pd.set_option('display.float_format', None)
 np.set_printoptions(suppress=True)
 def printG(*msg):
@@ -222,6 +222,7 @@ while endDate >= current:
         target = ss.filterAltmanZScore(current, topdf[target], factordf, topcap, sName, sCode )
         printG('altman', len(target))
         inter = list(set(topdf.columns) & set(target))
+
         # if True:
             # target = ss.getFactorListsStd(current, topdf[inter], factordf, factors, 30, weights, sName, sCode)
         # else:
@@ -229,6 +230,8 @@ while endDate >= current:
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', sName, sCode, False, 3000, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
         target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
+        target, val = ss.getShortMomentumAmount(current, topdf[target], amountdf[target])
+        printG(val)
         # if current.month == 12:
         #     target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
         #     target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
@@ -248,7 +251,6 @@ while endDate >= current:
         # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
         # target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)
         target = ss.getAmountLimitList(current, topdf[target], amountdf[target], limit=200000000)
-        # target = ss.getVPCIUpListWeek(current, topdf[target], amountdf[target], 30)
         print(target)
 
         # beforeTarget = target
