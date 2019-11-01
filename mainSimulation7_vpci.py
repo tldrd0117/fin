@@ -13,7 +13,7 @@ import os
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
-logging.basicConfig(handlers=[logging.FileHandler('simulation24.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
+logging.basicConfig(handlers=[logging.FileHandler('simulation25.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
 pd.set_option('display.float_format', None)
 np.set_printoptions(suppress=True)
 def printG(*msg):
@@ -110,7 +110,7 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-10-31', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-11-01', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -230,8 +230,7 @@ while endDate >= current:
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', sName, sCode, False, 3000, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
         target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
-        target, val = ss.getShortMomentumAmount(current, topdf[target], amountdf[target])
-        printG(val)
+        # printG(val)
         # if current.month == 12:
         #     target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
         #     target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
@@ -251,6 +250,8 @@ while endDate >= current:
         # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
         # target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)
         target = ss.getAmountLimitList(current, topdf[target], amountdf[target], limit=200000000)
+        # target = ss.getShortMomentumAmount(current, topdf[target], amountdf[target])
+
         print(target)
 
         # beforeTarget = target
@@ -365,23 +366,23 @@ while endDate >= current:
             loss = st.calculateLosscutRate(stock['code'], current)
             printG(stock['code'], loss)
     #최대값 비율 손절 내일 아침에 팔기로 할 때
-    for name in maxValues:
-        if name in target:
-            curVal = st.getValue(current, name)
-            if maxValues[name]['max'] > curVal:
-                curgap = curVal - maxValues[name]['buy']
-                maxgap = maxValues[name]['max'] - maxValues[name]['buy']
-                gapPercent = curgap / maxgap * 100
-                topPercent = maxgap / maxValues[name]['buy'] * 100
-                if gapPercent <= 50 and topPercent >= 30 and name not in maxalreadyCut:
-                    maxalreadyCut.append(name)
-                    printG('최대값 비율 손절: ', name, str(gapPercent) + '%', maxValues[name]['max'], maxValues[name]['buy'])
-                    lossStock = wallet.getStock(name)
-                    stockQuantity = lossStock['quantity']
-                    sellMoney = st.getValue(current, name)
-                    isSold = wallet.sell(name, stockQuantity, sellMoney)
-                    if isSold:
-                        restMoney += sellMoney * stockQuantity
+    # for name in maxValues:
+    #     if name in target:
+    #         curVal = st.getValue(current, name)
+    #         if maxValues[name]['max'] > curVal:
+    #             curgap = curVal - maxValues[name]['buy']
+    #             maxgap = maxValues[name]['max'] - maxValues[name]['buy']
+    #             gapPercent = curgap / maxgap * 100
+    #             topPercent = maxgap / maxValues[name]['buy'] * 100
+    #             if gapPercent <= 50 and topPercent >= 30 and name not in maxalreadyCut:
+    #                 maxalreadyCut.append(name)
+    #                 printG('최대값 비율 손절: ', name, str(gapPercent) + '%', maxValues[name]['max'], maxValues[name]['buy'])
+    #                 lossStock = wallet.getStock(name)
+    #                 stockQuantity = lossStock['quantity']
+    #                 sellMoney = st.getValue(current, name)
+    #                 isSold = wallet.sell(name, stockQuantity, sellMoney)
+    #                 if isSold:
+    #                     restMoney += sellMoney * stockQuantity
 
     # #blacklist
     # for stock in wallet.getAllStock():
@@ -481,7 +482,8 @@ while endDate >= current:
     # lossstocks = []
     # for stock in wallet.getAllStock():
     #     lossstocks.append(stock['code'])
-    # lists = ss.getVPCIDownListWeek(current, topdf[lossstocks], amountdf[lossstocks])
+    # lists = ss.getVPCILongDownListBefore(current, topdf[lossstocks], amountdf[lossstocks])
+
     # for item in lists:
     #     if item not in cutList.keys():
     #         lossStock = wallet.getStock(item)
