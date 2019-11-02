@@ -275,7 +275,7 @@ class StockStrategy:
         return vpci
 
     def getVPCIShort(self, current, targetdf, amountdf):
-        #장기 50일 단기 10일
+        #장기 20일 단기 5일
         #vwma 종가 * (거래량/산출기간의 총 거래량) + 종가 * (거래량/산출기간의 총 거래량) + ...
         #sma 이동평균
         #vpc= vwma(c,l) - sma(c,l)
@@ -303,7 +303,7 @@ class StockStrategy:
         return vpci
 
     def getVPCILong(self, current, targetdf, amountdf):
-        #장기 50일 단기 10일
+        #장기 60일 단기 20일
         #vwma 종가 * (거래량/산출기간의 총 거래량) + 종가 * (거래량/산출기간의 총 거래량) + ...
         #sma 이동평균
         #vpc= vwma(c,l) - sma(c,l)

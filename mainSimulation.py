@@ -168,7 +168,7 @@ while endDate >= current:
             ratio = wallet.getStockRatio(pair['code'])
             printG(lastMoney, pair['price'], ratio, pair['price']*ratio)
             printG('####################################')
-            printG(pair['code'], lastMoney/(pair['price']*ratio))
+            printG(pair['code'],sName[pair['code']], lastMoney/(pair['price']*ratio))
             if lastMoney/(pair['price']*ratio) > 1.3:
                 highShare.append(pair['code'])
 
@@ -249,7 +249,7 @@ while endDate >= current:
         # target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)
         target = ss.getAmountLimitList(current, topdf[target], amountdf[target], limit=200000000)
         # target = ss.getVPCIUpListWeek(current, topdf[target], amountdf[target], 30)
-        print(target)
+        
 
         # beforeTarget = target
         # notMomentumTarget = target
@@ -269,7 +269,14 @@ while endDate >= current:
             target, momentumSum = ss.getMomentumListMonthCurrent(current, topdf[target], month=2, limit=30, minVal=0)
         printG('momentumSum', momentumSum)
         
+        printG('vpci')
+        printG(ss.getVPCI(current, topdf[target], amountdf[target]))
         
+        printG('vpciShort')
+        printG(ss.getVPCIShort(current, topdf[target], amountdf[target]))
+        
+        printG('vpciLong')
+        printG(ss.getVPCILong(current, topdf[target], amountdf[target]))
 
         target = list(set(target + highShare))
         highShare = []
@@ -431,7 +438,11 @@ while endDate >= current:
     # printG('lossNum', lossnum, cutSum1, cutSum2, cutSum3, cutSum4, cutSum5)
     # printG('curValue', curValue1, curValue2, curValue3, curValue4, curValue5)
     # printG('beforeValue', beforeValue1, beforeValue2, beforeValue3, beforeValue4, beforeValue5)
-    if lossnum >= 2:
+    if current > priceLimitDate:
+        limitPercent = -0.1
+    else:
+        limitPercent = -0.1
+    if lossnum >= 2 or (cutSum1 + cutSum2 + cutSum3 + cutSum4 + cutSum5 - 5 <= limitPercent and len(target)>=4):
         li = []
         for stock in wallet.getAllStock():
             val = st.getValue(current, stock['code'])
