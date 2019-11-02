@@ -421,38 +421,58 @@ while endDate >= current:
     cutSum4, curValue4, beforeValue4 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-3, 'D'), current + pd.Timedelta(-4, 'D'))
     cutSum5, curValue5, beforeValue5 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-4, 'D'), current + pd.Timedelta(-5, 'D'))
     lossnum = 0
+    lossnum2 = 0
+    # if cutSum1 < 0.99:
+    #     lossnum +=1
+    #     if cutSum2 < 0.99 or cutSum2 == 1:
+    #         if cutSum2 != 1:
+    #             lossnum +=1
+    #         if cutSum3 < 0.99 or cutSum3 == 1:
+    #             if cutSum3 != 1:
+    #                 lossnum +=1
+    #             if cutSum4 < 0.99 or cutSum4 == 1:
+    #                 if cutSum4 != 1:
+    #                     lossnum +=1
+    #                 if cutSum5 < 0.99 or cutSum5 == 1:
+    #                     if cutSum5 != 1:
+    #                         lossnum +=1
     if cutSum1 < 0.98:
-        lossnum +=1
+        lossnum2 +=1
         if cutSum2 < 0.98 or cutSum2 == 1:
             if cutSum2 != 1:
-                lossnum +=1
+                lossnum2 +=1
             if cutSum3 < 0.98 or cutSum3 == 1:
                 if cutSum3 != 1:
-                    lossnum +=1
+                    lossnum2 +=1
                 if cutSum4 < 0.98 or cutSum4 == 1:
                     if cutSum4 != 1:
-                        lossnum +=1
+                        lossnum2 +=1
                     if cutSum5 < 0.98 or cutSum5 == 1:
                         if cutSum5 != 1:
-                            lossnum +=1
+                            lossnum2 +=1
     # printG('lossNum', lossnum, cutSum1, cutSum2, cutSum3, cutSum4, cutSum5)
     # printG('curValue', curValue1, curValue2, curValue3, curValue4, curValue5)
     # printG('beforeValue', beforeValue1, beforeValue2, beforeValue3, beforeValue4, beforeValue5)
-    if current > priceLimitDate:
-        limitPercent = -0.1
-    else:
-        limitPercent = -0.1
-    if lossnum >= 2 or (cutSum1 + cutSum2 + cutSum3 + cutSum4 + cutSum5 - 5 <= limitPercent and len(target)>=4):
+    # if current > priceLimitDate:
+    #     limitPercent = -0.1
+    # else:
+    limitPercent = -0.1
+    cutSum, curValue, beforeValue = st.getLosscutScalarSum(stockCodes, current, buyDate)
+    if cutSum <= 0.93 or lossnum2 >= 2 or (cutSum1 + cutSum2 + cutSum3 + cutSum4 + cutSum5 - 5 <= limitPercent and len(target)>=4):
         li = []
+        minusLen = 0
         for stock in wallet.getAllStock():
             val = st.getValue(current, stock['code'])
             li.append({'val':val / stock['money'], 'stock':stock})
+            cut = st.getLosscutScalar(stock['code'], current, buyDate)
+            if cut < 1:
+                minusLen += 1
         li.sort(key=lambda data : data['val'])
         length = len(li)
         if len(li) >= 4:
-            length = int(len(li)/2)
+            length = minusLen#int(len(li)/2)
         else:
-            length = len(li)
+            length = minusLen
         for d in li[0:length]:
             lossTarget = d['stock']['code']
             if lossTarget not in cutList.keys():
