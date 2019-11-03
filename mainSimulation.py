@@ -229,7 +229,10 @@ while endDate >= current:
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', sName, sCode, False, 3000, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
         target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
-        target = ss.getVarienceList(current, topdf[target], 1000, True)
+        target1 = ss.getFactorListComp(current, topdf[target], factordf, '매출총이익률', sName, sCode, False, 1000)
+        target2 = ss.getVarienceList(current, topdf[target], 1000, True)
+        target = list(set(target1)&set(target2))
+        
 
         # if current.month == 12:
         #     target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)

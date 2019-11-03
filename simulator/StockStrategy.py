@@ -571,6 +571,37 @@ class StockStrategy:
         intersect = list(set(targetdf.columns) & set(shcodes))
         return intersect
     
+    def getFactorListComp(self, current, targetdf, factordf, factor, sName, sCode, ascending, num, minVal=float('-inf'), maxVal=float('inf')):
+        # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
+        codeList = list(map(lambda x: sName[x], list(targetdf.columns)))
+        yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
+        beforeDf = yearDf
+        if current.month > 4:
+            yearDf = yearDf[current.year - 1]
+            beforeDf = (beforeDf[current.year - 2] if current.year > 2008 else pd.DataFrame())
+        else:
+            yearDf = yearDf[current.year - 2]
+            beforeDf = (beforeDf[current.year - 3] if current.year > 2009 else pd.DataFrame())
+        if not beforeDf.empty:
+            yearDf = yearDf.dropna()
+            beforeDf = beforeDf.dropna()
+            inter = list(set(yearDf.index)&set(beforeDf.index))
+            comp = yearDf[inter] - beforeDf[inter]
+            comp = comp[comp >= minVal]
+            comp = comp[comp <= maxVal]
+            shcodes = list(map(lambda x : sCode[x], list(comp.sort_values(ascending=ascending).head(num).index)))
+            intersect = list(set(targetdf.columns) & set(shcodes))
+            return intersect
+        else:
+            yearDf = yearDf.dropna()
+            yearDf = yearDf[yearDf >= minVal]
+            yearDf = yearDf[yearDf <= maxVal]
+            # intersect = list(set(yearDf.columns) & set(nameList))
+            shcodes = list(map(lambda x : sCode[x], list(yearDf.sort_values(ascending=ascending).head(num).index)))
+            # nameList = list(factordf[factor].loc[shcodes].index)
+            intersect = list(set(targetdf.columns) & set(shcodes))
+            return intersect
+    
     def getQuarterFactorList(self, current, targetdf, factordf, factor, sName, sCode, ascending, num, minVal=float('-inf'), maxVal=float('inf')):
         # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
         codeList = list(map(lambda x: sName[x], list(targetdf.columns)))
