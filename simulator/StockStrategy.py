@@ -571,6 +571,8 @@ class StockStrategy:
         intersect = list(set(targetdf.columns) & set(shcodes))
         return intersect
     
+    
+    
     def getFactorListComp(self, current, targetdf, factordf, factor, sName, sCode, ascending, num, minVal=float('-inf'), maxVal=float('inf')):
         # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
         codeList = list(map(lambda x: sName[x], list(targetdf.columns)))
@@ -914,6 +916,20 @@ class StockStrategy:
         # return pd.Series(range(0,len(sortedDf.index)),index=sortedDf.index)
         return pd.Series(sortedDf.values,index=map(lambda x: sCode[x], sortedDf.index))
     
+    def getFactorRankSort(self, current, targetdf, factordf, factor, sName, sCode, ascending):
+        codeList = list(map(lambda x: sName[x], targetdf.columns))
+        yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
+        # yearDf = factordf[factor][factordf[factor].isin(targetdf.columns)]
+        if current.month > 4:
+            yearDf = yearDf[current.year - 1]
+        else:
+            yearDf = yearDf[current.year - 2]
+        sortedDf = yearDf.sort_values(ascending=ascending)
+        # print(sortedDf)
+        # return sortedDf
+        # return pd.Series(range(0,len(sortedDf.index)),index=sortedDf.index)
+        return pd.Series(sortedDf.values,index=map(lambda x: sCode[x], sortedDf.index))
+    
     def getFactorLists(self, current, targetdf, factordf, factors, num, weights, sName, sCode):
         rankList = []
         curIndex = targetdf.index.get_loc(current, method='ffill')
@@ -940,6 +956,17 @@ class StockStrategy:
             datadf['sum'] += weights[factor] * (datadf[factor] - mean / std)
         return list(datadf['sum'].dropna().sort_values(ascending=False).head(num).index)
 
+    def getFactorListsRank(self, current, targetdf, factordf, factors, sName, sCode, ascending, num, minVal=float('-inf'), maxVal=float('inf')):
+        # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
+        curIndex = targetdf.index.get_loc(current, method='ffill')
+        targetIdx = targetdf.iloc[curIndex].dropna().index
+        datadf = pd.DataFrame(index=targetIdx)
+        for idx in range(len(factors)):
+            datadf[factor] = self.getFactorRankSort(current, targetdf, factordf, factors[i], sName, sCode,ascending[i])
+        datadf['sum'] = 0
+        for factor in factors:
+            datadf['sum'] += datadf[factor]
+        return list(datadf['sum'].dropna().sort_values(ascending=True).head(num).index)
 
     def getMoneyRate(self, nameList):
         rate = pd.Series([1/len(nameList)]*len(nameList), index=nameList)
