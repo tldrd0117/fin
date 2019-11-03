@@ -156,10 +156,10 @@ class StockStrategy:
             oneMean = one.mean()
             newdf = pd.DataFrame([list(oneMean.values)], index=[one.index.values[-1]], columns=list(oneMean.index))
             mdf = pd.concat([mdf, newdf])
-        return mdf, dates[0], dates[-1]
+        return mdf, dates
     
     def getTimeDeltaMomentumScoreMonth(self, current, targetdf, month):
-        mdf, start, end = self.calculateMdf(current, targetdf, month)
+        mdf, dates = self.calculateMdf(current, targetdf, month)
         curVal = targetdf.index.get_loc(current, method='pad')
         latelyValue = targetdf.iloc[curVal - 1]
         momentum = pd.DataFrame(latelyValue.values - mdf.values, mdf.index, mdf.columns)
@@ -170,6 +170,20 @@ class StockStrategy:
         momentumValues = momentum.values
         momentumValues[momentumValues > 0] = 1
         momentumValues[momentumValues <= 0] = -1
+        momentumScore = pd.DataFrame(momentumValues, momentum.index, momentum.columns)
+        return momentumScore.mean(axis=0)
+    
+    def getTimeDeltaMomentumValueMonthExceptOneMonth(self, current, targetdf, month):
+        mdf, dates = self.calculateMdf(current, targetdf, month)
+        mdf = mdf[1:]
+        curVal = targetdf.index.get_loc(current, method='pad')
+        latelyValue = targetdf.iloc[curVal - 2]
+        momentum = pd.DataFrame(latelyValue.values - mdf.values, mdf.index, mdf.columns)
+        colList = [ list(momentum.columns)[i:i+6] for i in range(0, len(momentum.columns), 6)]
+        for cols in colList:
+            print(momentum[cols])
+        # momentumScore = momentum.applymap(lambda val: 1 if val > 0 else 0 )
+        momentumValues = (momentum/targetdf.iloc[curVal]).values
         momentumScore = pd.DataFrame(momentumValues, momentum.index, momentum.columns)
         return momentumScore.mean(axis=0)
     
@@ -187,8 +201,16 @@ class StockStrategy:
         # momentumScore = momentumScore.query('')
         momentumScore = momentumScore[momentumScore >= minVal]
         momentumScore = momentumScore[momentumScore <= maxVal]
-        sixMonthMomentumScore = self.getMinusMomentumScore(current, targetdf, 6, 'M')
-        return list(momentumScore.sort_values(ascending=False).head(limit).index), sixMonthMomentumScore.sum()
+        # sixMonthMomentumScore = self.getMinusMomentumScore(current, targetdf, 6, 'M')
+        return list(momentumScore.sort_values(ascending=False).head(limit).index)
+    
+    def getMomentumListMonthExceptOneMonth(self, current, targetdf, month, limit, minVal=-100, maxVal=100):
+        momentumScore = self.getTimeDeltaMomentumValueMonthExceptOneMonth(current, targetdf, month)
+        # momentumScore = momentumScore.query('')
+        print(momentumScore)
+        momentumScore = momentumScore[momentumScore >= minVal]
+        momentumScore = momentumScore[momentumScore <= maxVal]
+        return list(momentumScore.sort_values(ascending=False).head(limit).index)
     
     def getMovingAvarage_20_big_5(self, current, targetdf):
         longTerm = current + pd.Timedelta(-21, unit='D')
@@ -494,7 +516,15 @@ class StockStrategy:
 
         return  list(set(beforeIndex) & set(curIndex))[0:limit]
          
-        
+    def getVarienceList(self, current, targetdf, limit, ascending):
+        beforeOneMonth = current + pd.Timedelta(-12, unit='M')
+        beforeOneDay = current + pd.Timedelta(-1, unit='D')
+        datadf = targetdf[beforeOneMonth:beforeOneDay]
+        raiseDf = (datadf - datadf.shift(1)).applymap(lambda val: abs(val))
+        variencedf = datadf.mean()/raiseDf.mean()
+        print('varience',variencedf)
+        return list(variencedf.sort_values(ascending=ascending).head(limit).index)
+
 
     def getRiseMeanList(self, current, targetdf, limit, minVal=0):
         raiseDf = targetdf - targetdf.shift(1)
