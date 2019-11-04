@@ -110,7 +110,7 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-11-01', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-11-04', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -461,9 +461,18 @@ while endDate >= current:
     # if current > priceLimitDate:
     #     limitPercent = -0.1
     # else:
-    limitPercent = -0.1
+    allLimit = 0
+    seqLimit = 0
+    size = 0
+    for stock in wallet.getAllStock():
+        allLimit += (st.calculateLosscutRateRatio(stock['code'], current, 0.3))
+        seqLimit += (st.calculateLosscutRateRatio(stock['code'], current, 0.5))
+        size+=1
+    size = 1 if size == 0 else size
+    limitPercent = seqLimit - size
+    # printG('lossCutAll',allLimit/size, 'lossCutSeq',limitPercent)
     cutSum, curValue, beforeValue = st.getLosscutScalarSum(stockCodes, current, buyDate)
-    if cutSum <= 0.93 or lossnum2 >= 2 or (cutSum1 + cutSum2 + cutSum3 + cutSum4 + cutSum5 - 5 <= limitPercent and len(target)>=4):
+    if cutSum <= allLimit/size or lossnum2 >= 2 or (cutSum1 + cutSum2 + cutSum3 + cutSum4 + cutSum5 - 5 <= limitPercent and len(target)>=4):
         li = []
         minusLen = 0
         for stock in wallet.getAllStock():
@@ -694,34 +703,41 @@ target = ss.getFactorList(current, topdf[inter], factordf, 'roe', sName, sCode, 
 # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', sName, sCode, False, 3000, minVal=0)
 target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
 target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
+target1 = ss.getFactorListComp(current, topdf[target], factordf, '매출총이익률', sName, sCode, False, 1000)
+target2 = ss.getVarienceList(current, topdf[target], 1000, True)
+target = list(set(target1)&set(target2))
+
+
+# if current.month == 12:
+#     target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
+#     target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
+#     target = ss.getFactorList(current, topdf[target], factordf, '배당수익률',sName, sCode, False, 30, minVal=3)
+
+# else:
 # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
 target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
 target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
-# target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
+# target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '매출액', marcapdf, sCode, sName, 1000, True, 30, minVal=0.00000001)
 beforebeforeTarget = target
+
 # target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
-target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, False, 30, minVal=0.00000001)
+target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, True, 30, minVal=0.00000001)
 target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
 # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
 # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
 # target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)
 target = ss.getAmountLimitList(current, topdf[target], amountdf[target], limit=200000000)
+# target = ss.getVPCIUpListWeek(current, topdf[target], amountdf[target], 30)
 
-notMomentumTarget = target
+
+# beforeTarget = target
+# notMomentumTarget = target
 # if len(target) > 0:
 #     target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=12, mUnit='M', limit=30, minVal=0.00000001)
 # only12MomentumTarget = target
 # if len(target) > 0:
 #     target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
-# only2MomentumTarget = []
-# if len(target) > 0:
-#     only2MomentumTarget, momentumSum = ss.getMomentumList(current, topdf[notMomentumTarget], mNum=2, mUnit='M', limit=30, minVal=0.00000001)
-
-
-# printG('notMomentumTarget', notMomentumTarget)
-# printG('only12MomentumTarget', only12MomentumTarget)
-# printG('only2MomentumTarget', only2MomentumTarget)
-# printG('lastTarget1', target)
+# printG('momentumSum', momentumSum)
 
 #getMomentumListMonthCurrent
 printG('#####getMomentumListMonthCurrent')

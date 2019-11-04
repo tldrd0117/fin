@@ -45,6 +45,16 @@ class StockTransaction:
         beforedf = target.iloc[beforeloc:currentloc]
         return 1 - (((beforedf.max() - beforedf.min()) / beforedf.mean())*0.5)
     
+
+    def calculateLosscutRateRatio(self, code, current, ratio):
+        target = self.topdf[code]
+        currentloc = self.topdf.index.get_loc(current, method='ffill')
+        before = current + pd.Timedelta(-1, unit='M')
+        # before = current + pd.Timedelta(-90, unit='D')
+        beforeloc = self.topdf.index.get_loc(before, method='ffill')
+        beforedf = target.iloc[beforeloc:currentloc]
+        return 1 - (((beforedf.max() - beforedf.min()) / beforedf.mean())*ratio)
+    
     def losscut(self, code, current, buyDate):
         currentIndex = self.topdf.index.get_loc(current, method='ffill')
         beforeIndex = self.topdf.index.get_loc(buyDate, method='ffill')

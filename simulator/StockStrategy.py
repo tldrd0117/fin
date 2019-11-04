@@ -962,7 +962,7 @@ class StockStrategy:
         targetIdx = targetdf.iloc[curIndex].dropna().index
         datadf = pd.DataFrame(index=targetIdx)
         for idx in range(len(factors)):
-            datadf[factor] = self.getFactorRankSort(current, targetdf, factordf, factors[i], sName, sCode,ascending[i])
+            datadf[factors[idx]] = self.getFactorRankSort(current, targetdf, factordf, factors[idx], sName, sCode,ascending[idx])
         datadf['sum'] = 0
         for factor in factors:
             datadf['sum'] += datadf[factor]
