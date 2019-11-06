@@ -110,7 +110,7 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-11-04', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-11-06', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -469,7 +469,7 @@ while endDate >= current:
         seqLimit += (st.calculateLosscutRateRatio(stock['code'], current, 0.5))
         size+=1
     size = 1 if size == 0 else size
-    limitPercent = seqLimit - size
+    limitPercent = -0.1#seqLimit - size
     # printG('lossCutAll',allLimit/size, 'lossCutSeq',limitPercent)
     cutSum, curValue, beforeValue = st.getLosscutScalarSum(stockCodes, current, buyDate)
     if cutSum <= allLimit/size or lossnum2 >= 2 or (cutSum1 + cutSum2 + cutSum3 + cutSum4 + cutSum5 - 5 <= limitPercent and len(target)>=4):
