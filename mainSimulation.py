@@ -392,7 +392,42 @@ while endDate >= current:
                     isSold = wallet.sell(name, stockQuantity, sellMoney)
                     if isSold:
                         restMoney += sellMoney * stockQuantity
-
+    #손절 14일이후 가격이 오르지 않는 주식 매도
+    # if current > buyDate + pd.Timedelta(14, 'D') :
+    #     cutMoney = 0
+    #     for stock in wallet.getAllStock(): 
+    #         cut = st.getLosscutScalar(stock['code'], current, buyDate)
+    #         if cut < 1.0 and stock['code'] not in cutList.keys():
+    #             lossStock = wallet.getStock(stock['code'])
+    #             stockQuantity = lossStock['quantity']
+    #             sellMoney = st.getValue(current, stock['code'])
+    #             isSold = wallet.sell(lossStock['code'], stockQuantity, sellMoney)
+    #             if isSold:
+    #                 cutList[stock['code']] = {'value':st.getValue(current, stock['code']), 'money':sellMoney * stockQuantity}
+    #                 printG('오르지 않는 주식:', len(cutList.keys()), cutList.keys())
+    #                 restMoney += sellMoney * stockQuantity
+    #                 cutMoney += sellMoney * stockQuantity
+    #     if cutMoney > 0:
+    #         #남은 돈 몰빵
+    #         stockNames = list(target - cutList.keys())
+    #         for stockName in stockNames:
+    #             # investigation.append({'code':stockName, 'price':st.getValue(current, stockName)})
+    #             investMoney = cutMoney / len(stockNames)
+    #             beforeDate = current# - pd.Timedelta(1, unit='D')
+    #             q = st.possibleQuantity(beforeDate, investMoney, stockName)
+    #             if not q:
+    #                 continue
+    #             so = StockOrder.create(stockName, q, investMoney)
+    #             #일단사기
+    #             buyMoney = st.getValue(beforeDate, stockName)
+    #             # if stockName not in maxValues:
+    #             #     maxValues[stockName] = {'buy': buyMoney, 'max':buyMoney}
+    #             # else:
+    #             #     if maxValues[stockName]['max'] < buyMoney:
+    #             #         maxValues[stockName]['max'] = buyMoney
+    #             wallet.buy(so.code, so.quantity, buyMoney)
+    #             printG('BUY', so.code,str(so.quantity)+'주')
+    #             restMoney -= buyMoney * so.quantity
     # #blacklist
     # for stock in wallet.getAllStock():
     #     isLosscut = st.losscutScalar(stock['code'], current, buyDate, 0.75)
@@ -500,6 +535,7 @@ while endDate >= current:
                     printG('손절갯수:', len(cutList.keys()), cutList.keys())
                     restMoney += sellMoney * stockQuantity
     #     #손절
+    # cutMoney = 0
     for stock in wallet.getAllStock():   
         cut1 = st.getLosscutScalar(stock['code'], current, current + pd.Timedelta(-1, 'D'))
         cut2 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-1, 'D'), current + pd.Timedelta(-2, 'D'))
@@ -520,6 +556,29 @@ while endDate >= current:
                 cutList[stock['code']] = {'value':st.getValue(current, stock['code']), 'money':sellMoney * stockQuantity}
                 printG('종목마다손절갯수:', len(cutList.keys()), cutList.keys())
                 restMoney += sellMoney * stockQuantity
+                # cutMoney += sellMoney * stockQuantity
+    # if cutMoney > 0:
+    #     #남은 돈 몰빵
+    #     stockNames = list(target - cutList.keys())
+    #     stockNames = ss.getVPCIUpList(current, topdf[stockNames], amountdf[stockNames])
+    #     for stockName in stockNames:
+    #         # investigation.append({'code':stockName, 'price':st.getValue(current, stockName)})
+    #         investMoney = cutMoney / len(stockNames)
+    #         beforeDate = current# - pd.Timedelta(1, unit='D')
+    #         q = st.possibleQuantity(beforeDate, investMoney, stockName)
+    #         if not q:
+    #             continue
+    #         so = StockOrder.create(stockName, q, investMoney)
+    #         #일단사기
+    #         buyMoney = st.getValue(beforeDate, stockName)
+    #         # if stockName not in maxValues:
+    #         #     maxValues[stockName] = {'buy': buyMoney, 'max':buyMoney}
+    #         # else:
+    #         #     if maxValues[stockName]['max'] < buyMoney:
+    #         #         maxValues[stockName]['max'] = buyMoney
+    #         wallet.buy(so.code, so.quantity, buyMoney)
+    #         printG('BUY', so.code,str(so.quantity)+'주')
+    #         restMoney -= buyMoney * so.quantity
     #vpci down 손절
     # lossstocks = []
     # for stock in wallet.getAllStock():
