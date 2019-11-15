@@ -109,8 +109,9 @@ one = True
 ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
-current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2019-11-08', format='%Y-%m-%d')
+# current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
+current = pd.to_datetime('2019-11-01', format='%Y-%m-%d')
+endDate = pd.to_datetime('2019-11-15', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
