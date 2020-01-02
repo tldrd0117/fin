@@ -522,8 +522,9 @@ class StockStrategy:
         datadf = targetdf[beforeOneMonth:beforeOneDay]
         raiseDf = (datadf - datadf.shift(1)).applymap(lambda val: abs(val))
         variencedf = datadf.mean()/raiseDf.mean()
+        variencedf = variencedf.sort_values(ascending=ascending)
         print('varience',variencedf)
-        return list(variencedf.sort_values(ascending=ascending).head(limit).index)
+        return list(variencedf.head(limit).index)
 
 
     def getRiseMeanList(self, current, targetdf, limit, minVal=0):
