@@ -12,8 +12,8 @@ sl = StockLoader.create()
 alreadyIn = []#stockDb.distinct('종목코드')
 print(alreadyIn)
 
-startDate = '2019-01-09'
-endDate = '2019-01-12'
+startDate = '2020-01-13'
+endDate = '2020-01-15'
 
 topcap, allCodes, allNames = sl.loadTopcapDf(maxMarketCap=float('inf'))
 
