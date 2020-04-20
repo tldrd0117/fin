@@ -2,7 +2,11 @@ import pandas as pd
 import math
 import numpy as np
 
+
+
 class StockStrategy:
+    factorStdMonth = 3
+
     @staticmethod
     def create():
         stockStrategy = StockStrategy()
@@ -14,7 +18,7 @@ class StockStrategy:
        
         # yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
         # print(factordf[factor])
-        if current.month > 4:
+        if current.month > self.factorStdMonth:
             yearDf = yearDf[current.year - 1]
         else:
             yearDf = yearDf[current.year - 2]
@@ -26,7 +30,7 @@ class StockStrategy:
         # df = factordf[factor][factordf[factor].index.isin([code])]
         if len(df.index) <= 0:
             return 'None'
-        if current.month > 4:
+        if current.month > self.factorStdMonth:
             return df.loc[sName[code], current.year - 1]
         else:
             return df.loc[sName[code], current.year - 2]
@@ -559,7 +563,7 @@ class StockStrategy:
         
         # yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
         # print(factordf[factor])
-        if current.month > 4:
+        if current.month > self.factorStdMonth:
             yearDf = yearDf[current.year - 1]
         else:
             yearDf = yearDf[current.year - 2]
@@ -579,7 +583,7 @@ class StockStrategy:
         codeList = list(map(lambda x: sName[x], list(targetdf.columns)))
         yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
         beforeDf = yearDf
-        if current.month > 4:
+        if current.month > self.factorStdMonth:
             yearDf = yearDf[current.year - 1]
             beforeDf = (beforeDf[current.year - 2] if current.year > 2008 else pd.DataFrame())
         else:
@@ -641,7 +645,7 @@ class StockStrategy:
         codeList = list(map(lambda x: sName[x], targetdf.columns))
         yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
         # print(factordf[factor])
-        if current.month > 4:
+        if current.month > self.factorStdMonth:
             yearDf = yearDf[current.year - 1]
         else:
             yearDf = yearDf[current.year - 2]
@@ -744,7 +748,7 @@ class StockStrategy:
         codeList = list(map(lambda x: sName[x], targetdf.columns))
         yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
         # print(factordf[factor])
-        if current.month > 4:
+        if current.month > self.factorStdMonth:
             yearDf = yearDf[current.year - 1]
         else:
             yearDf = yearDf[current.year - 2]
@@ -795,7 +799,7 @@ class StockStrategy:
         yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
         yearDf2 = factordf[factor2][factordf[factor2].index.isin(codeList)]
         # print(factordf[factor])
-        if current.month > 4:
+        if current.month > self.factorStdMonth:
             yearDf = yearDf[current.year - 1]
             yearDf2 = yearDf2[current.year - 1]
         else:
@@ -907,7 +911,7 @@ class StockStrategy:
         codeList = list(map(lambda x: sName[x], targetdf.columns))
         yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
         # yearDf = factordf[factor][factordf[factor].isin(targetdf.columns)]
-        if current.month > 4:
+        if current.month > self.factorStdMonth:
             yearDf = yearDf[current.year - 1]
         else:
             yearDf = yearDf[current.year - 2]
@@ -921,7 +925,7 @@ class StockStrategy:
         codeList = list(map(lambda x: sName[x], targetdf.columns))
         yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
         # yearDf = factordf[factor][factordf[factor].isin(targetdf.columns)]
-        if current.month > 4:
+        if current.month > self.factorStdMonth:
             yearDf = yearDf[current.year - 1]
         else:
             yearDf = yearDf[current.year - 2]

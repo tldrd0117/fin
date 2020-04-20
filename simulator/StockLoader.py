@@ -111,7 +111,7 @@ class StockLoader:
     
     def loadTopcapDf(self, maxMarketCap=700000000000, minMarketCap=0):
         pd.options.display.float_format = '{:.2f}'.format
-        topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2019-12-31'))
+        topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2020-04-12'))
         #5천억 500000000000
         #300억 30000000000
         topcap = topcap[topcap['Marcap']<=maxMarketCap]
@@ -423,15 +423,20 @@ class StockLoader:
 
         return targetList
     
-    def loadFactor(self):
+    def loadFactor(self, year=2018):
         upCodes = ['제조업']
-        factors = ['per', 'pcr', 'pbr', 'roe', '당기순이익', '영업활동으로인한현금흐름', '투자활동으로인한현금흐름', '재무활동으로인한현금흐름', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률', '매출액', '자산', '유동자산', '부채', '유동부채', '이익잉여금']
+        factors = ['당기순이익','영업활동으로인한현금흐름','투자활동으로인한현금흐름', '재무활동으로인한현금흐름','당기순이익률', '영업이익률', '매출총이익률', '배당수익률', '매출액', '자산', '유동자산', '부채', '유동부채', '이익잉여금', 'roe','ebit','eps']
+        #factors = ['per', 'pcr', 'pbr', 'roe', '당기순이익', '영업활동으로인한현금흐름', '투자활동으로인한현금흐름', '재무활동으로인한현금흐름', 'psr', 'roic', 'eps', 'ebit', 'ev_ebit', 'ev_sales', 'ev_ebitda', '당기순이익률', '영업이익률', '매출총이익률', '배당수익률', '매출액', '자산', '유동자산', '부채', '유동부채', '이익잉여금']
         dfs = {}
         for upCode in upCodes:
             for factor in factors:
-                name = 'finData/'+upCode+'_'+factor+'.xlsx'
+                name = 'finData/'+str(year)+'/'+upCode+'_'+factor+'.xlsx'
                 df = pd.read_excel(name,sheet_name='계정별 기업 비교 - 특정계정과목', skiprows=8)
-                df.columns = list(df.iloc[0])
+                coli = list(df.iloc[0])
+                for i in range(len(coli)):
+                    if i >= 4:
+                        coli[i] = float(coli[i])
+                df.columns = coli
                 df = df.drop([0])
                 df = df.set_index("종목코드")
                 if factor not in dfs:
