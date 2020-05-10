@@ -4,11 +4,18 @@ targets = ['자산']
 
 with open("finData/text/2019_사업보고서_03_포괄손익계산서_20200407.txt", "r", encoding="euckr") as f:
     content = f.readlines()
+print(content[0])
+del content[0]
+values = []
 for line in content:
     lineList = list(filter(lambda x: len(x)>0,line.split('\t')))
-    for t in targets:
-        if t == lineList[11]:
-            print(lineList[11])
+    name = lineList[11].strip()
+    if name not in values:
+        print(name)
+        values.append(name)
+    # for i in range(0,13):
+        # print(lineList[i])
+    # break
             # print(re.sub('[\[\]]','',lineList[1]))
             # print(lineList[2])
             # print(lineList[7][0:4])

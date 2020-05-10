@@ -87,6 +87,7 @@ class DartCrawler:
             for pno in range(2, int(totalPageNo) + 1):
                 jsonData = self.getJsonData(pno)
                 infoList += self.getInfo(jsonData)
+                print(jsonData)
         results = []
         for rcpNo, rptNm in infoList:
             stockNum = ''
@@ -180,11 +181,11 @@ class DartCrawler:
 
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
     # 현대중공업지주267250
-# dartCrawler = DartCrawler.create({'Name':'삼성전자','Code':'005930'}, '2007-01-01', '2019-12-31')
-# data = dartCrawler.crawling()
-# print(data)
+    dartCrawler = DartCrawler.create({'Name':'삼성전자','Code':'005930'}, '2007-01-01', '2019-12-31')
+    data = dartCrawler.crawling()
+    print(data)
 
 # df['구 분'][df['구 분']=='자본총계':df['구 분']=='매출액']
 
