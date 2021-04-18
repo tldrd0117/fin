@@ -26,6 +26,7 @@ class DartCrawler:
     
     def getJsonData(self, pageNo):
         apiUrl = self.apiUrl(pageNo)
+        print(apiUrl)
         r = http.request('GET', apiUrl, timeout=10, retries=10)
         text = r.data.decode('utf-8')
         return json.loads(text)
@@ -75,6 +76,7 @@ class DartCrawler:
             return None
         viewerDetailUrl = self.viewerDetailUrl(params)
         r = http.request('GET', viewerDetailUrl, timeout=10, retries=10)
+        print(r)
         text = r.data.decode('utf-8')
         return text
        

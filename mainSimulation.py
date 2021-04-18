@@ -46,6 +46,7 @@ topdf = topdf[~topdf.index.duplicated(keep='first')]
 #marcapdf = sl.loadMarcap()
 marcapdf = pd.read_hdf('h5data/CODE_STOCKS_2006-01-01_2020_04_12.h5', key='df')
 factordf = sl.loadFactor(2019)
+factorDartDf = sl.loadFactorFromDart()
 # qfactordf = sl.loadQuaterFactor()
 intersect = list(set(topdf.columns) & set(topcap['Name'].values)) #+ ['KOSEF 국고채10년레버리지']
 # intersect = list(map(lambda x : sCode[x],intersect))
@@ -103,6 +104,9 @@ if not one:
         # factordf[key] = factordf[key].set_index(['종목명'])
     for key in factordf.keys():
         factordf[key] = toNumeric(factordf[key])
+if not one:
+    factorDartDf = toNumeric(factorDartDf)
+
 one = True
 # In[3]:
 # In[2]:
@@ -110,8 +114,8 @@ ss = StockStrategy.create()
 st = StockTransaction.create(topdf)
 
 # current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
-current = pd.to_datetime('2020-01-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2020-05-10', format='%Y-%m-%d')
+current = pd.to_datetime('2021-01-01', format='%Y-%m-%d')
+endDate = pd.to_datetime('2021-04-15', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -181,8 +185,9 @@ while endDate >= current:
         
             # printG('거래대금:',codedf.iloc[beforeLoc]['Amount'])
             printG('####################################')
+            beforeMonth = current + pd.Timedelta(-1, unit='M')
             for factor in allfactors:
-                printG(factor,':',ss.getFactor(current, factordf, factor, pair['code'], sName))
+                printG(factor,':',ss.getFactor(beforeMonth, factordf, factorDartDf, factor, pair['code'], sName))
             # if lastMoney/(pair['price']*ratio) <= 0.8:
                 # blackList.append(pair['code'])
         # printG('blackList', blackList)
@@ -222,17 +227,17 @@ while endDate >= current:
         target = list(topdf.columns)
         if len(blackList) > 0:
             target = list(filter(lambda x : x not in blackList, target ))
-        target = ss.filterAltmanZScore(current, topdf[target], factordf, topcap, sName, sCode )
+        target = ss.filterAltmanZScore(current, topdf[target], factordf, factorDartDf,topcap, sName, sCode )
         printG('altman', len(target))
         inter = list(set(topdf.columns) & set(target))
         # if True:
             # target = ss.getFactorListsStd(current, topdf[inter], factordf, factors, 30, weights, sName, sCode)
         # else:
-        target = ss.getFactorList(current, topdf[inter], factordf, 'roe', sName, sCode, False, 3000, minVal=0.00000001)
+        target = ss.getFactorList(current, topdf[inter], factordf, factorDartDf, 'roe', sName, sCode, False, 3000, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', sName, sCode, False, 3000, minVal=0)
-        target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
-        target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
-        target1 = ss.getFactorListComp(current, topdf[target], factordf, '매출총이익률', sName, sCode, False, 1000)
+        target = ss.getFactorList(current, topdf[target], factordf, factorDartDf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
+        target = ss.getFactorList(current, topdf[target], factordf, factorDartDf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
+        target1 = ss.getFactorListComp(current, topdf[target], factordf, factorDartDf, '매출총이익률', sName, sCode, False, 1000)
         target2 = ss.getVarienceList(current, topdf[target], 1000, True)
         target = list(set(target1)&set(target2))
         
@@ -244,14 +249,14 @@ while endDate >= current:
 
         # else:
         # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
-        target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
-        target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
+        target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, factorDartDf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
+        target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, factorDartDf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
         # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '매출액', marcapdf, sCode, sName, 1000, True, 30, minVal=0.00000001)
         beforebeforeTarget = target
 
         # target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
-        target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, True, 30, minVal=0.00000001)
-        target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
+        target = ss.getFactorPerStockNum(current, topdf[target], factordf, factorDartDf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, True, 30, minVal=0.00000001)
+        target = ss.getFactorList(current, topdf[target], factordf, factorDartDf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
         # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
         # target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)
@@ -287,6 +292,7 @@ while endDate >= current:
         printG(ss.getVPCILong(current, topdf[target], amountdf[target]))
 
         target = list(set(target + highShare))
+        printG(highShare)
         highShare = []
 
         # if current.month >=4 and current.month <=10:
@@ -758,14 +764,14 @@ current = endDate
 target = list(topdf.columns)
 if len(blackList) > 0:
     target = list(filter(lambda x : x not in blackList, target ))
-target = ss.filterAltmanZScore(current, topdf[target], factordf, topcap, sName, sCode )
+target = ss.filterAltmanZScore(current, topdf[target], factordf, factorDartDf, topcap, sName, sCode )
 printG('altman', len(target))
 inter = list(set(topdf.columns) & set(target))
-target = ss.getFactorList(current, topdf[inter], factordf, 'roe', sName, sCode, False, 3000, minVal=0.00000001)
+target = ss.getFactorList(current, topdf[inter], factordf, factorDartDf, 'roe', sName, sCode, False, 3000, minVal=0.00000001)
 # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', sName, sCode, False, 3000, minVal=0)
-target = ss.getFactorList(current, topdf[target], factordf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
-target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
-target1 = ss.getFactorListComp(current, topdf[target], factordf, '매출총이익률', sName, sCode, False, 1000)
+target = ss.getFactorList(current, topdf[target], factordf, factorDartDf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
+target = ss.getFactorList(current, topdf[target], factordf, factorDartDf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
+target1 = ss.getFactorListComp(current, topdf[target], factordf, factorDartDf, '매출총이익률', sName, sCode, False, 1000)
 target2 = ss.getVarienceList(current, topdf[target], 1000, True)
 target = list(set(target1)&set(target2))
 
@@ -777,14 +783,14 @@ target = list(set(target1)&set(target2))
 
 # else:
 # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
-target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
-target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
+target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, factorDartDf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
+target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, factorDartDf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
 # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '매출액', marcapdf, sCode, sName, 1000, True, 30, minVal=0.00000001)
 beforebeforeTarget = target
 
 # target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
-target = ss.getFactorPerStockNum(current, topdf[target], factordf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, True, 30, minVal=0.00000001)
-target = ss.getFactorList(current, topdf[target], factordf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
+target = ss.getFactorPerStockNum(current, topdf[target], factordf, factorDartDf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, True, 30, minVal=0.00000001)
+target = ss.getFactorList(current, topdf[target], factordf, factorDartDf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
 # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
 # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
 # target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)

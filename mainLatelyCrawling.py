@@ -12,8 +12,8 @@ sl = StockLoader.create()
 alreadyIn = []#stockDb.distinct('종목코드')
 print(alreadyIn)
     
-startDate = '2020-05-06'
-endDate = '2020-05-10'
+startDate = '2021-04-02'
+endDate = '2021-04-15'
 
 topcap, allCodes, allNames = sl.loadTopcapDf(maxMarketCap=float('inf'))
 
@@ -31,8 +31,8 @@ from simulator.StockLoader import StockLoader
 import pymongo
 import datetime as dt
 
-# startDate = '2019-08-27'
-# endDate = '2019-08-28'
+# startDate = '2020-10-16'
+# endDate = '2020-10-18'
 sl = StockLoader.create()
 msc = MongoStockCollection.create()
 stockDb = msc.get()

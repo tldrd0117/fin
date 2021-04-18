@@ -27,7 +27,7 @@ class NaverStockCrawler:
         data = []
         isRunning = True
         while(isRunning):
-            r = http.request('GET', self.makeUrl(pageNo), timeout=10, retries=10)
+            r = http.request('GET', self.makeUrl(pageNo), timeout=10, retries=10, headers={'User-Agent':'Mozilla/5.0'})
             text = r.data
             soup = bs4.BeautifulSoup(text, 'lxml')
             table = soup.find(class_='type2')

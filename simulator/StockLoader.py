@@ -111,7 +111,7 @@ class StockLoader:
     
     def loadTopcapDf(self, maxMarketCap=700000000000, minMarketCap=0):
         pd.options.display.float_format = '{:.2f}'.format
-        topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2020-04-12'))
+        topcap = self.load(self.makeName('TOPCAP', '2007-01-01', '2021-04-12'))
         #5천억 500000000000
         #300억 30000000000
         topcap = topcap[topcap['Marcap']<=maxMarketCap]
@@ -443,6 +443,10 @@ class StockLoader:
                     dfs[factor] = pd.DataFrame()
                 dfs[factor] = pd.concat([dfs[factor], df])
         return dfs
+    def loadFactorFromDart(self):
+        df =  pd.read_hdf("h5data/FACTORS_2020-12-30.h5")
+        df = df.set_index("code")
+        return df
     def loadQuaterFactor(self):
         upCodes = ['제조업']
         factors = ['당기순이익', '영업활동으로인한현금흐름', 'ebit', '당기순이익률', '영업이익률', '매출액', '자산', '유동자산', '유동부채', '이익잉여금']
