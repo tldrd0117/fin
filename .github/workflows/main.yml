@@ -19,7 +19,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas bs4 urllib3 lxml tables pytables
+          pip install pandas bs4 urllib3 lxml
+          pip install --user tables
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: run
         run: |
