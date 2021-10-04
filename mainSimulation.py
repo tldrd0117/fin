@@ -13,7 +13,7 @@ import os
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import numpy as np
 import logging
-logging.basicConfig(handlers=[logging.FileHandler('simulation18.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
+logging.basicConfig(handlers=[logging.FileHandler('simulation19.log', 'w', 'utf-8')], level=logging.INFO, format='%(message)s')
 pd.set_option('display.float_format', None)
 np.set_printoptions(suppress=True)
 def printG(*msg):
@@ -46,7 +46,8 @@ topdf = topdf[~topdf.index.duplicated(keep='first')]
 #marcapdf = sl.loadMarcap()
 marcapdf = pd.read_hdf('h5data/CODE_STOCKS_2006-01-01_2020_04_12.h5', key='df')
 factordf = sl.loadFactor(2019)
-factorDartDf = sl.loadFactorFromDart()
+factorDartDf2020 = sl.loadFactorFromDart(2020)
+factorDartDf2019 = sl.loadFactorFromDart(2019)
 # qfactordf = sl.loadQuaterFactor()
 intersect = list(set(topdf.columns) & set(topcap['Name'].values)) #+ ['KOSEF 국고채10년레버리지']
 # intersect = list(map(lambda x : sCode[x],intersect))
@@ -105,7 +106,8 @@ if not one:
     for key in factordf.keys():
         factordf[key] = toNumeric(factordf[key])
 if not one:
-    factorDartDf = toNumeric(factorDartDf)
+    factorDartDf2019 = toNumeric(factorDartDf2019)
+    factorDartDf2020 = toNumeric(factorDartDf2020)
 
 one = True
 # In[3]:
@@ -115,7 +117,7 @@ st = StockTransaction.create(topdf)
 
 # current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
 current = pd.to_datetime('2021-01-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2021-04-15', format='%Y-%m-%d')
+endDate = pd.to_datetime('2021-10-01', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -156,6 +158,7 @@ maxValues = {}
 highShare = []
 
 while endDate >= current:
+    factorDartDf = ss.getFactorDart(current, factorDartDf2019, factorDartDf2020)
     if nextYearDay <= current:
         nextYearDay = current + pd.Timedelta(1, unit='Y')
         if len(momentumList) > 0:
@@ -234,10 +237,21 @@ while endDate >= current:
             # target = ss.getFactorListsStd(current, topdf[inter], factordf, factors, 30, weights, sName, sCode)
         # else:
         target = ss.getFactorList(current, topdf[inter], factordf, factorDartDf, 'roe', sName, sCode, False, 3000, minVal=0.00000001)
+        res = "true" if "비상교육" in target else "false"
+        printG(f"비상교육 roe: {res}")
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps증가율', sName, sCode, False, 3000, minVal=0)
         target = ss.getFactorList(current, topdf[target], factordf, factorDartDf, '영업이익률', sName, sCode, False, 3000, minVal=0.00000001)
+        res = "true" if "비상교육" in target else "false"
+        printG(f"비상교육 영업이익률: {res}")
+        target = ss.getFactorList(current, topdf[target], factordf, factorDartDf, 'ebit', sName, sCode, False, 3000, minVal=0.00000001)
+        res = "true" if "비상교육" in target else "false"
+        printG(f"비상교육 ebit: {res}")
         target = ss.getFactorList(current, topdf[target], factordf, factorDartDf, '당기순이익률', sName, sCode, False, 3000, minVal=3)
+        res = "true" if "비상교육" in target else "false"
+        printG(f"비상교육 당기순이익률: {res}")
         target1 = ss.getFactorListComp(current, topdf[target], factordf, factorDartDf, '매출총이익률', sName, sCode, False, 1000)
+        res = "true" if "비상교육" in target else "false"
+        printG(f"비상교육 매출총이익률: {res}")
         target2 = ss.getVarienceList(current, topdf[target], 1000, True)
         target = list(set(target1)&set(target2))
         
@@ -250,17 +264,25 @@ while endDate >= current:
         # else:
         # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
         target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, factorDartDf, '당기순이익', marcapdf, sCode, sName, 1000, True, int(len(target)/2), minVal=0.00000001)
+        res = "true" if "비상교육" in target else "false"
+        printG(f"비상교육 당기순이익: {res}")
         target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, factorDartDf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, 1000, True, 50, minVal=0.00000001)
         # target = ss.getCurValuePerStockNumFactor(current, topdf[target], factordf, '매출액', marcapdf, sCode, sName, 1000, True, 30, minVal=0.00000001)
         beforebeforeTarget = target
 
         # target = ss.getFactorList(current, topdf[target], factordf, '당기순이익률', sName, sCode, True, 30, minVal=3)
         target = ss.getFactorPerStockNum(current, topdf[target], factordf, factorDartDf, '영업활동으로인한현금흐름', marcapdf, sCode, sName, True, 30, minVal=0.00000001)
+        res = "true" if "비상교육" in target else "false"
+        printG(f"비상교육 영업활동으로인한현금흐름1: {res}")
         target = ss.getFactorList(current, topdf[target], factordf, factorDartDf, '영업활동으로인한현금흐름',sName, sCode, False, 30, minVal=0.00000001)
+        res = "true" if "비상교육" in target else "false"
+        printG(f"비상교육 영업활동으로인한현금흐름2: {res}")
         # target = ss.getFactorList(current, topdf[target], factordf, 'eps', False, 30, minVal=0)
         # target, momentumSum = ss.getMomentumList(current, topdf[target], mNum=24, mUnit='M', limit=30, minVal=0.00000001)
         # target = ss.getAmount(current, marcapdf, target, sName, sCode, limit=200000000)
         target = ss.getAmountLimitList(current, topdf[target], amountdf[target], limit=200000000)
+        res = "true" if "비상교육" in target else "false"
+        printG(f"비상교육 거래량: {res}")
         # target = ss.getVPCIUpListWeek(current, topdf[target], amountdf[target], 30)
         
 

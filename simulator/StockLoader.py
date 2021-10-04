@@ -443,8 +443,8 @@ class StockLoader:
                     dfs[factor] = pd.DataFrame()
                 dfs[factor] = pd.concat([dfs[factor], df])
         return dfs
-    def loadFactorFromDart(self):
-        df =  pd.read_hdf("h5data/FACTORS_2020-12-30.h5")
+    def loadFactorFromDart(self, year):
+        df =  pd.read_hdf(f"h5data/FACTORS_{str(year)}-12-30.h5")
         df = df.set_index("code")
         return df
     def loadQuaterFactor(self):

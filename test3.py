@@ -111,8 +111,20 @@ crawler.getFactors("2020")
 
 # In[4]:
 import pandas as pd
-df = pd.read_hdf("h5data/FACTORS_2020-12-30.h5")
-df
+df = pd.read_hdf("h5data/FACTORS_2019-12-30.h5")
+def isNumber(val):
+    return isinstance(val, (int, float, complex))
+def isnum(s):
+    try:
+        float(s)
+    except:
+        return(False)
+    else:
+        return(True)
+def toNumeric(df):
+    return df.applymap(lambda v : float(v) if isNumber(v) or isnum(v) else np.nan )
+# df = toNumeric(df)
+df[df["영업활동으로인한현금흐름"]=="0"]
 
 # df.to_csv(f"finData/2020/factor.csv")
 

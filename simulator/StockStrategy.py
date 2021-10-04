@@ -4,15 +4,22 @@ import numpy as np
 
 class StockStrategy:
     factorStdMonth = 3
+    factorDartYear = 2019
 
     @staticmethod
     def create():
         stockStrategy = StockStrategy()
         return stockStrategy
     
+    def getFactorDart(self, current, factorDartDf2019, factorDartDf2020):
+        if (current.year == 2020 and current.month > self.factorStdMonth) or (current.year==2021 and current.month <= self.factorStdMonth):
+            return factorDartDf2019
+        elif current.year == 2021 and current.month > self.factorStdMonth:
+            return factorDartDf2020
+    
     def getCurrentFactor(self, current, factordf, factorDartDf ,targetdf, sName, factor):
         codeList = list(map(lambda x: sName[x], list(targetdf.columns)))
-        if current.year >= 2021 and current.month > self.factorStdMonth:
+        if (current.year == self.factorDartYear + 1 and current.month > self.factorStdMonth) or (current.year > self.factorDartYear + 1):
             yearDf = factorDartDf[factorDartDf.index.isin(codeList)][factor]
         else:
             yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
@@ -27,9 +34,12 @@ class StockStrategy:
 
     def getFactor(self, current, factordf, factorDartDf, factor, code, sName):
         codeList = list(map(lambda x: sName[x], list([code])))
-        if current.year >= 2021 and current.month > self.factorStdMonth:
-            df = factorDartDf[factorDartDf.index.isin(codeList)][factor]
-            return df.loc[code]
+        if (current.year == self.factorDartYear + 1 and current.month > self.factorStdMonth) or (current.year > self.factorDartYear + 1):
+            if factor in factorDartDf.columns:
+                df = factorDartDf[factorDartDf.index.isin(codeList)][factor]
+                return df.loc[sName[code]]
+            else:
+                return ""
         else:
             df = factordf[factor][factordf[factor].index.isin(codeList)]
             # df = factordf[factor][factordf[factor].index.isin([code])]
@@ -564,7 +574,7 @@ class StockStrategy:
     def getFactorList(self, current, targetdf, factordf, factorDartDf, factor, sName, sCode, ascending, num, minVal=float('-inf'), maxVal=float('inf')):
         # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
         codeList = list(map(lambda x: sName[x], list(targetdf.columns)))
-        if current.year >= 2021 and current.month > self.factorStdMonth:
+        if (current.year == self.factorDartYear + 1 and current.month > self.factorStdMonth) or (current.year > self.factorDartYear + 1):
             yearDf = factorDartDf[factorDartDf.index.isin(codeList)][factor]
         else:
             yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
@@ -590,7 +600,7 @@ class StockStrategy:
         # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
         codeList = list(map(lambda x: sName[x], list(targetdf.columns)))
         
-        if current.year == 2021 and current.month > self.factorStdMonth:
+        if (current.year == self.factorDartYear + 1 and current.month > self.factorStdMonth) or (current.year > self.factorDartYear + 1):
             yearDf = factorDartDf[factorDartDf.index.isin(codeList)][factor]
             beforeDf = factordf[factor][factordf[factor].index.isin(codeList)][current.year - 2]
         else :
@@ -657,7 +667,7 @@ class StockStrategy:
         # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
         # yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
         codeList = list(map(lambda x: sName[x], targetdf.columns))
-        if current.year == 2021 and current.month > self.factorStdMonth:
+        if (current.year == self.factorDartYear + 1 and current.month > self.factorStdMonth) or (current.year > self.factorDartYear + 1):
             yearDf = factorDartDf[factorDartDf.index.isin(codeList)][factor]
         else:
             yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
@@ -763,7 +773,7 @@ class StockStrategy:
         # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
         # yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
         codeList = list(map(lambda x: sName[x], targetdf.columns))
-        if current.year == 2021 and current.month > self.factorStdMonth:
+        if (current.year == self.factorDartYear + 1 and current.month > self.factorStdMonth) or (current.year > self.factorDartYear + 1):
             yearDf = factorDartDf[factorDartDf.index.isin(codeList)][factor]
         else :
             yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
