@@ -294,7 +294,36 @@ class StockLoader:
             progress+=1
         print('complete')
         # return list(stockdb.find())
-
+    
+    def loadStockArr(self, name, targets, beforeStr, endStr):
+        arr = []
+        date = NaverDate.create(startDate=beforeStr, endDate=endStr)
+        progress = 0
+        compliteLen = len(targets)
+        for target in targets:
+            print(target['Name'],'collect...', str(progress),'/',str(compliteLen) ,str(progress/compliteLen)+'%')
+            crawler = NaverStockCrawler.create(target['Code'])
+            data = crawler.crawling(date)
+            for result in data:
+                priceDate = pd.to_datetime(result.date, format='%Y-%m-%d')
+                resultDict = { \
+                    '날짜': priceDate, \
+                    '종목명': target['Name'], \
+                    '종목코드': target['Code'], \
+                    '종가': result.close, \
+                    '시가': result.open, \
+                    '고가': result.high, \
+                    '저가': result.low, \
+                    '거래량': result.volume \
+                }
+                # stockdb.update({'날짜':priceDate,'종목명':target['Name']}, resultDict, upsert=True, multi=False)
+                arr.append(resultDict)
+            progress+=1
+        print('complete')
+        return arr
+        # return list(stockdb.find())
+    
+    
 
     def loadStockFromDict(self, name, targets, beforeStr, endStr):
         prices = dict()

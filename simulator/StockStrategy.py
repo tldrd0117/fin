@@ -166,7 +166,7 @@ class StockStrategy:
         mdf = pd.DataFrame()
         dates = []
         for m in range(month + 1):
-            date = current + pd.Timedelta(-m, 'M')
+            date = current + pd.DateOffset(months=-m)
             dates.append(date)
         for i in range(len(dates) - 1):
             i1 = targetdf.index.get_loc(dates[i], method='pad')
@@ -232,20 +232,20 @@ class StockStrategy:
         return list(momentumScore.sort_values(ascending=False).head(limit).index)
     
     def getMovingAvarage_20_big_5(self, current, targetdf):
-        longTerm = current + pd.Timedelta(-21, unit='D')
-        shortTerm = current + pd.Timedelta(-6, unit='D')
-        lately = current + pd.Timedelta(-1, unit='D')
+        longTerm = current + pd.DateOffset(-21)
+        shortTerm = current + pd.DateOffset(-6)
+        lately = current + pd.DateOffset(-1)
         term_20 = targetdf.loc[longTerm:lately].mean()
         term_5 = targetdf.loc[shortTerm:lately].mean()
         return list(term_5[term_20<=term_5].index)
     
     def getMovingAvarage_20_5_Break(self, current, targetdf):
-        beforelongTerm = current + pd.Timedelta(-22, unit='D')
-        beforeshortTerm = current + pd.Timedelta(-7, unit='D')
+        beforelongTerm = current + pd.DateOffset(-22)
+        beforeshortTerm = current + pd.DateOffset(-7)
 
-        longTerm = current + pd.Timedelta(-21, unit='D')
-        shortTerm = current + pd.Timedelta(-6, unit='D')
-        lately = current + pd.Timedelta(-1, unit='D')
+        longTerm = current + pd.DateOffset(-21)
+        shortTerm = current + pd.DateOffset(-6)
+        lately = current + pd.DateOffset(-1)
 
         beforeTerm_20 = targetdf.loc[beforelongTerm:lately].mean()
         beforeTerm_5 = targetdf.loc[beforeshortTerm:lately].mean()
@@ -264,24 +264,24 @@ class StockStrategy:
 
     #거래대금
     def getAmountLimitList(self, current, targetdf, amountdf, limit):
-        beforebeforeOneMonth = current + pd.Timedelta(-1, unit='M') + pd.Timedelta(-1, unit='D')
-        beforebeforeOneDay = current + pd.Timedelta(-2, unit='D')
+        beforebeforeOneMonth = current + pd.DateOffset(months=-1) + pd.DateOffset(days=-1)
+        beforebeforeOneDay = current + pd.DateOffset(days=-2)
         termTargetdf = targetdf.loc[beforebeforeOneMonth:beforebeforeOneDay]
         termAmountdf = amountdf.loc[beforebeforeOneMonth:beforebeforeOneDay]
         amount = (termTargetdf * termAmountdf).mean()
         return list(amount[amount>=limit].index)
 
     def getAmountPerMarcapLimitList(self, current, targetdf, amountdf, limit):
-        beforebeforeOneMonth = current + pd.Timedelta(-1, unit='M') + pd.Timedelta(-1, unit='D')
-        beforebeforeOneDay = current + pd.Timedelta(-2, unit='D')
+        beforebeforeOneMonth = current + pd.DateOffset(months=-1) + pd.DateOffset(-1)
+        beforebeforeOneDay = current + pd.DateOffset(-2)
         termTargetdf = targetdf.loc[beforebeforeOneMonth:beforebeforeOneDay]
         termAmountdf = amountdf.loc[beforebeforeOneMonth:beforebeforeOneDay]
         amount = (termTargetdf * termAmountdf).mean()
         return list(amount[amount>=limit].index)
     
     def getRaiseAmountList(self, current, targetdf, amountdf):
-        beforebeforeOneMonth = current + pd.Timedelta(-1, unit='W') + pd.Timedelta(-1, unit='D')
-        beforebeforeOneDay = current + pd.Timedelta(-2, unit='D')
+        beforebeforeOneMonth = current + pd.DateOffset(weeks=-1) + pd.DateOffset(-1)
+        beforebeforeOneDay = current + pd.DateOffset(-2)
         # termTargetdf = targetdf.loc[beforebeforeOneMonth:beforebeforeOneDay]
         termAmountdf = amountdf.loc[beforebeforeOneMonth:beforebeforeOneDay]
         amount = (amountdf.iloc[-1] - (termAmountdf).mean())
@@ -296,9 +296,9 @@ class StockStrategy:
         #mv = sma(v,s) / sma (v,l)
         #vpci = vpc * vpr * vm
 
-        longTerm = current + pd.Timedelta(-51, unit='D')
-        shortTerm = current + pd.Timedelta(-11, unit='D')
-        lately = current + pd.Timedelta(-1, unit='D')
+        longTerm = current + pd.DateOffset(-51)
+        shortTerm = current + pd.DateOffset(-11)
+        lately = current + pd.DateOffset(-1)
         longAmount = amountdf.loc[longTerm:lately]
         shortAmount = amountdf.loc[shortTerm:lately]
         longEachAmount = longAmount/longAmount.sum()
@@ -324,9 +324,9 @@ class StockStrategy:
         #mv = sma(v,s) / sma (v,l)
         #vpci = vpc * vpr * vm
 
-        longTerm = current + pd.Timedelta(-21, unit='D')
-        shortTerm = current + pd.Timedelta(-6, unit='D')
-        lately = current + pd.Timedelta(-1, unit='D')
+        longTerm = current + pd.DateOffset(-21)
+        shortTerm = current + pd.DateOffset(-6)
+        lately = current + pd.DateOffset(-1)
         longAmount = amountdf.loc[longTerm:lately]
         shortAmount = amountdf.loc[shortTerm:lately]
         longEachAmount = longAmount/longAmount.sum()
@@ -352,9 +352,9 @@ class StockStrategy:
         #mv = sma(v,s) / sma (v,l)
         #vpci = vpc * vpr * vm
 
-        longTerm = current + pd.Timedelta(-61, unit='D')
-        shortTerm = current + pd.Timedelta(-21, unit='D')
-        lately = current + pd.Timedelta(-1, unit='D')
+        longTerm = current + pd.DateOffset(-61)
+        shortTerm = current + pd.DateOffset(-21)
+        lately = current + pd.DateOffset(-1)
         longAmount = amountdf.loc[longTerm:lately]
         shortAmount = amountdf.loc[shortTerm:lately]
         longEachAmount = longAmount/longAmount.sum()
@@ -389,14 +389,14 @@ class StockStrategy:
         return list(li[li<0].index), li
 
     def getVPCILongDownListBefore(self, current, targetdf, amountdf):
-        li1 = self.getVPCILong(current + pd.Timedelta(-7, unit='D'), targetdf, amountdf)
+        li1 = self.getVPCILong(current + pd.DateOffset(-7), targetdf, amountdf)
         li2 = self.getVPCILong(current, targetdf, amountdf)
         li = li2 - li1
         res = list(set(li[li<0].index)&set(li2[li2<0].index))
         return res
     
     def getVPCIShortDownListBefore(self, current, targetdf, amountdf):
-        li1 = self.getVPCIShort(current + pd.Timedelta(-7, unit='D'), targetdf, amountdf)
+        li1 = self.getVPCIShort(current + pd.DateOffset(-7), targetdf, amountdf)
         li2 = self.getVPCIShort(current, targetdf, amountdf)
         li = li2 - li1
         res = list(set(li[li<0].index)&set(li2[li2<0].index))
@@ -404,9 +404,9 @@ class StockStrategy:
         return res
 
     def getShortMomentumAmount(self, current, targetdf, amountdf):
-        before = current + pd.Timedelta(-21, unit='D')
-        shortTerm = current + pd.Timedelta(-6, unit='D')
-        lately = current + pd.Timedelta(-1, unit='D')
+        before = current + pd.DateOffset(-21)
+        shortTerm = current + pd.DateOffset(-6)
+        lately = current + pd.DateOffset(-1)
         
         a =  targetdf.loc[shortTerm:lately].mean() - targetdf.loc[before:shortTerm].mean()
         b = (amountdf.iloc[amountdf.index.get_loc(lately, method='ffill')] - amountdf.iloc[amountdf.index.get_loc(shortTerm, method='ffill')])
@@ -418,12 +418,12 @@ class StockStrategy:
         return list(li[li<0].index)
     
     def getVPCIUpListWeek(self, current, targetdf, amountdf,limit):
-        li1 = self.getVPCI(current+ pd.Timedelta(-6, unit='D'), targetdf, amountdf)
-        li2 = self.getVPCI(current+ pd.Timedelta(-5, unit='D'), targetdf, amountdf)
-        li3 = self.getVPCI(current+ pd.Timedelta(-4, unit='D'), targetdf, amountdf)
-        li4 = self.getVPCI(current+ pd.Timedelta(-3, unit='D'), targetdf, amountdf)
-        li5 = self.getVPCI(current+ pd.Timedelta(-2, unit='D'), targetdf, amountdf)
-        li6 = self.getVPCI(current+ pd.Timedelta(-1, unit='D'), targetdf, amountdf)
+        li1 = self.getVPCI(current+ pd.DateOffset(-6), targetdf, amountdf)
+        li2 = self.getVPCI(current+ pd.DateOffset(-5), targetdf, amountdf)
+        li3 = self.getVPCI(current+ pd.DateOffset(-4), targetdf, amountdf)
+        li4 = self.getVPCI(current+ pd.DateOffset(-3), targetdf, amountdf)
+        li5 = self.getVPCI(current+ pd.DateOffset(-2), targetdf, amountdf)
+        li6 = self.getVPCI(current+ pd.DateOffset(-1), targetdf, amountdf)
         li7 = self.getVPCI(current, targetdf, amountdf)
         t1 = li7-li6
         t2 = li6-li5
@@ -443,12 +443,12 @@ class StockStrategy:
         return list(unique[np.where(counts>=5)[0]])
     
     def getVPCIDownListWeek(self, current, targetdf, amountdf):
-        li1 = self.getVPCI(current + pd.Timedelta(-6, unit='D'), targetdf, amountdf)
-        li2 = self.getVPCI(current + pd.Timedelta(-5, unit='D'), targetdf, amountdf)
-        li3 = self.getVPCI(current + pd.Timedelta(-4, unit='D'), targetdf, amountdf)
-        li4 = self.getVPCI(current + pd.Timedelta(-3, unit='D'), targetdf, amountdf)
-        li5 = self.getVPCI(current + pd.Timedelta(-2, unit='D'), targetdf, amountdf)
-        li6 = self.getVPCI(current + pd.Timedelta(-1, unit='D'), targetdf, amountdf)
+        li1 = self.getVPCI(current + pd.DateOffset(-6), targetdf, amountdf)
+        li2 = self.getVPCI(current + pd.DateOffset(-5), targetdf, amountdf)
+        li3 = self.getVPCI(current + pd.DateOffset(-4), targetdf, amountdf)
+        li4 = self.getVPCI(current + pd.DateOffset(-3), targetdf, amountdf)
+        li5 = self.getVPCI(current + pd.DateOffset(-2), targetdf, amountdf)
+        li6 = self.getVPCI(current + pd.DateOffset(-1), targetdf, amountdf)
         li7 = self.getVPCI(current, targetdf, amountdf)
         t1 = li7-li6
         t2 = li6-li5
@@ -469,9 +469,9 @@ class StockStrategy:
 
     
     def getUpList(self, current, targetdf, amountdf):
-        before2 = current + pd.Timedelta(-51, unit='D')
-        before = current + pd.Timedelta(-11, unit='D')
-        lately = current + pd.Timedelta(-1)
+        before2 = current + pd.DateOffset(days=-51)
+        before = current + pd.DateOffset(days=-11)
+        lately = current + pd.DateOffset(days=-1)
         t = targetdf.loc[before:lately].mean() - targetdf.loc[before2:lately].mean()
 
         li2 = self.getVPCI(before, targetdf, amountdf)
@@ -481,9 +481,9 @@ class StockStrategy:
         return list(set(t[t>0].index)&set(t2[t2>0].index))
     
     def getUpListLimit(self, current, targetdf, amountdf,limit):
-        before2 = current + pd.Timedelta(-51, unit='D')
-        before = current + pd.Timedelta(-11, unit='D')
-        lately = current + pd.Timedelta(-1)
+        before2 = current + pd.DateOffset(days=-51)
+        before = current + pd.DateOffset(days=-11)
+        lately = current + pd.DateOffset(days=-1)
         t = targetdf.loc[before:lately].mean() - targetdf.loc[before2:lately].mean()
 
         li2 = self.getVPCI(before, targetdf, amountdf)
@@ -499,8 +499,8 @@ class StockStrategy:
     def getAmount(self, current, targetdf, target, sName, sCode, limit):
         targetCode = list(map(lambda x : sName[x], target))
         targetdf = targetdf[targetdf['Code'].isin(targetCode)]
-        beforebeforeOneMonth = current + pd.Timedelta(-1, unit='M') + pd.Timedelta(-1, unit='D')
-        beforebeforeOneDay = current + pd.Timedelta(-2, unit='D')
+        beforebeforeOneMonth = current + pd.DateOffset(months=-1) + pd.DateOffset(days=-1)
+        beforebeforeOneDay = current + pd.DateOffset(days=-2)
         termdf = targetdf.loc[beforebeforeOneMonth:beforebeforeOneDay]
         codes = termdf['Code'].values
         results = []
@@ -514,16 +514,16 @@ class StockStrategy:
 
     def getRsi30perList(self, current, targetdf, limit, minVal=0):
         raiseDf = targetdf - targetdf.shift(1)
-        beforebeforeOneMonth = current + pd.Timedelta(-1, unit='M') + pd.Timedelta(-1, unit='D')
-        beforebeforeOneDay = current + pd.Timedelta(-2, unit='D')
+        beforebeforeOneMonth = current + pd.DateOffset(months=-1) + pd.DateOffset(days=-1)
+        beforebeforeOneDay = current + pd.DateOffset(days=-2)
         
         raiseDf = raiseDf[beforebeforeOneMonth:beforebeforeOneDay]
         AU = raiseDf[raiseDf > 0].mean()
         AD = raiseDf[raiseDf < 0].applymap(lambda val: abs(val)).mean()
         beforeRsi = AU / (AU + AD) * 100
 
-        beforeOneMonth = current + pd.Timedelta(-1, unit='M')
-        beforeOneDay = current + pd.Timedelta(-1, unit='D')
+        beforeOneMonth = current + pd.DateOffset(months=-1)
+        beforeOneDay = current + pd.DateOffset(days=-1)
         
         raiseDf = raiseDf[beforeOneMonth:beforeOneDay]
         AU = raiseDf[raiseDf > 0].mean()
@@ -536,8 +536,8 @@ class StockStrategy:
         return  list(set(beforeIndex) & set(curIndex))[0:limit]
          
     def getVarienceList(self, current, targetdf, limit, ascending):
-        beforeOneMonth = current + pd.Timedelta(-12, unit='M')
-        beforeOneDay = current + pd.Timedelta(-1, unit='D')
+        beforeOneMonth = current + pd.DateOffset(months=-12)
+        beforeOneDay = current + pd.DateOffset(days=-1)
         datadf = targetdf[beforeOneMonth:beforeOneDay]
         raiseDf = (datadf - datadf.shift(1)).applymap(lambda val: abs(val))
         variencedf = datadf.mean()/raiseDf.mean()
@@ -548,8 +548,8 @@ class StockStrategy:
 
     def getRiseMeanList(self, current, targetdf, limit, minVal=0):
         raiseDf = targetdf - targetdf.shift(1)
-        beforeOneMonth = current + pd.Timedelta(-1, unit='M')
-        beforeOneDay = current + pd.Timedelta(-1, unit='D')
+        beforeOneMonth = current + pd.DateOffset(months=-1)
+        beforeOneDay = current + pd.DateOffset(days=-1)
         raiseDf = raiseDf[beforeOneMonth:beforeOneDay]
 
         raiseIndexDict = {}
@@ -803,7 +803,7 @@ class StockStrategy:
         stockNum = pd.Series(values, index=indexes)
         inter = list(set(yearDf.index) & set(indexes))
         deleteList = []
-        before = current + pd.Timedelta(-1, 'D')
+        before = current + pd.DateOffset(days=-1)
         for index in list(yearDf.index):
             if index not in stockNum.index:
                 deleteList.append(index)
@@ -858,7 +858,7 @@ class StockStrategy:
         print()
         inter = list(set(yearDf.index) & set(indexes) & set(yearDf2.index))
         deleteList = []
-        before = current + pd.Timedelta(-1, 'D')
+        before = current + pd.DateOffset(days=-1)
         for index in yearDf.index:
             if index not in stockNum.index or index not in yearDf2.index:
                 deleteList.append(index)

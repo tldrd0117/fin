@@ -39,7 +39,7 @@ class StockTransaction:
     def calculateLosscutRate(self, code, current):
         target = self.topdf[code]
         currentloc = self.topdf.index.get_loc(current, method='ffill')
-        before = current + pd.Timedelta(-1, unit='M')
+        before = current + pd.DateOffset(months=-1)
         # before = current + pd.Timedelta(-90, unit='D')
         beforeloc = self.topdf.index.get_loc(before, method='ffill')
         beforedf = target.iloc[beforeloc:currentloc]
@@ -49,7 +49,7 @@ class StockTransaction:
     def calculateLosscutRateRatio(self, code, current, ratio):
         target = self.topdf[code]
         currentloc = self.topdf.index.get_loc(current, method='ffill')
-        before = current + pd.Timedelta(-1, unit='M')
+        before = current + pd.DateOffset(months=-1)
         # before = current + pd.Timedelta(-90, unit='D')
         beforeloc = self.topdf.index.get_loc(before, method='ffill')
         beforedf = target.iloc[beforeloc:currentloc]
@@ -123,8 +123,8 @@ class StockTransaction:
     
     def losscutMeanVal(self, code, current, targetdf):
         raiseDf = targetdf - targetdf.shift(1)
-        beforeOneMonth = current + pd.Timedelta(-1, unit='M')
-        beforeOneDay = current + pd.Timedelta(-1, unit='D')
+        beforeOneMonth = current + pd.DateOffset(months=-1)
+        beforeOneDay = current + pd.DateOffset(-1)
         raiseDf = raiseDf[beforeOneMonth:beforeOneDay]
 
         raiseIndexDict = {}
@@ -144,16 +144,16 @@ class StockTransaction:
     
     def losscutRsi(self, stocks, current, targetdf):
         raiseDf = targetdf - targetdf.shift(1)
-        beforebeforeOneMonth = current + pd.Timedelta(-1, unit='M') + pd.Timedelta(-1, unit='D')
-        beforebeforeOneDay = current + pd.Timedelta(-2, unit='D')
+        beforebeforeOneMonth = current + pd.DateOffset(months=-1) + pd.DateOffset(days=-1)
+        beforebeforeOneDay = current + pd.DateOffset(days=-2)
         
         raiseDf = raiseDf[beforebeforeOneMonth:beforebeforeOneDay]
         AU = raiseDf[raiseDf > 0].mean()
         AD = raiseDf[raiseDf < 0].applymap(lambda val: abs(val)).mean()
         beforeRsi = AU / (AU + AD) * 100
 
-        beforeOneMonth = current + pd.Timedelta(-1, unit='M')
-        beforeOneDay = current + pd.Timedelta(-1, unit='D')
+        beforeOneMonth = current + pd.DateOffset(months=-1)
+        beforeOneDay = current + pd.DateOffset(-1)
         
         raiseDf = raiseDf[beforeOneMonth:beforeOneDay]
         AU = raiseDf[raiseDf > 0].mean()

@@ -117,7 +117,7 @@ st = StockTransaction.create(topdf)
 
 # current = pd.to_datetime('2008-05-01', format='%Y-%m-%d')
 current = pd.to_datetime('2021-01-01', format='%Y-%m-%d')
-endDate = pd.to_datetime('2021-10-01', format='%Y-%m-%d')
+endDate = pd.to_datetime('2021-10-06', format='%Y-%m-%d')
 priceLimitDate = pd.to_datetime('2015-06-15', format='%Y-%m-%d')
 money = 10000000
 moneySum = pd.Series()
@@ -160,7 +160,7 @@ highShare = []
 while endDate >= current:
     factorDartDf = ss.getFactorDart(current, factorDartDf2019, factorDartDf2020)
     if nextYearDay <= current:
-        nextYearDay = current + pd.Timedelta(1, unit='Y')
+        nextYearDay = current + pd.DateOffset(years=1)
         if len(momentumList) > 0:
             printG('momentumSumTotal',sum(momentumList), sum(momentumList)/len(momentumList))
         momentumList = []
@@ -188,7 +188,7 @@ while endDate >= current:
         
             # printG('거래대금:',codedf.iloc[beforeLoc]['Amount'])
             printG('####################################')
-            beforeMonth = current + pd.Timedelta(-1, unit='M')
+            beforeMonth = current + pd.DateOffset(months=-1)
             for factor in allfactors:
                 printG(factor,':',ss.getFactor(beforeMonth, factordf, factorDartDf, factor, pair['code'], sName))
             # if lastMoney/(pair['price']*ratio) <= 0.8:
@@ -225,7 +225,7 @@ while endDate >= current:
         # nextInvestDay = current + pd.Timedelta(15, unit='d')
         #7일마다 주식 변경
         beforeInvestDay = current
-        nextInvestDay = current + pd.Timedelta(32, unit='d')
+        nextInvestDay = current + pd.DateOffset(32)
         nextInvestDay = nextInvestDay.replace(day=1)
         target = list(topdf.columns)
         if len(blackList) > 0:
@@ -369,7 +369,7 @@ while endDate >= current:
         for stockName in target:
             investigation.append({'code':stockName, 'price':st.getValue(current, stockName)})
             investMoney = readyMoney * moneyRate
-            beforeDate = current - pd.Timedelta(1, unit='D')
+            beforeDate = current - pd.DateOffset(1)
             q = st.possibleQuantity(beforeDate, investMoney, stockName)
             if not q:
                 continue
@@ -486,11 +486,11 @@ while endDate >= current:
     #                         rebalaceMoney -= buyMoney * q
     #손절 Sum
     stockCodes = list(map(lambda x : x['code'], wallet.getAllStock()))
-    cutSum1, curValue1, beforeValue1 = st.getLosscutScalarSum(stockCodes, current, current + pd.Timedelta(-1, 'D'))
-    cutSum2, curValue2, beforeValue2 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-1, 'D'), current + pd.Timedelta(-2, 'D'))
-    cutSum3, curValue3, beforeValue3 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-2, 'D'), current + pd.Timedelta(-3, 'D'))
-    cutSum4, curValue4, beforeValue4 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-3, 'D'), current + pd.Timedelta(-4, 'D'))
-    cutSum5, curValue5, beforeValue5 = st.getLosscutScalarSum(stockCodes, current + pd.Timedelta(-4, 'D'), current + pd.Timedelta(-5, 'D'))
+    cutSum1, curValue1, beforeValue1 = st.getLosscutScalarSum(stockCodes, current, current + pd.DateOffset(-1))
+    cutSum2, curValue2, beforeValue2 = st.getLosscutScalarSum(stockCodes, current + pd.DateOffset(-1), current + pd.DateOffset(-2))
+    cutSum3, curValue3, beforeValue3 = st.getLosscutScalarSum(stockCodes, current + pd.DateOffset(-2), current + pd.DateOffset(-3))
+    cutSum4, curValue4, beforeValue4 = st.getLosscutScalarSum(stockCodes, current + pd.DateOffset(-3), current + pd.DateOffset(-4))
+    cutSum5, curValue5, beforeValue5 = st.getLosscutScalarSum(stockCodes, current + pd.DateOffset(-4), current + pd.DateOffset(-5))
     lossnum = 0
     lossnum2 = 0
     # if cutSum1 < 0.99:
@@ -568,11 +568,11 @@ while endDate >= current:
     #     #손절
     # cutMoney = 0
     for stock in wallet.getAllStock():   
-        cut1 = st.getLosscutScalar(stock['code'], current, current + pd.Timedelta(-1, 'D'))
-        cut2 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-1, 'D'), current + pd.Timedelta(-2, 'D'))
-        cut3 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-2, 'D'), current + pd.Timedelta(-3, 'D'))
-        cut4 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-3, 'D'), current + pd.Timedelta(-4, 'D'))
-        cut5 = st.getLosscutScalar(stock['code'], current + pd.Timedelta(-4, 'D'), current + pd.Timedelta(-5, 'D'))
+        cut1 = st.getLosscutScalar(stock['code'], current, current + pd.DateOffset(-1))
+        cut2 = st.getLosscutScalar(stock['code'], current + pd.DateOffset(-1), current + pd.DateOffset(-2))
+        cut3 = st.getLosscutScalar(stock['code'], current + pd.DateOffset(-2), current + pd.DateOffset(-3))
+        cut4 = st.getLosscutScalar(stock['code'], current + pd.DateOffset(-3), current + pd.DateOffset(-4))
+        cut5 = st.getLosscutScalar(stock['code'], current + pd.DateOffset(-4), current + pd.DateOffset(-5))
         if current > priceLimitDate:
             limitPercent = -0.2
         else:
@@ -766,11 +766,12 @@ while endDate >= current:
     for stock in wallet.getAllStock():
         stockMoney += stock['quantity'] * stock['money']
 
-    nextDay = current + pd.Timedelta(1, unit='D')
-    beforeDay = current + pd.Timedelta(-1, unit='D')
+    nextDay = current + pd.DateOffset(1)
+    beforeDay = current + pd.DateOffset(-1)
     money = stockMoney + restMoney + rebalaceMoney
     moneySum.loc[current] = money
-    if moneySum.index.contains(beforeDay):
+    if len(moneySum[moneySum.index.strftime("%Y-%m-%d")==beforeDay.strftime("%Y-%m-%d")]) > 0:
+    # if moneySum.index.contains(beforeDay):
         beforeMoney = moneySum.loc[beforeDay]
         upDownMoney = str((money - beforeMoney))
         upDownPercent = str(((money - beforeMoney) / beforeMoney * 100)) + '%'
@@ -867,7 +868,7 @@ portfolio = moneySum / 10000000
 # print(portfolio)
 투자기간 = (portfolio.index[-1] - portfolio.index[0]).days/365
 print('투자기간',투자기간)
-e = pd.date_range(start=portfolio.index[0],end=portfolio.index[-1] + pd.Timedelta(1, unit='D'), freq=pd.DateOffset(years=1))
+e = pd.date_range(start=portfolio.index[0],end=portfolio.index[-1] + pd.DateOffset(1), freq=pd.DateOffset(years=1))
 d = [ portfolio.index.get_loc(date, method='nearest')for date in e]
 printG(portfolio[d]/portfolio[d].shift(1))
 # print((portfolio[d]**(1/12))*100-100)
@@ -875,7 +876,7 @@ printG(portfolio[d]/portfolio[d].shift(1))
 # print(portfolio[-1]/portfolio.std())
 # print((portfolio/portfolio.shift(1)))
 
-m = pd.date_range(start=portfolio.index[0],end=portfolio.index[-1] + pd.Timedelta(1, unit='D'), freq='M')
+m = pd.date_range(start=portfolio.index[0],end=portfolio.index[-1] + pd.DateOffset(1), freq='M')
 
 printG('연평균 수익률',((portfolio[-1]**(1/(2019-2008)))*100-100))
 
@@ -888,6 +889,8 @@ import platform
 import matplotlib.pyplot as plt
 if platform.system()=='Darwin':
     path = '/Library/Fonts/NanumBarunGothicLight.otf'
+elif platform.system()=="Linux":
+    path = "/usr/share/fonts/truetype/noto/NotoMono-Regular.ttf"
 else:
     path = 'C:/Windows/Fonts/malgun.ttf'
 choosedDf = moneySum
