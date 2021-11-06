@@ -27,9 +27,9 @@ class StockStrategy:
             # yearDf = factordf[factor][factordf[factor].index.isin(targetdf.columns)]
             # print(factordf[factor])
             if current.month > self.factorStdMonth:
-                yearDf = yearDf[current.year - 1]
+                yearDf = yearDf[int(current.year - 1)]
             else:
-                yearDf = yearDf[current.year - 2]
+                yearDf = yearDf[int(current.year - 2)]
         return yearDf
 
     def getFactor(self, current, factordf, factorDartDf, factor, code, sName):
@@ -596,13 +596,16 @@ class StockStrategy:
     
     
     
-    def getFactorListComp(self, current, targetdf, factordf, factorDartDf, factor, sName, sCode, ascending, num, minVal=float('-inf'), maxVal=float('inf')):
+    def getFactorListComp(self, current, targetdf, factordf, factorDartDf, beforeFactorDartDf, factor, sName, sCode, ascending, num, minVal=float('-inf'), maxVal=float('inf')):
         # yearDf = factordf[factor][factordf[factor]['종목명'].isin(list(targetdf.columns))]
         codeList = list(map(lambda x: sName[x], list(targetdf.columns)))
         
         if (current.year == self.factorDartYear + 1 and current.month > self.factorStdMonth) or (current.year > self.factorDartYear + 1):
             yearDf = factorDartDf[factorDartDf.index.isin(codeList)][factor]
-            beforeDf = factordf[factor][factordf[factor].index.isin(codeList)][current.year - 2]
+            if 2019 == current.year - 2:
+                beforeDf = beforeFactorDartDf[beforeFactorDartDf.index.isin(codeList)][factor]
+            else:
+                beforeDf = factordf[factor][factordf[factor].index.isin(codeList)][current.year - 2]
         else :
             yearDf = factordf[factor][factordf[factor].index.isin(codeList)]
             beforeDf = yearDf

@@ -132,7 +132,7 @@ df[df["영업활동으로인한현금흐름"]=="0"]
 import pandas as pd
 from simulator.StockStrategy import StockStrategy
 ss = StockStrategy.create()
-factorDartDf = pd.read_hdf("h5data/FACTORS_2020-12-30.h5")
+factorDartDf = pd.read_hdf("h5data/FACTORS_2020-12-30-2.h5")
 factorDartDf = factorDartDf.set_index("code")
 factorDartDf[factorDartDf.index.isin(["005930"])]
 

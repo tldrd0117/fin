@@ -452,6 +452,16 @@ class StockLoader:
 
         return targetList
     
+    def loadFactorMerge(self):
+        a = self.loadFactor(2018)
+        b = self.loadFactor(2019)
+        for key in b:
+            if key in a:
+                b[key][2007] = a[key][2007]
+                b[key][2008] = a[key][2008]
+                b[key][2009] = a[key][2009]
+        return b
+    
     def loadFactor(self, year=2018):
         upCodes = ['제조업']
         factors = ['당기순이익','영업활동으로인한현금흐름','투자활동으로인한현금흐름', '재무활동으로인한현금흐름','당기순이익률', '영업이익률', '매출총이익률', '배당수익률', '매출액', '자산', '유동자산', '부채', '유동부채', '이익잉여금', 'roe','ebit','eps']
@@ -475,6 +485,7 @@ class StockLoader:
     def loadFactorFromDart(self, year):
         df =  pd.read_hdf(f"h5data/FACTORS_{str(year)}-12-30.h5")
         df = df.set_index("code")
+        print(df.columns)
         return df
     def loadQuaterFactor(self):
         upCodes = ['제조업']
